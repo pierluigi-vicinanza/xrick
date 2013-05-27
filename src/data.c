@@ -103,6 +103,8 @@ data_file_open(char *name)
 	    if (unzLocateFile(z->zip, name, 0) != UNZ_OK ||
 	    	unzOpenCurrentFile(z->zip) != UNZ_OK) {
 			unzClose(z->zip);
+            free(z->name);
+            free(z);
 			z = NULL;
 		}
 	    return (data_file_t *)z;
@@ -111,6 +113,7 @@ data_file_open(char *name)
 		sprintf(n, "%s/%s", path.name, name);
 		str_slash(n);
 		fh = fopen(n, "rb");
+        free(n);
 		return (data_file_t *)fh;
 	}
 }
@@ -181,6 +184,7 @@ data_file_close(data_file_t *file)
 		((zipped_t *)file)->zip = NULL;
 		free(((zipped_t *)file)->name);
 		((zipped_t *)file)->name = NULL;
+        free(file);
 	} else {
 		fclose((FILE *)file);
 	}

@@ -361,6 +361,9 @@ syssnd_load(char *name)
 	/* second param == 1 -> close source once read */
 	if (!SDL_LoadWAV_RW(context, 1, &audiospec, &(s->buf), &(s->len)))
 	{
+#ifdef DEBUG
+	    free(s->name);
+#endif
 		free(s);
 		return NULL;
 	}
@@ -380,6 +383,11 @@ syssnd_free(sound_t *s)
 	if (s->buf) SDL_FreeWAV(s->buf);
 	s->buf = NULL;
 	s->len = 0;
+#ifdef DEBUG
+	free(s->name);
+    s->name = NULL;
+#endif
+    free(s);
 }
 
 /*
