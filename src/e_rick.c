@@ -43,7 +43,7 @@ static S16 offsy;
 
 static U8 seq;
 
-static U8 save_crawl;
+static U8 save_crawl, save_direction;
 static U16 save_x, save_y;
 
 
@@ -533,6 +533,7 @@ void e_rick_save(void)
 	save_x = E_RICK_ENT.x;
 	save_y = E_RICK_ENT.y;
 	save_crawl = E_RICK_STTST(E_RICK_STCRAWL);
+    save_direction = game_dir;
 	/* FIXME
 	 * save_C0 = E_RICK_ENT.b0C;
 	 * plus some 6DBC stuff?
@@ -549,11 +550,14 @@ void e_rick_restore(void)
 {
 	E_RICK_ENT.x = save_x;
 	E_RICK_ENT.y = save_y;
-	E_RICK_ENT.front = FALSE;
-	if (save_crawl)
-		E_RICK_STSET(E_RICK_STCRAWL);
-	else
-		E_RICK_STRST(E_RICK_STCRAWL);
+    if (save_crawl)
+        E_RICK_STSET(E_RICK_STCRAWL);
+    else
+        E_RICK_STRST(E_RICK_STCRAWL);
+    game_dir = save_direction;
+	
+    E_RICK_ENT.front = FALSE;
+	E_RICK_STRST(E_RICK_STCLIMB); /* should we clear other states? */
 	/* FIXME
 	 * E_RICK_ENT.b0C = save_C0;
 	 * plus some 6DBC stuff?
