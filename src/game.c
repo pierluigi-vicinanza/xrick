@@ -67,7 +67,7 @@ U32 game_score = 0;
 U16 game_map = 0;
 U16 game_submap = 0;
 
-U8 game_dir = 0;
+U8 game_dir = RIGHT;
 U8 game_chsm = FALSE;
 
 U8 game_cheat1 = 0;
