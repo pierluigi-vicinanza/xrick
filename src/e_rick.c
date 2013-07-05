@@ -96,7 +96,7 @@ e_rick_gozombie(void)
 #endif
 
 	E_RICK_STSET(E_RICK_STZOMBIE);
-	offsy = -0x0400;
+	offsy = -0x0300;
 	offsx = (E_RICK_ENT.x > 0x80 ? -3 : +3);
 	ylow = 0;
 	E_RICK_ENT.front = TRUE;
