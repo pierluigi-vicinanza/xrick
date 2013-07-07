@@ -35,7 +35,7 @@ static U16 spy, spdy;         /* sprite y position and delta */
 static U16 spbase, spoffs;    /* base, offset for sprite numbers table */
 static U8 seq = 0;            /* anim sequence */
 
-static rect_t anim_rect = { 120, 16, 64, 64, NULL }; /* anim rectangle */
+static rect_t anim_rect = { 128, 16 + 16, 64, 64, NULL }; /* anim rectangle */
 
 /*
  * prototypes
@@ -70,10 +70,10 @@ screen_introMap(void)
     draw_tilesBank = 0;
 #endif
     draw_tllst = screen_imaptext[game_map];
-    draw_setfb(32, 0);
+    draw_setfb(40, 16);
     draw_tilesSubList();
 
-    draw_setfb(32, 96);
+    draw_setfb(40, 104);
 #ifdef GFXPC
     draw_filter = 0x5555;
 #endif
@@ -91,6 +91,7 @@ screen_introMap(void)
     drawtb();
     drawlr();
     drawsprite();
+    draw_drawStatus();
     control_last = 0;
 
     game_rects = &draw_SCREENRECT;
@@ -155,18 +156,18 @@ drawtb(void)
 
   flipflop++;
   if (flipflop & 0x01) {
-    draw_setfb(128, 16);
+    draw_setfb(136, 16 + 16);
     for (i = 0; i < 6; i++)
       draw_tile(0x40);
-    draw_setfb(128, 72);
+    draw_setfb(136, 72 + 16);
     for (i = 0; i < 6; i++)
       draw_tile(0x06);
   }
   else {
-    draw_setfb(128, 16);
+    draw_setfb(136, 16 + 16);
     for (i = 0; i < 6; i++)
       draw_tile(0x05);
-    draw_setfb(128, 72);
+    draw_setfb(136, 72 + 16);
     for (i = 0; i < 6; i++)
       draw_tile(0x40);
   }
@@ -184,17 +185,17 @@ drawlr(void)
 
   if (flipflop & 0x02) {
     for (i = 0; i < 8; i++) {
-      draw_setfb(120, 16 + i * 8);
+      draw_setfb(128, 16 + i * 8 + 16);
       draw_tile(0x04);
-      draw_setfb(176, 16 + i * 8);
+      draw_setfb(184, 16 + i * 8 + 16);
       draw_tile(0x04);
     }
   }
   else {
     for (i = 0; i < 8; i++) {
-      draw_setfb(120, 16 + i * 8);
+      draw_setfb(128, 16 + i * 8 + 16);
       draw_tile(0x2B);
-      draw_setfb(176, 16 + i * 8);
+      draw_setfb(184, 16 + i * 8 + 16);
       draw_tile(0x2B);
     }
   }
@@ -208,7 +209,7 @@ drawlr(void)
 static void
 drawsprite(void)
 {
-  draw_sprite(spnum, 128 + ((spx << 1) & 0x1C), 24 + (spy << 1));
+  draw_sprite(spnum, 136 + ((spx << 1) & 0x1C), 24 + (spy << 1) + 16);
 }
 
 
@@ -224,7 +225,7 @@ drawcenter(void)
 
   tn = tn0[game_map];
   for (i = 0; i < 6; i++) {
-    draw_setfb(128, (24 + 8 * i));
+    draw_setfb(136, (24 + 8 * i) + 16);
     for (j = 0; j < 6; j++)
       draw_tile(tn++);
   }
