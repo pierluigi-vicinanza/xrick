@@ -115,7 +115,7 @@ screen_introMain(void)
     draw_filter = 0x5555;
 #endif
     for (i = 0; i < 8; i++) {
-      sprintf((char *)s, "%06d@@@....@@@%s",
+      sprintf((char *)s, "%06d@@@====@@@%s",
 	      game_hscores[i].score, game_hscores[i].name);
       s[26] = '\377'; s[27] = '\377'; s[28] = '\376';
       draw_tllst = s;
