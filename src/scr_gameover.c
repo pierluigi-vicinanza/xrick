@@ -60,6 +60,7 @@ screen_gameover(void)
 		draw_filter = 0xAAAA;
 #endif
 		draw_tilesList();
+        draw_drawStatus();
 
 		game_rects = &draw_SCREENRECT;
 		seq = 2;
