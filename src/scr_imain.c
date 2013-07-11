@@ -51,7 +51,7 @@ screen_introMain(void)
   }
 
   switch (seq) {
-  case 1:  /* dispay hall of fame */
+  case 1:  /* display Rick Dangerous title and Core Design copyright */
     sysvid_clear();
     tm = sys_gettime();
 
@@ -94,7 +94,7 @@ screen_introMain(void)
     }
     break;
 
-  case 4:  /* display Rick Dangerous title and Core Design copyright */
+  case 4:  /* dispay hall of fame */
     sysvid_clear();
     tm = sys_gettime();
 
