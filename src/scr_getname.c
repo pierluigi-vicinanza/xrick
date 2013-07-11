@@ -65,7 +65,7 @@ screen_getname(void)
 #endif
     for (i = 0; i < 10; i++)
       name[i] = '@';
-    x = y = p = 0;
+    x = 5, y = 4, p = 0;
     game_rects = &draw_SCREENRECT;
     seq = 1;
   }
