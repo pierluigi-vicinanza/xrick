@@ -82,7 +82,7 @@ screen_getname(void)
 #ifdef GFXST
     draw_pic(0, 0, 0x140, 0x20, pic_congrats);
 #endif
-    draw_setfb(76, 40);
+    draw_setfb(72, 40);
 #ifdef GFXPC
     draw_filter = 0xffff; /* yellow */
 #endif
