@@ -110,7 +110,7 @@ screen_introMain(void)
 #endif
 
     /* hall of fame content */
-    draw_setfb(56, 40);
+    draw_setfb(56, 48);
 #ifdef GFXPC
     draw_filter = 0x5555;
 #endif
