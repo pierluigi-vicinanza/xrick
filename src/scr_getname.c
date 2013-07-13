@@ -17,6 +17,7 @@
 
 #include "draw.h"
 #include "control.h"
+#include "pics.h"
 
 /*
  * local vars
@@ -77,6 +78,9 @@ screen_getname(void)
     draw_setfb(32, 8);
     draw_filter = 0xaaaa; /* red */
     draw_tilesListImm(screen_congrats);
+#endif
+#ifdef GFXST
+    draw_pic(0, 0, 0x140, 0x20, pic_congrats);
 #endif
     draw_setfb(76, 40);
 #ifdef GFXPC
