@@ -487,7 +487,7 @@ frame(void)
       draw_map();                     /* draw the map onto the buffer */
       draw_drawStatus();              /* draw the status bar onto the buffer */
       game_rects = &draw_SCREENRECT;  /* request full screen refresh */
-      game_state = PLAY3;
+      game_state = PLAY0;
       return;
 
 
