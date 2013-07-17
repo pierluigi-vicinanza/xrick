@@ -567,6 +567,7 @@ e_them_t3_action2(U8 e)
 #define step_count c2
   U8 i;
   S16 x, y;
+  int wav_index;
 
   while (1) {
 
@@ -689,7 +690,16 @@ e_them_t3_action2(U8 e)
 		* FIXME is it 8 of them, not 10?
 		* FIXME testing below...
 		*/
-		syssnd_play(WAV_ENTITY[(ent_ents[e].trigsnd & 0x1F) - 0x14], 1);
+
+        /* FIXME this is defensive, need to figure out whether there 
+                 is simply missing sound (and possibly rip it) 
+                 or wrong data in sumbmap 47 (when making the switch explode)
+                 and submap 13 (when touching jewel) */
+        wav_index = (ent_ents[e].trigsnd & 0x1F) - 0x14;
+        if(0 <= wav_index && wav_index <= 8)
+        {
+            syssnd_play(WAV_ENTITY[wav_index], 1);
+        }
 		/*syssnd_play(WAV_ENTITY[0], 1);*/
 #endif
       ent_ents[e].n &= ~ENT_LETHAL;
