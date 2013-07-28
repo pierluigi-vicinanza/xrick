@@ -14,7 +14,7 @@
 #ifndef _RECTS_H
 #define _RECTS_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 typedef struct rect_s {
   U16 x, y;

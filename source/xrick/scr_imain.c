@@ -11,15 +11,14 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdio.h>  /* sprintf */
-
-#include "system.h"
-#include "game.h"
 #include "screens.h"
 
+#include "game.h"
 #include "draw.h"
-#include "pics.h"
 #include "control.h"
+#include "data/pics.h"
+
+#include <stdio.h>  /* sprintf */
 
 /*
  * Main introduction

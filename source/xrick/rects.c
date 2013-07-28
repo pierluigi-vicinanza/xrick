@@ -11,11 +11,9 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h>  /* malloc */
-
-#include "system.h"
 #include "rects.h"
 
+#include <stdlib.h>  /* malloc */
 
 /*
  * Free a list of rectangles and set the pointer to NULL.

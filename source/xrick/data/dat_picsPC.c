@@ -15,7 +15,6 @@
 
 #ifdef GFXPC
 
-#include "system.h"
 #include "pics.h"
 
 #endif /* GFXPC */

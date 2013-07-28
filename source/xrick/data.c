@@ -11,13 +11,14 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h>  /* malloc */
-#include <string.h>
-
-#include "system.h"
 #include "data.h"
 
-#include "unzip.h"
+#include "system/system.h"
+
+#include "zlib/unzip.h"
+
+#include <stdio.h>  /* sprintf */
+#include <stdlib.h>  /* malloc */
 
 /*
  * Private typedefs

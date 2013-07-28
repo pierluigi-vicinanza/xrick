@@ -15,7 +15,6 @@
 
 #ifdef GFXST
 
-#include "system.h"
 #include "sprites.h"
 
 sprite_t sprites_data[SPRITES_NBR_SPRITES] =

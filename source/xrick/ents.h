@@ -14,7 +14,6 @@
 #ifndef _ENTS_H
 #define _ENTS_H
 
-#include "system.h"
 #include "rects.h"
 
 #define ENT_XRICK ent_ents[1]

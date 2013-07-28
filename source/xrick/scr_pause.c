@@ -11,15 +11,15 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stddef.h> /* NULL */
-
-#include "system.h"
-#include "game.h"
 #include "screens.h"
+
+#include "game.h"
 
 #include "draw.h"
 #include "control.h"
 #include "ents.h"
+
+#include <stddef.h> /* NULL */
 
 
 /*

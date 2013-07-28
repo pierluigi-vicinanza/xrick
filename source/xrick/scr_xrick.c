@@ -11,15 +11,15 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
-#include "game.h"
 #include "screens.h"
 
+#include "game.h"
 #include "draw.h"
 #include "control.h"
 #include "img.h"
+#include "system/system.h"
 
-#include "img_splash.e"
+#include "data/img_splash.e"
 
 /*
  * Display XRICK splash screen

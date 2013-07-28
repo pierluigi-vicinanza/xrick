@@ -14,7 +14,7 @@
 #ifndef _E_BULLET_H
 #define _E_BULLET_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 #define E_BULLET_NO 2
 #define E_BULLET_ENT ent_ents[E_BULLET_NO]

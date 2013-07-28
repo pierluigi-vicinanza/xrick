@@ -43,13 +43,15 @@
  * of rows of 0x20 tiles of 0x08 by 0x08 pixels.
  */
 
-#include "system.h"
+#include "system/system.h"
+#include "system/sysvid.h"
+
 #include "game.h"
 #include "draw.h"
 
-#include "sysvid.h"
-#include "sprites.h"
-#include "tiles.h"
+#include "data/sprites.h"
+#include "data/tiles.h"
+
 #include "maps.h"
 #include "rects.h"
 #include "img.h"

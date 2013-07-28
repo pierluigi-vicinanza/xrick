@@ -14,7 +14,7 @@
 #ifndef _E_THEM_H
 #define _E_THEM_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 extern U32 e_them_rndseed;
 

@@ -14,7 +14,7 @@
 #ifndef _MAPS_H
 #define _MAPS_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 #define MAP_NBR_MAPS 0x05
 #define MAP_NBR_SUBMAPS 0x2F

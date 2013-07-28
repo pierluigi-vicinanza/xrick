@@ -11,12 +11,10 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h>
+#include "ents.h"
 
-#include "system.h"
 #include "config.h"
 #include "game.h"
-#include "ents.h"
 #include "debug.h"
 
 #include "e_bullet.h"
@@ -29,6 +27,8 @@
 #include "rects.h"
 #include "maps.h"
 #include "draw.h"
+
+#include <stdlib.h> /* abs */
 
 /*
  * global vars

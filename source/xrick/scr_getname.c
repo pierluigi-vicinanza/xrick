@@ -11,13 +11,13 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
-#include "game.h"
 #include "screens.h"
 
+#include "game.h"
 #include "draw.h"
 #include "control.h"
-#include "pics.h"
+
+#include "data/pics.h"
 
 /*
  * local vars

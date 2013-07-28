@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
+#include "system/system.h"
 #include "config.h"
 #include "game.h"
 #include "ents.h"

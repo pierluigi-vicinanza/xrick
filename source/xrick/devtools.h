@@ -14,7 +14,7 @@
 #ifndef _DEVTOOLS_H
 #define _DEVTOOLS_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 extern U8 devtools_run(void);
 

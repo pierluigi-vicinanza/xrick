@@ -14,7 +14,7 @@
 #ifndef _VIDEOEX_H
 #define _VIDEOEX_H
 
-#include "system.h"
+#include "basic_types.h"
 
 extern U8 *sysvid_fb;  /* frame buffer */
 

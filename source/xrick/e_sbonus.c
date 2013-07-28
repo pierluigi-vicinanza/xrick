@@ -11,10 +11,10 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
+#include "e_sbonus.h"
+
 #include "game.h"
 #include "ents.h"
-#include "e_sbonus.h"
 
 #include "util.h"
 #include "maps.h"

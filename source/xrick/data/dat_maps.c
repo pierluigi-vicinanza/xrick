@@ -11,7 +11,6 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
 #include "maps.h"
 
 map_t map_maps[MAP_NBR_MAPS] = {

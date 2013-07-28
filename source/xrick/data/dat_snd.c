@@ -15,7 +15,7 @@
 
 #ifdef ENABLE_SOUND
 
-#include "system.h"
+#include "system/system.h"
 
 sound_t *WAV_WAA;
 sound_t *WAV_BOMB;

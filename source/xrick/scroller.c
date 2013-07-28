@@ -11,11 +11,9 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h>
-
-#include "system.h"
-#include "game.h"
 #include "scroller.h"
+
+#include "game.h"
 #include "debug.h"
 
 #include "draw.h"

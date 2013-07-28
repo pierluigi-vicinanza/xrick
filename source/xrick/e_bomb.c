@@ -11,11 +11,10 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
-#include "game.h"
-#include "ents.h"
 #include "e_bomb.h"
 
+#include "game.h"
+#include "ents.h"
 #include "e_rick.h"
 
 /*

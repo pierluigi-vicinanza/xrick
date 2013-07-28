@@ -14,13 +14,12 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include <stddef.h> /* NULL */
-
-#include "system.h"
 #include "config.h"
-
 #include "rects.h"
 #include "data.h"
+#include "system/system.h"
+
+#include <stddef.h> /* NULL */
 
 #define LEFT 1
 #define RIGHT 0

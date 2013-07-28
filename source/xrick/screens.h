@@ -14,7 +14,7 @@
 #ifndef _SCREENS_H
 #define _SCREENS_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 #define SCREEN_TIMEOUT 4000
 #define SCREEN_RUNNING 0

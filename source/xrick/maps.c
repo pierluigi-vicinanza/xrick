@@ -28,9 +28,9 @@
  * to map_map.
  */
 
-#include "system.h"
-#include "game.h"
 #include "maps.h"
+
+#include "game.h"
 #include "debug.h"
 
 #include "ents.h"

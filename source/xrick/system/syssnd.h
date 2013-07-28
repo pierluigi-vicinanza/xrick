@@ -18,7 +18,7 @@
 
 #ifdef ENABLE_SOUND
 
-#include "system.h"
+#include "basic_types.h"
 
 /* 8-bit mono at 22050Hz */
 #define SYSSND_FREQ 22050

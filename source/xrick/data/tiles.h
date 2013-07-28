@@ -29,7 +29,7 @@
 #ifndef _TILES_H
 #define _TILES_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 #ifdef GFXPC
 #define TILES_NBR_BANKS 4

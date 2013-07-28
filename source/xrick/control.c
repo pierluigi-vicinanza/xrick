@@ -11,8 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
-#include "system.h"
+#include "control.h"
 #include "game.h"
 
 U8 control_status = 0;

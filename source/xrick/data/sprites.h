@@ -28,7 +28,7 @@
 #ifndef _SPRITES_H_
 #define _SPRITES_H_
 
-#include "system.h"
+#include "system/basic_types.h"
 
 #ifdef GFXPC
 

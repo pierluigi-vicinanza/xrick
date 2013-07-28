@@ -11,18 +11,20 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h> /* malloc */
+#include "sysvid.h"
 
-#include <SDL.h>
-
-#include "system.h"
 #include "game.h"
 #include "img.h"
 #include "debug.h"
+#include "system/system.h"
+
+#include <stdlib.h> /* malloc */
+#include <SDL.h>
 
 #ifdef __MSVC__
 #include <memory.h> /* memset */
 #endif
+
 
 U8 *sysvid_fb; /* frame buffer */
 rect_t SCREENRECT = {0, 0, SYSVID_WIDTH, SYSVID_HEIGHT, NULL}; /* whole fb */
@@ -35,7 +37,8 @@ static U8 zoom = SYSVID_ZOOM; /* actual zoom level */
 static U8 szoom = 0;  /* saved zoom level */
 static U8 fszoom = 0;  /* fullscreen zoom level */
 
-#include "img_icon.e"
+#include "data/img_icon.e"
+
 
 /*
  * color tables

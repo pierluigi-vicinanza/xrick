@@ -11,7 +11,6 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
 #include "ents.h"
 
 entdata_t ent_entdata[ENT_NBR_ENTDATA] = {

@@ -14,7 +14,7 @@
 #ifndef _E_SBONUS_H
 #define _E_SBONUS_H
 
-#include "system.h"
+#include "system/basic_types.h"
 
 extern U8 e_sbonus_counting;
 extern U8 e_sbonus_counter;

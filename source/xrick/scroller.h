@@ -19,6 +19,8 @@
 
 #define SCROLL_PERIOD 24
 
+#include "system/basic_types.h"
+
 extern U8 scroll_up(void);
 extern U8 scroll_down(void);
 

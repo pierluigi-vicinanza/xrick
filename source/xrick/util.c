@@ -11,16 +11,16 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <stdlib.h>  /* NULL */
+#include "util.h"
 
-#include "system.h"
 #include "config.h"
 #include "game.h"
-#include "util.h"
 
 #include "ents.h"
 #include "e_rick.h"
 #include "maps.h"
+
+#include <stddef.h> /* NULL */
 
 /*
  * Full box test.

@@ -15,7 +15,6 @@
 
 #ifdef GFXST
 
-#include "system.h"
 #include "tiles.h"
 
 tile_t tiles_data[TILES_NBR_BANKS][0x100] = {

@@ -14,8 +14,6 @@
 #ifndef _DRAW_H
 #define _DRAW_H
 
-#include "system.h"
-
 #include "rects.h"
 #include "img.h"
 

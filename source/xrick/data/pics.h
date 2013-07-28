@@ -14,6 +14,8 @@
 #ifndef _PICS_H
 #define _PICS_H
 
+#include "system/basic_types.h"
+
 extern U32 pic_haf[];
 extern U32 pic_congrats[];
 extern U32 pic_splash[];

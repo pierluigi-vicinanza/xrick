@@ -14,6 +14,8 @@
 #ifndef _UTIL_H
 #define _UTIL_H
 
+#include "system/basic_types.h"
+
 extern void u_envtest(S16, S16, U8, U8 *, U8 *);
 extern U8 u_boxtest(U8, U8);
 extern U8 u_fboxtest(U8, S16, S16);

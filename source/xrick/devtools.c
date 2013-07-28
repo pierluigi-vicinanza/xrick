@@ -15,14 +15,17 @@
 
 #ifdef ENABLE_DEVTOOLS
 
-#include "system.h"
+#include "devtools.h"
+
 #include "game.h"
 
 #include "control.h"
 #include "screens.h"
 #include "draw.h"
-#include "sprites.h"
+#include "data/sprites.h"
 #include "maps.h"
+
+#include <stdio.h>  /* sprintf */
 
 /*
  * DevTools
