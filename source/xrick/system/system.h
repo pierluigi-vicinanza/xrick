@@ -14,8 +14,6 @@
 #ifndef _SYSTEM_H
 #define _SYSTEM_H
 
-#include "config.h"
-
 /*
  * If compiling w/gcc, then we can use attributes. UNUSED(x) flags a
  * parameter or a variable as potentially being unused, so that gcc doesn't
@@ -51,15 +49,7 @@
 #define __WIN32__
 #endif
 
-/* there are true at least on x86 platforms */
-typedef unsigned char U8;         /*  8 bits unsigned */
-typedef unsigned short int U16;   /* 16 bits unsigned */
-typedef unsigned int U32;         /* 32 bits unsigned */
-typedef signed char S8;           /*  8 bits signed   */
-typedef signed short int S16;     /* 16 bits signed   */
-typedef signed int S32;           /* 32 bits signed   */
-
-/* this must be after typedefs because it relies on types defined above */
+#include "config.h"
 #include "rects.h"
 #include "img.h"
 
