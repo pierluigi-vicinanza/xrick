@@ -27,8 +27,6 @@ typedef struct {
   U8 *pixels;
 } img_t;
 
-img_t *IMG_SPLASH;
-
 #endif
 
 /* eof */
