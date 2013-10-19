@@ -15,6 +15,7 @@
 #define _SCREENS_H
 
 #include "system/basic_types.h"
+#include "config.h"
 
 #define SCREEN_TIMEOUT 4000
 #define SCREEN_RUNNING 0
@@ -31,12 +32,14 @@ extern U8 screen_imapsl[];  /* sprite lists */
 extern screen_imapsteps_t screen_imapsteps[];  /* map intro steps */
 extern U8 screen_imapsofs[];  /* first step for each map */
 extern U8 *screen_imaptext[];  /* map intro texts */
+#ifdef GFXPC
 extern U8 screen_imainhoft[];  /* hall of fame title */
 extern U8 screen_imainrdt[];  /*rick dangerous title */
 extern U8 screen_imaincdc[];  /* core design copyright text */
+extern U8 screen_congrats[];  /* congratulations */
+#endif
 extern U8 screen_gameovertxt[];  /* game over */
 extern U8 screen_pausedtxt[];  /* paused */
-extern U8 screen_congrats[];  /* congratulations */
 
 extern U8 screen_xrick(void);  /* splash */
 extern U8 screen_introMain(void);  /* main intro */

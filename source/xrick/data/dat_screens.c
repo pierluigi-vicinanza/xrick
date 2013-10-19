@@ -142,6 +142,7 @@ U8 *screen_imaptext[5] =
   screen_imaptext_muchlater
 };
 
+#ifdef GFXPC
 /*
  * main intro, hall of fame title
  * (from ds + 0x8810 + 0x2642)
@@ -218,6 +219,7 @@ U8 screen_imaincdc[] = "\
 @@@@@@@@@@@@@@@@@@@\377\377\
 (C)@1989@CORE@DESIGN\377\377\377\
 @PRESS@SPACE@TO@START\376";
+#endif
 
 /*
  * gameover
