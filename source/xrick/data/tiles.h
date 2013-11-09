@@ -31,37 +31,41 @@
 
 #include "system/basic_types.h"
 
-#ifdef GFXPC
-#define TILES_NBR_BANKS 4
-#endif
-#ifdef GFXST
-#define TILES_NBR_BANKS 3
-#endif
-
-#define TILES_SIZEOF8 (0x10)
-#define TILES_SIZEOF16 (0x08)
+#include "config.h"
 
 /*
  * three special tile numbers
  */
-#define TILES_BULLET 0x01
-#define TILES_BOMB 0x02
-#define TILES_RICK 0x03
+enum {
+    TILES_BULLET = 0x01,
+    TILES_BOMB = 0x02,
+    TILES_RICK = 0x03
+};
 
 /*
  * one single tile
  */
+enum { TILES_NBR_LINES = 0x08 };
+
 #ifdef GFXPC
-typedef U16 tile_t[TILES_SIZEOF16];
+typedef U16 tile_t[TILES_NBR_LINES];
 #endif
 #ifdef GFXST
-typedef U32 tile_t[0x08];
+typedef U32 tile_t[TILES_NBR_LINES];
 #endif
 
 /*
  * tiles banks (each bank is 0x100 tiles)
  */
-extern tile_t tiles_data[TILES_NBR_BANKS][0x100];
+#ifdef GFXPC
+enum { TILES_NBR_BANKS = 4 };
+#endif
+#ifdef GFXST
+enum { TILES_NBR_BANKS = 3 };
+#endif
+
+enum { TILES_NBR_TILES = 0x100 };
+extern tile_t tiles_data[TILES_NBR_BANKS][TILES_NBR_TILES];
 
 #endif
 

@@ -134,7 +134,7 @@ BUT,@MEANWHILE,@IN@SPACE,@THE@\377\
 @@@@@TO@INVADE@THE@EARTH.@@@@@\377\377\
 @WHAT@WILL@RICK@DO@NEXT@...@?@\376";
 
-U8 *screen_imaptext[5] =
+U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT] =
 { screen_imaptext_amazon,
   screen_imaptext_egypt,
   screen_imaptext_castle,
@@ -219,7 +219,8 @@ U8 screen_imaincdc[] = "\
 @@@@@@@@@@@@@@@@@@@\377\377\
 (C)@1989@CORE@DESIGN\377\377\377\
 @PRESS@SPACE@TO@START\376";
-#endif
+
+#endif /* GFXST */
 
 /*
  * gameover

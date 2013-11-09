@@ -17,7 +17,7 @@
 
 #include "pics.h"
 
-U32 pic_congrats[] =
+static U32 PIC_CONGRATS_PIXELS[] =
 {
   0000000000,
   0000000000,
@@ -1301,7 +1301,20 @@ U32 pic_congrats[] =
   0000000000,
 };
 
-U32 pic_haf[] =
+static pic_t PIC_CONGRATS_OBJECT =
+{
+  320, 
+  32,
+  0,
+  0,
+  PIC_CONGRATS_PIXELS
+};
+
+pic_t *PIC_CONGRATS = &PIC_CONGRATS_OBJECT;
+
+/*-------------------------------------------------------*/
+
+static U32 PIC_HAF_PIXELS[] =
 {
   0000000000,
   0000000000,
@@ -2585,7 +2598,20 @@ U32 pic_haf[] =
   0000000000,
 };
 
-U32 pic_splash[] =
+static pic_t PIC_HAF_OBJECT =
+{
+  320, 
+  32,
+  0,
+  0,
+  PIC_HAF_PIXELS
+};
+
+pic_t *PIC_HAF = &PIC_HAF_OBJECT;
+
+/*-------------------------------------------------------*/
+
+static U32 PIC_SPLASH_PIXELS[] =
 {
   0000000000,
   0000000000,
@@ -10780,6 +10806,17 @@ U32 pic_splash[] =
   0000000000,
   0000000000,
  };
+
+ static pic_t PIC_SPLASH_OBJECT =
+{
+  320, 
+  200,
+  0,
+  0,
+  PIC_SPLASH_PIXELS
+};
+
+pic_t *PIC_SPLASH = &PIC_SPLASH_OBJECT;
 
 #endif /* GFXST */
 

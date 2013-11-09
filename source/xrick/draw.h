@@ -16,6 +16,9 @@
 
 #include "rects.h"
 #include "img.h"
+#ifdef GFXST
+#include "data/pics.h"
+#endif
 
 /* map coordinates of the screen */
 #define DRAW_XYMAP_SCRLEFT (-0x0020)
@@ -43,7 +46,9 @@ extern void draw_spriteBackground(U16, U16);
 extern void draw_map(void);
 extern void draw_drawStatus(void);
 extern void draw_clearStatus(void);
-extern void draw_pic(U16, U16, U16, U16, U32 *);
+#ifdef GFXST
+extern void draw_pic(const pic_t *);
+#endif
 extern void draw_infos(void);
 extern void draw_img(img_t *);
 

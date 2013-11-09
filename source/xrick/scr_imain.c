@@ -16,7 +16,9 @@
 #include "game.h"
 #include "draw.h"
 #include "control.h"
+#ifdef GFXST
 #include "data/pics.h"
+#endif
 
 #include <stdio.h>  /* sprintf */
 
@@ -69,7 +71,7 @@ screen_introMain(void)
 #endif
 
 #ifdef GFXST
-    draw_pic(0, 0, 0x140, 0xc8, pic_splash);
+    draw_pic(PIC_SPLASH);
 #endif
 
     seq = 2;
@@ -105,7 +107,7 @@ screen_introMain(void)
     draw_tilesList();
 #endif
 #ifdef GFXST
-    draw_pic(0, 0, 0x140, 0x20, pic_haf);
+    draw_pic(PIC_HAF);
 #endif
 
     /* hall of fame content */

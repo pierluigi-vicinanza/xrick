@@ -14,11 +14,25 @@
 #ifndef _PICS_H
 #define _PICS_H
 
+#include "config.h"
+
+#ifdef GFXST
+
 #include "system/basic_types.h"
 
-extern U32 pic_haf[];
-extern U32 pic_congrats[];
-extern U32 pic_splash[];
+typedef struct {
+  U16 width;
+  U16 height;
+  U16 xPos;
+  U16 yPos;
+  U32 *pixels;
+} pic_t;
+
+extern pic_t *PIC_HAF;
+extern pic_t *PIC_CONGRATS;
+extern pic_t *PIC_SPLASH;
+
+#endif /* GFXST */
 
 #endif
 

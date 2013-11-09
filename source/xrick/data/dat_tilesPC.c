@@ -17,7 +17,7 @@
 
 #include "tiles.h"
 
-tile_t tiles_data[TILES_NBR_BANKS][0x100] = {
+tile_t tiles_data[TILES_NBR_BANKS][TILES_NBR_TILES] = {
   /* BANK 0 */
   {
   {000000, 000000, 000000, 000000, 000000, 000000, 000000, 000000},

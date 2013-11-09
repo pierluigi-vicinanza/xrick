@@ -278,26 +278,26 @@ draw_tile(U8 tileNumber)
 void
 draw_sprite(U8 nbr, U16 x, U16 y)
 {
-  U8 i, j, k, *f;
-  U16 xm = 0, xp = 0;
+    U8 i, j, k, *f;
+    U16 xm = 0, xp = 0;
 
-  draw_setfb(x, y);
+    draw_setfb(x, y);
 
-  for (i = 0; i < 4; i++) {  /* for each tile column */
-    f = fb;  /* frame buffer */
-    for (j = 0; j < 0x15; j++) {  /* for each pixel row */
-      xm = sprites_data[nbr][i][j].mask;  /* mask */
-      xp = sprites_data[nbr][i][j].pict;  /* picture */
-      /*
-       * sprites / perform the transformation from CGA 2 bits
-       * per pixel to frame buffer 8 bits per pixels
-       */
-      for (k = 8; k--; xm >>= 2, xp >>= 2)
-	f[k] = (f[k] & (xm & 3)) | (xp & 3);
-      f += SYSVID_WIDTH;
+    for (i = 0; i < SPRITES_NBR_COLS; i++) {  /* for each tile column */
+        f = fb;  /* frame buffer */
+        for (j = 0; j < SPRITES_NBR_ROWS; j++) {  /* for each pixel row */
+            xm = sprites_data[nbr][i][j].mask;  /* mask */
+            xp = sprites_data[nbr][i][j].pict;  /* picture */
+            /*
+            * sprites / perform the transformation from CGA 2 bits
+            * per pixel to frame buffer 8 bits per pixels
+            */
+            for (k = 8; k--; xm >>= 2, xp >>= 2)
+                f[k] = (f[k] & (xm & 3)) | (xp & 3);
+            f += SYSVID_WIDTH;
+        }
+        fb += 8;
     }
-    fb += 8;
-  }
 }
 #endif
 
@@ -311,22 +311,22 @@ draw_sprite(U8 nbr, U16 x, U16 y)
 void
 draw_sprite(U8 number, U16 x, U16 y)
 {
-  U8 i, j, k, *f;
-  U16 g;
-  U32 d;
+    U8 i, j, k, *f;
+    U16 g;
+    U32 d;
 
-  draw_setfb(x, y);
-  g = 0;
-  for (i = 0; i < 0x15; i++) { /* rows */
-    f = fb;
-    for (j = 0; j < 4; j++) { /* cols */
-      d = sprites_data[number][g++];
-      for (k = 8; k--; d >>= 4)
-	if (d & 0x0F) f[k] = (f[k] & 0xF0) | (d & 0x0F);
-      f += 8;
+    draw_setfb(x, y);
+    g = 0;
+    for (i = 0; i < SPRITES_NBR_ROWS; i++) { /* rows */
+        f = fb;
+        for (j = 0; j < SPRITES_NBR_COLS; j++) { /* cols */
+            d = sprites_data[number][g++];
+            for (k = 8; k--; d >>= 4)
+                if (d & 0x0F) f[k] = (f[k] & 0xF0) | (d & 0x0F);
+            f += 8;
+        }
+        fb += SYSVID_WIDTH;
     }
-    fb += SYSVID_WIDTH;
-  }
 }
 #endif
 
@@ -351,8 +351,8 @@ draw_sprite2(U8 number, U16 x, U16 y, U8 front)
 
   x0 = x;
   y0 = y;
-  w = 0x20;
-  h = 0x15;
+  w = SPRITES_NBR_COLS * 8; /* each tile column is 8 pixels */
+  h = SPRITES_NBR_ROWS;
 
   if (draw_clipms(&x0, &y0, &w, &h))  /* return if not visible */
     return;
@@ -360,7 +360,7 @@ draw_sprite2(U8 number, U16 x, U16 y, U8 front)
   g = 0;
   draw_setfb(x0 - DRAW_XYMAP_SCRLEFT, y0 - DRAW_XYMAP_SCRTOP + 8);
 
-  for (r = 0; r < 0x15; r++) {
+  for (r = 0; r < SPRITES_NBR_ROWS; r++) {
     if (r >= h || y + r < y0) continue;
 
     i = 0x1f;
@@ -401,7 +401,7 @@ draw_sprite2(U8 number, U16 x, U16 y, U8 front)
 #undef LOOP
 
     fb += SYSVID_WIDTH;
-    g += 4;
+    g += SPRITES_NBR_COLS;
   }
 }
 
@@ -428,8 +428,8 @@ draw_sprite2(U8 number, U16 x, U16 y, U8 front)
   /* align to tile column, prepare map coordinate and clip */
   xmap = x & 0xFFF8;
   ymap = y;
-  cmax = 0x20;  /* width, 4 tile columns, 8 pixels each */
-  rmax = 0x15;  /* height, 15 pixels */
+  cmax = SPRITES_NBR_COLS * 8;  /* width, 4 tile columns, 8 pixels each */
+  rmax = SPRITES_NBR_ROWS;  /* height, 15 pixels */
   dx = (x - xmap) * 2;
   if (draw_clipms(&xmap, &ymap, &cmax, &rmax))  /* return if not visible */
     return;
@@ -643,25 +643,25 @@ draw_clearStatus(void)
  */
 #ifdef GFXST
 void
-draw_pic(U16 x, U16 y, U16 w, U16 h, U32 *pic)
+draw_pic(const pic_t * picture)
 {
-  U8 *f;
-  U16 i, j, k, pp;
-  U32 v;
+    U8 *f;
+    U16 i, j, k, pp;
+    U32 v;
 
-  draw_setfb(x, y);
-  pp = 0;
+    draw_setfb(picture->xPos, picture->yPos);
+    pp = 0;
 
-  for (i = 0; i < h; i++) { /* rows */
-    f = fb;
-    for (j = 0; j < w; j += 8) {  /* cols */
-      v = pic[pp++];
-      for (k = 8; k--; v >>=4)
-	f[k] = v & 0x0F;
-      f += 8;
+    for (i = 0; i < picture->height; i++) { /* rows */
+        f = fb;
+        for (j = 0; j < picture->width; j += 8) {  /* cols */
+            v = picture->pixels[pp++];
+            for (k = 8; k--; v >>= 4)
+                f[k] = v & 0x0F;
+            f += 8;
+        }
+        fb += SYSVID_WIDTH;
     }
-    fb += SYSVID_WIDTH;
-  }
 }
 #endif
 

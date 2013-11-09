@@ -80,7 +80,7 @@ screen_getname(void)
     draw_tilesListImm(screen_congrats);
 #endif
 #ifdef GFXST
-    draw_pic(0, 0, 0x140, 0x20, pic_congrats);
+    draw_pic(PIC_CONGRATS);
 #endif
     draw_setfb(72, 40);
 #ifdef GFXPC

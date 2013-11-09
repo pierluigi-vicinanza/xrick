@@ -28,32 +28,42 @@
 #ifndef _SPRITES_H_
 #define _SPRITES_H_
 
+#include "config.h"
+
 #include "system/basic_types.h"
 
 #ifdef GFXPC
-
-#define SPRITES_NBR_SPRITES (0x9b)
 
 typedef struct {
   U16 mask;
   U16 pict;
 } spriteX_t;
 
-typedef spriteX_t sprite_t[4][0x15];   /* one sprite */
+enum {
+    SPRITES_NBR_ROWS = 0x15,
+    SPRITES_NBR_COLS = 0x04
+};
+typedef spriteX_t sprite_t[SPRITES_NBR_COLS][SPRITES_NBR_ROWS];   /* one sprite */
 
+enum { SPRITES_NBR_SPRITES = 0x9b };
 extern sprite_t sprites_data[SPRITES_NBR_SPRITES];
 
-#endif
+#endif /* GFXPC */
+
 
 #ifdef GFXST
 
-#define SPRITES_NBR_SPRITES (0xD5)
+enum {
+    SPRITES_NBR_ROWS = 0x15,
+    SPRITES_NBR_COLS = 0x04,
+    SPRITES_NBR_DATA = SPRITES_NBR_ROWS * SPRITES_NBR_COLS
+};
+typedef U32 sprite_t[SPRITES_NBR_DATA];
 
-typedef U32 sprite_t[0x54];  /* 0x15 per 0x04 */
-
+enum { SPRITES_NBR_SPRITES = 0xD5 };
 extern sprite_t sprites_data[SPRITES_NBR_SPRITES];
 
-#endif
+#endif /* GFXST */
 
 #endif
 

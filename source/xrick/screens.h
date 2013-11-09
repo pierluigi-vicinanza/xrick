@@ -28,10 +28,18 @@ typedef struct {
   U16 base;  /* base for sprite numbers table */
 } screen_imapsteps_t;  /* description of one step */
 
-extern U8 screen_imapsl[];  /* sprite lists */
-extern screen_imapsteps_t screen_imapsteps[];  /* map intro steps */
-extern U8 screen_imapsofs[];  /* first step for each map */
-extern U8 *screen_imaptext[];  /* map intro texts */
+enum { SCREEN_NBR_IMAPSL = 22 };
+extern U8 screen_imapsl[SCREEN_NBR_IMAPSL];  /* sprite lists */
+
+enum { SCREEN_NBR_IMAPSTESPS = 23 };
+extern screen_imapsteps_t screen_imapsteps[SCREEN_NBR_IMAPSTESPS];  /* map intro steps */
+
+enum { SCREEN_NBR_IMAPSOFS = 5 };
+extern U8 screen_imapsofs[SCREEN_NBR_IMAPSOFS];  /* first step for each map */
+
+enum { SCREEN_NBR_IMAPTEXT = 5 };
+extern U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT];  /* map intro texts */
+
 #ifdef GFXPC
 extern U8 screen_imainhoft[];  /* hall of fame title */
 extern U8 screen_imainrdt[];  /*rick dangerous title */
