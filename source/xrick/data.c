@@ -19,15 +19,11 @@
 
 #include <stdio.h>  /* sprintf */
 #include <stdlib.h>  /* malloc */
+#include <sys/stat.h> /* fstat */
 
 /*
  * Private typedefs
  */
-typedef struct {
-	char *name;
-	unzFile zip;
-} zipped_t;
-
 typedef struct {
 	char *name;
 	unzFile zip;
@@ -36,40 +32,35 @@ typedef struct {
 /*
  * Static variables
  */
-static path_t path;
+static path_t rootPath = {NULL, NULL}; /* will store either main data folder path or main zipped archive path */
 
 /*
  * Prototypes
  */
-static int str_zipext(char *);
-static char *str_dup(char *);
-static char *str_slash(char *);
+static int str_hasZipExtension(const char *);
+static char *str_dup(const char *);
+static char *str_toNativeSeparators(char *);
 
 /*
  *
  */
 void
-data_setpath(char *name)
+data_setRootPath(const char *name)
 {
-	unzFile zip;
-	char *n;
-
-	if (str_zipext(name)) {
-		/* path has .zip extension */
-		n = str_slash(str_dup(name));
-		zip = unzOpen(n);
-		if (!zip) {
-			free(n);
-			sys_panic("(data) can not open data");
-		} else {
-			path.zip = zip;
-			path.name = n;
-		}
-	} else {
-		/* path has no .zip extension. it should be a directory */
+    rootPath.name = str_toNativeSeparators(str_dup(name));
+	if (str_hasZipExtension(rootPath.name)) 
+    {
+        rootPath.zip = unzOpen(rootPath.name);
+        if (!rootPath.zip) 
+        {
+            free(rootPath.name);
+            sys_panic("(data) can not open data");
+        } 
+	} 
+    else /* dealing with a directory */
+    {
 		/* FIXME check that it is a valid directory */
-		path.zip = NULL;
-		path.name = str_dup(name);
+		rootPath.zip = NULL;
 	}
 }
 
@@ -77,60 +68,66 @@ data_setpath(char *name)
  *
  */
 void
-data_closepath()
+data_closeRootPath()
 {
-	if (path.zip) {
-		unzClose(path.zip);
-		path.zip = NULL;
+	if (rootPath.zip) {
+        unzClose(rootPath.zip);
+		rootPath.zip = NULL;
 	}
-	free(path.name);
-	path.name = NULL;
+	free(rootPath.name);
+	rootPath.name = NULL;
 }
 
 /*
  * Open a data file.
  */
 data_file_t *
-data_file_open(char *name)
+data_file_open(const char *name)
 {
-	char *n;
-	FILE *fh;
-	zipped_t *z;
-
-	if (path.zip) {
-	    z = malloc(sizeof(zipped_t));
-	    z->name = str_dup(name);
-	    z->zip = unzOpen(path.name);
-	    if (unzLocateFile(z->zip, name, 0) != UNZ_OK ||
-	    	unzOpenCurrentFile(z->zip) != UNZ_OK) {
-			unzClose(z->zip);
-            free(z->name);
-            free(z);
-			z = NULL;
-		}
-	    return (data_file_t *)z;
-	} else {
-		n = malloc(strlen(path.name) + strlen(name) + 2);
-		sprintf(n, "%s/%s", path.name, name);
-		str_slash(n);
-		fh = fopen(n, "rb");
-        free(n);
-		return (data_file_t *)fh;
-	}
+    if (rootPath.zip) 
+    {
+        unzFile zh = rootPath.zip;
+        if (unzLocateFile(zh, name, 0) != UNZ_OK ||
+            unzOpenCurrentFile(zh) != UNZ_OK) 
+        {
+                zh = NULL;
+        }
+        return (data_file_t *)zh;
+    }
+    else /* uncompressed file */
+    {
+        FILE *fh;
+        char *fullPath = malloc(strlen(rootPath.name) + strlen(name) + 2);
+        sprintf(fullPath, "%s/%s", rootPath.name, name);
+        str_toNativeSeparators(fullPath);
+        fh = fopen(fullPath, "rb");
+        free(fullPath);
+        return (data_file_t *)fh;
+    }
 }
 
-int
+/*
+ * 
+ */
+off_t
 data_file_size(data_file_t *file)
 {
-	int s;
-	if (path.zip) {
-		/* not implemented */
-	} else {
-		fseek((FILE *)file, 0, SEEK_END);
-		s = ftell((FILE *)file);
-		fseek((FILE *)file, 0, SEEK_SET);
-	}
-	return s;
+	off_t size = 0;
+    if (rootPath.zip)
+    {
+        /* not implemented */
+    } 
+    else 
+    {
+        FILE *fh = (FILE *)file;
+        int fd = fileno(fh);
+        struct stat fileStat;
+        if (fstat(fd, &fileStat) == 0)
+        {
+            size = fileStat.st_size;
+        }
+    }
+	return size;
 }
 
 /*
@@ -139,7 +136,7 @@ data_file_size(data_file_t *file)
 int
 data_file_seek(data_file_t *file, long offset, int origin)
 {
-	if (path.zip) {
+	if (rootPath.zip) {
 		/* not implemented */
 		return -1;
 	} else {
@@ -153,7 +150,7 @@ data_file_seek(data_file_t *file, long offset, int origin)
 int
 data_file_tell(data_file_t *file)
 {
-	if (path.zip) {
+	if (rootPath.zip) {
 		/* not implemented */
 		return -1;
 	} else {
@@ -167,8 +164,8 @@ data_file_tell(data_file_t *file)
 int
 data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
 {
-	if (path.zip) {
-		return unzReadCurrentFile(((zipped_t *)file)->zip, buf, size * count) / size;
+	if (rootPath.zip) {
+		return unzReadCurrentFile((unzFile)file, buf, size * count) / size;
 	} else {
 		return fread(buf, size, count, (FILE *)file);
 	}
@@ -180,12 +177,8 @@ data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
 void
 data_file_close(data_file_t *file)
 {
-	if (path.zip) {
-		unzClose(((zipped_t *)file)->zip);
-		((zipped_t *)file)->zip = NULL;
-		free(((zipped_t *)file)->name);
-		((zipped_t *)file)->name = NULL;
-        free(file);
+	if (rootPath.zip) {
+        unzCloseCurrentFile((unzFile)file);
 	} else {
 		fclose((FILE *)file);
 	}
@@ -195,7 +188,7 @@ data_file_close(data_file_t *file)
  * Returns 1 if filename has .zip extension.
  */
 static int
-str_zipext(char *name)
+str_hasZipExtension(const char *name)
 {
 	int i;
 
@@ -216,7 +209,7 @@ str_zipext(char *name)
  *
  */
 static char *
-str_dup(char *s)
+str_dup(const char *s)
 {
 	char *s1;
 	int i;
@@ -227,8 +220,11 @@ str_dup(char *s)
 	return s1;
 }
 
+/*
+ *
+ */
 static char *
-str_slash(char *s)
+str_toNativeSeparators(char *s)
 {
 #ifdef __WIN32__
 	int i, l;

@@ -15,16 +15,17 @@
 #define _DATA_H
 
 #include <stddef.h> /* size_t */
+#include <sys/types.h> /* off_t */
 
 typedef void *data_file_t;
 
-extern void data_setpath(char *);
-extern void data_closepath();
+extern void data_setRootPath(const char *);
+extern void data_closeRootPath();
 
-extern data_file_t *data_file_open(char *);
+extern data_file_t *data_file_open(const char *);
 extern int data_file_seek(data_file_t *file, long offset, int origin);
 extern int data_file_tell(data_file_t *file);
-extern int data_file_size(data_file_t *file);
+extern off_t data_file_size(data_file_t *file);
 extern int data_file_read(data_file_t *, void *, size_t, size_t);
 extern void data_file_close(data_file_t *);
 
