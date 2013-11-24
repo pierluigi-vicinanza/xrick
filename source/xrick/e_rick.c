@@ -35,7 +35,7 @@ U8 e_rick_state = 0;
  */
 static U8 scrawl;
 
-static U8 trigger = FALSE;
+static bool trigger = false;
 
 static S8 offsx;
 static U8 ylow;
@@ -54,9 +54,9 @@ static U16 save_x, save_y;
  *
  * e: entity to test against (corresponds to SI in asm code -- here DI
  *    is assumed to point to rick).
- * ret: TRUE/intersect, FALSE/not.
+ * ret: true/intersect, false/not.
  */
-U8
+bool
 e_rick_boxtest(U8 e)
 {
 	/*
@@ -68,9 +68,9 @@ e_rick_boxtest(U8 e)
 		E_RICK_ENT.x + 0x05 > ent_ents[e].x + ent_ents[e].w ||
 		E_RICK_ENT.y + 0x14 < ent_ents[e].y ||
 		E_RICK_ENT.y + (E_RICK_STTST(E_RICK_STCRAWL) ? 0x08 : 0x00) > ent_ents[e].y + ent_ents[e].h - 1)
-		return FALSE;
+		return false;
 	else
-		return TRUE;
+		return true;
 }
 
 
@@ -99,7 +99,7 @@ e_rick_gozombie(void)
 	offsy = -0x0300;
 	offsx = (E_RICK_ENT.x > 0x80 ? -3 : +3);
 	ylow = 0;
-	E_RICK_ENT.front = TRUE;
+	E_RICK_ENT.front = true;
 }
 
 
@@ -212,7 +212,7 @@ e_rick_action2(void)
 		x = E_RICK_ENT.x - 2;
 		game_dir = LEFT;
 		if (x < 0) {  /* prev submap */
-			game_chsm = TRUE;
+			game_chsm = true;
 			E_RICK_ENT.x = 0xe2;
 			return;
 		}
@@ -220,7 +220,7 @@ e_rick_action2(void)
 		x = E_RICK_ENT.x + 2;
 		game_dir = RIGHT;
 		if (x >= 0xe8) {  /* next submap */
-			game_chsm = TRUE;
+			game_chsm = true;
 			E_RICK_ENT.x = 0x04;
 			return;
 		}
@@ -294,7 +294,7 @@ e_rick_action2(void)
     if (trigger)
       return;
     else
-      trigger = TRUE;
+      trigger = true;
     /* already a bullet in the air ... that's enough */
     if (E_BULLET_ENT.n)
       return;
@@ -310,7 +310,7 @@ e_rick_action2(void)
     return;
   }
 
-  trigger = FALSE; /* not shooting means trigger is released */
+  trigger = false; /* not shooting means trigger is released */
   seq = 0; /* reset */
 
   if (control_status == (CONTROL_FIRE|CONTROL_DOWN)) {  /* bomb */
@@ -408,7 +408,7 @@ e_rick_action2(void)
     if (control_status & CONTROL_LEFT) {
       x = E_RICK_ENT.x - 0x02;
       if (x < 0) {  /* (i.e. negative) prev submap */
-	game_chsm = TRUE;
+	game_chsm = true;
 	/*6dbd = 0x00;*/
 	E_RICK_ENT.x = 0xe2;
 	return;
@@ -417,7 +417,7 @@ e_rick_action2(void)
     else {
       x = E_RICK_ENT.x + 0x02;
       if (x >= 0xe8) {  /* next submap */
-	game_chsm = TRUE;
+	game_chsm = true;
 	/*6dbd = 0x01;*/
 	E_RICK_ENT.x = 0x04;
 	return;
@@ -446,7 +446,7 @@ e_rick_action2(void)
  */
 void e_rick_action(UNUSED(U8 e))
 {
-	static U8 stopped = FALSE; /* is this the most elegant way? */
+	static U8 stopped = false; /* is this the most elegant way? */
 
 	e_rick_action2();
 
@@ -465,13 +465,13 @@ void e_rick_action(UNUSED(U8 e))
 		if (!stopped)
 		{
 			syssnd_play(WAV_STICK, 1);
-			stopped = TRUE;
+			stopped = true;
 		}
 #endif
 		return;
 	}
 
-	stopped = FALSE;
+	stopped = false;
 
 	if E_RICK_STTST(E_RICK_STSHOOT) {
 		E_RICK_ENT.sprite = (game_dir ? 0x16 : 0x0A);
@@ -556,7 +556,7 @@ void e_rick_restore(void)
         E_RICK_STRST(E_RICK_STCRAWL);
     game_dir = save_direction;
 	
-    E_RICK_ENT.front = FALSE;
+    E_RICK_ENT.front = false;
 	E_RICK_STRST(E_RICK_STCLIMB); /* should we clear other states? */
 	/* FIXME
 	 * E_RICK_ENT.b0C = save_C0;

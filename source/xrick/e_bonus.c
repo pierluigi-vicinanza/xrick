@@ -39,7 +39,7 @@ e_bonus_action(U8 e)
       map_marks[ent_ents[e].mark].ent |= MAP_MARK_NACT;
       ent_ents[e].seq = 1;
       ent_ents[e].sprite = 0xad;
-      ent_ents[e].front = TRUE;
+      ent_ents[e].front = true;
       ent_ents[e].y -= 0x08;
     }
   }

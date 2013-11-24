@@ -158,9 +158,9 @@ processEvent()
       printf("xrick/events: active %x %x\n", aevent->gain, aevent->state);
       );
     if (aevent->gain == 1)
-      control_active = TRUE;
+      control_active = true;
     else
-      control_active = FALSE;
+      control_active = false;
     }
   break;
 #endif

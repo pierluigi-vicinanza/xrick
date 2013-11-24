@@ -18,13 +18,9 @@
 #include "debug.h"
 #include "system/system.h"
 
+#include <string.h> /* memset */
 #include <stdlib.h> /* malloc */
 #include <SDL.h>
-
-#ifdef __MSVC__
-#include <memory.h> /* memset */
-#endif
-
 
 U8 *sysvid_fb; /* frame buffer */
 rect_t SCREENRECT = {0, 0, SYSVID_WIDTH, SYSVID_HEIGHT, NULL}; /* whole fb */

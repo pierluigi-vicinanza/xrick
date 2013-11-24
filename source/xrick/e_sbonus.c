@@ -24,7 +24,7 @@
 /*
  * public vars
  */
-U8 e_sbonus_counting = FALSE;
+bool e_sbonus_counting = false;
 U8 e_sbonus_counter = 0;
 U16 e_sbonus_bonus = 0;
 
@@ -41,7 +41,7 @@ e_sbonus_start(U8 e)
 	if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
 		/* rick is within trigger box */
 		ent_ents[e].n = 0;
-		e_sbonus_counting = TRUE;  /* 6DD5 */
+		e_sbonus_counting = true;  /* 6DD5 */
 		e_sbonus_counter = 0x1e;  /* 6DDB */
 		e_sbonus_bonus = 2000;    /* 291A-291D */
 #ifdef ENABLE_SOUND
@@ -66,7 +66,7 @@ e_sbonus_stop(U8 e)
 
 	if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
 		/* rick is within trigger box */
-		e_sbonus_counting = FALSE;  /* stop counting */
+		e_sbonus_counting = false;  /* stop counting */
 		ent_ents[e].n = 0;  /* deactivate entity */
 		game_score += e_sbonus_bonus;  /* add bonus to score */
 #ifdef ENABLE_SOUND

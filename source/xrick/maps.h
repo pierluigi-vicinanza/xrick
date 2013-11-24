@@ -142,7 +142,7 @@ extern U8 map_tilesBank;
 
 extern void map_expand(void);
 extern void map_init(void);
-extern U8 map_chain(void);
+extern bool map_chain(void);
 extern void map_resetMarks(void);
 
 #endif

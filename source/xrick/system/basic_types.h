@@ -14,15 +14,32 @@
 #ifndef _BASIC_TYPES_H
 #define _BASIC_TYPES_H
 
+#ifdef _MSC_VER
 
-/* there are true at least on x86 platforms */
-typedef unsigned char U8;         /*  8 bits unsigned */
-typedef unsigned short int U16;   /* 16 bits unsigned */
-typedef unsigned int U32;         /* 32 bits unsigned */
-typedef signed char S8;           /*  8 bits signed   */
-typedef signed short int S16;     /* 16 bits signed   */
-typedef signed int S32;           /* 32 bits signed   */
+typedef enum { false, true } bool;
 
+#define inline __inline
+
+typedef unsigned __int8  U8;
+typedef unsigned __int16 U16;
+typedef unsigned __int32 U32;
+typedef          __int8  S8;
+typedef          __int16 S16;
+typedef          __int32 S32;
+
+#else /* ndef _MSC_VER */
+
+#include <stdbool.h>
+
+#include <stdint.h>
+typedef uint8_t U8;         /*  8 bits unsigned */
+typedef uint16_t U16;   /* 16 bits unsigned */
+typedef uint32_t U32;         /* 32 bits unsigned */
+typedef int8_t S8;           /*  8 bits signed   */
+typedef int16_t S16;     /* 16 bits signed   */
+typedef int32_t S32;           /* 32 bits signed   */
+
+#endif /* def _MSC_VER */
 
 #endif
 

@@ -27,8 +27,8 @@
 #include "maps.h"
 #include "syssnd.h"
 
-/* handle Microsoft Visual C (must come after system.h!) */
-#ifdef __MSVC__
+/* handle Microsoft Visual C */
+#ifdef _MSC_VER
 #define strcasecmp stricmp
 #endif
 

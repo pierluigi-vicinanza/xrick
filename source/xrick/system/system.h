@@ -33,12 +33,10 @@
  * Detect Microsoft Visual C
  */
 #ifdef _MSC_VER
-#define __MSVC__
 /*
  * FIXME disable "integral size mismatch in argument; conversion supplied" warning
  * as long as the code has not been cleared -- there are so many of them...
  */
-
 #pragma warning( disable : 4761 )
 #endif
 
@@ -108,7 +106,7 @@ typedef struct {
 #endif
   U8 *buf;
   U32 len;
-  U8 dispose;
+  bool dispose;
 } sound_t;
 
 extern void syssnd_init(void);
@@ -116,7 +114,7 @@ extern void syssnd_shutdown(void);
 extern void syssnd_vol(S8);
 extern void syssnd_toggleMute(void);
 extern S8 syssnd_play(sound_t *, S8);
-extern void syssnd_pause(U8, U8);
+extern void syssnd_pause(bool, bool);
 extern void syssnd_stopchan(S8);
 extern void syssnd_stopsound(sound_t *);
 extern void syssnd_stopall();

@@ -16,7 +16,7 @@
 
 #include "system/basic_types.h"
 
-extern U8 e_sbonus_counting;
+extern bool e_sbonus_counting;
 extern U8 e_sbonus_counter;
 extern U16 e_sbonus_bonus;
 

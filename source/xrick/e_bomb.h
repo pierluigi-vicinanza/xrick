@@ -20,12 +20,12 @@
 #define E_BOMB_ENT ent_ents[E_BOMB_NO]
 #define E_BOMB_TICKER (0x2D)
 
-extern U8 e_bomb_lethal;
+extern bool e_bomb_lethal;
 extern U8 e_bomb_ticker;
 extern U8 e_bomb_xc;
 extern U16 e_bomb_yc;
 
-extern U8 e_bomb_hit(U8);
+extern bool e_bomb_hit(U8);
 extern void e_bomb_init(U16, U16);
 extern void e_bomb_action(U8);
 

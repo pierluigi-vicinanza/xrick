@@ -52,7 +52,7 @@ typedef enum {
  * global vars
  */
 U8 game_period = 0;
-U8 game_waitevt = FALSE;
+bool game_waitevt = false;
 rect_t *game_rects = NULL;
 
 U8 game_lives = 0;
@@ -64,7 +64,7 @@ U16 game_map = 0;
 U16 game_submap = 0;
 
 U8 game_dir = RIGHT;
-U8 game_chsm = FALSE;
+bool game_chsm = false;
 
 U8 game_cheat1 = 0;
 U8 game_cheat2 = 0;
@@ -186,7 +186,7 @@ game_setmusic(char *name, U8 loop)
 	music_snd = syssnd_load(name);
 	if (music_snd)
 	{
-		music_snd->dispose = TRUE; /* music is always "fire and forget" */
+		music_snd->dispose = true; /* music is always "fire and forget" */
 		channel = syssnd_play(music_snd, loop);
 	}
 }
@@ -320,7 +320,7 @@ frame(void)
 			case SCREEN_RUNNING:
 				return;
 			case SCREEN_DONE:
-				game_waitevt = FALSE;
+				game_waitevt = false;
 				game_state = INIT_BUFFER;
 				break;
 			case SCREEN_EXIT:
@@ -345,7 +345,7 @@ frame(void)
 
 
 		case PAUSE_PRESSED1:
-			screen_pause(TRUE);
+			screen_pause(true);
 			game_state = PAUSE_PRESSED1B;
 			break;
 
@@ -370,10 +370,10 @@ frame(void)
 
 		case PAUSE_PRESSED2:
 			if (!(control_status & CONTROL_PAUSE)) {
-				game_waitevt = FALSE;
-				screen_pause(FALSE);
+				game_waitevt = false;
+				screen_pause(false);
 #ifdef ENABLE_SOUND
-				syssnd_pause(FALSE, FALSE);
+				syssnd_pause(false, false);
 #endif
 				game_state = PLAY2;
 			}
@@ -390,17 +390,17 @@ frame(void)
 		case PLAY1:
 			if (control_status & CONTROL_PAUSE) {
 #ifdef ENABLE_SOUND
-				syssnd_pause(TRUE, FALSE);
+				syssnd_pause(true, false);
 #endif
-				game_waitevt = TRUE;
+				game_waitevt = true;
 				game_state = PAUSE_PRESSED1;
 			}
-			else if (control_active == FALSE) {
+			else if (!control_active) {
 #ifdef ENABLE_SOUND
-				syssnd_pause(TRUE, FALSE);
+				syssnd_pause(true, false);
 #endif
-				game_waitevt = TRUE;
-				screen_pause(TRUE);
+				game_waitevt = true;
+				screen_pause(true);
 				game_state = PAUSED;
 			}
 			else
@@ -596,7 +596,7 @@ init(void)
   ent_ents[1].h = 0x15;
   ent_ents[1].n = 0x01;
   ent_ents[1].sprite = 0x01;
-  ent_ents[1].front = FALSE;
+  ent_ents[1].front = false;
   ent_ents[ENT_ENTSNUM].n = 0xFF;
 
   map_resetMarks();

@@ -113,14 +113,14 @@ draw_setfb(U16 x, U16 y)
  *
  * x, y: position (pixels, map) CHANGED clipped
  * width, height: dimension CHANGED clipped
- * return: TRUE if fully clipped, FALSE if still (at least partly) visible
+ * return: true if fully clipped, false if still (at least partly) visible
  */
-U8
+bool
 draw_clipms(S16 *x, S16 *y, U16 *width, U16 *height)
 {
   if (*x < 0) {
     if (*x + *width < 0)
-      return TRUE;
+      return true;
     else {
       *width += *x;
       *x = 0;
@@ -128,7 +128,7 @@ draw_clipms(S16 *x, S16 *y, U16 *width, U16 *height)
   }
   else {
     if (*x > 0x0100)
-      return TRUE;
+      return true;
     else if (*x + *width > 0x0100) {
       *width = 0x0100 - *x;
     }
@@ -136,7 +136,7 @@ draw_clipms(S16 *x, S16 *y, U16 *width, U16 *height)
 
   if (*y < DRAW_XYMAP_SCRTOP) {
     if ((*y + *height) < DRAW_XYMAP_SCRTOP)
-      return TRUE;
+      return true;
     else {
       *height += *y - DRAW_XYMAP_SCRTOP;
       *y = DRAW_XYMAP_SCRTOP;
@@ -144,12 +144,12 @@ draw_clipms(S16 *x, S16 *y, U16 *width, U16 *height)
   }
   else {
     if (*y >= DRAW_XYMAP_HBTOP)
-      return TRUE;
+      return true;
     else if (*y + *height > DRAW_XYMAP_HBTOP)
       *height = DRAW_XYMAP_HBTOP - *y;
   }
 
-  return FALSE;
+  return false;
 }
 
 
@@ -338,7 +338,7 @@ draw_sprite(U8 number, U16 x, U16 y)
  */
 #ifdef GFXST
 void
-draw_sprite2(U8 number, U16 x, U16 y, U8 front)
+draw_sprite2(U8 number, U16 x, U16 y, bool front)
 {
   U32 d = 0;   /* sprite data */
   S16 x0, y0;  /* clipped x, y */
@@ -418,7 +418,7 @@ draw_sprite2(U8 number, U16 x, U16 y, U8 front)
  */
 #ifdef GFXPC
 void
-draw_sprite2(U8 number, U16 x, U16 y, U8 front)
+draw_sprite2(U8 number, U16 x, U16 y, bool front)
 {
   U8 k, *f, c, r, dx;
   U16 cmax, rmax;

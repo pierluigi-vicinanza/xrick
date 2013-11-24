@@ -42,21 +42,21 @@ static U16 e_them_rndnbr = 0;
  * ASM 122E
  *
  * e: entity slot number.
- * ret: TRUE/boxtests, FALSE/not
+ * ret: true/boxtests, false/not
  */
-U8
+static bool
 u_themtest(U8 e)
 {
   U8 i;
 
   if ((ent_ents[0].n & ENT_LETHAL) && u_boxtest(e, 0))
-    return TRUE;
+    return true;
 
   for (i = 4; i < 9; i++)
     if ((ent_ents[i].n & ENT_LETHAL) && u_boxtest(e, i))
-      return TRUE;
+      return true;
 
-  return FALSE;
+  return false;
 }
 
 
@@ -70,7 +70,7 @@ e_them_gozombie(U8 e)
 {
 #define offsx c1
   ent_ents[e].n = 0x47;  /* zombie entity */
-  ent_ents[e].front = TRUE;
+  ent_ents[e].front = true;
   ent_ents[e].offsy = -0x0400;
 #ifdef ENABLE_SOUND
   syssnd_play(WAV_DIE, 1);
@@ -117,7 +117,7 @@ e_them_t1_action2(U8 e, U8 type)
   }
 
   /* test environment */
-  u_envtest(ent_ents[e].x, y, FALSE, &env0, &env1);
+  u_envtest(ent_ents[e].x, y, false, &env0, &env1);
 
   if (!(env1 & (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))) {
     /* vertical move possible: falling */
@@ -166,7 +166,7 @@ e_them_t1_action2(U8 e, U8 type)
   }
 
   /* test environment */
-  u_envtest(x, ent_ents[e].y, FALSE, &env0, &env1);
+  u_envtest(x, ent_ents[e].y, false, &env0, &env1);
 
   if (env1 & (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP)) {
     /* horizontal move not possible: u-turn and return */
@@ -349,7 +349,7 @@ e_them_t2_action2(U8 e)
   if (ent_ents[e].latency > 0) ent_ents[e].latency--;
 
   /* climbing? */
-  if (ent_ents[e].flgclmb != TRUE) goto climbing_not;
+  if (!ent_ents[e].flgclmb) goto climbing_not;
 
   /* CLIMBING */
 
@@ -369,7 +369,7 @@ e_them_t2_action2(U8 e)
     /* calc new x and test environment */
     ent_ents[e].offsx = (ent_ents[e].x < E_RICK_ENT.x) ? 0x02 : -0x02;
     x = ent_ents[e].x + ent_ents[e].offsx;
-    u_envtest(x, ent_ents[e].y, FALSE, &env0, &env1);
+    u_envtest(x, ent_ents[e].y, false, &env0, &env1);
     if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))
       return;
     if (env1 & MAP_EFLG_LETHAL) {
@@ -389,7 +389,7 @@ e_them_t2_action2(U8 e)
       ent_ents[e].n = 0;
       return;
     }
-    u_envtest(ent_ents[e].x, y, FALSE, &env0, &env1);
+    u_envtest(ent_ents[e].x, y, false, &env0, &env1);
     if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP)) {
       if (yd < 0)
 	goto xmove;  /* can't go up */
@@ -406,12 +406,12 @@ e_them_t2_action2(U8 e)
  climbing_not:
     /*sys_printf("e_them_t2 climbing NOT\n");*/
 
-    ent_ents[e].flgclmb = FALSE;  /* not climbing */
+    ent_ents[e].flgclmb = false;  /* not climbing */
 
     /* calc new y (falling) and test environment */
     i = (ent_ents[e].y << 8) + ent_ents[e].offsy + ent_ents[e].ylow;
     y = i >> 8;
-    u_envtest(ent_ents[e].x, y, FALSE, &env0, &env1);
+    u_envtest(ent_ents[e].x, y, false, &env0, &env1);
     if (!(env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))) {
       /*sys_printf("e_them_t2 y move OK\n");*/
       /* can go there */
@@ -434,7 +434,7 @@ e_them_t2_action2(U8 e)
       }
       if (((ent_ents[e].x & 0x07) == 0x04) && (y < E_RICK_ENT.y)) {
 	/*sys_printf("e_them_t2 climbing00\n");*/
-	ent_ents[e].flgclmb = TRUE;  /* climbing */
+	ent_ents[e].flgclmb = true;  /* climbing */
 	return;
       }
     }
@@ -450,7 +450,7 @@ e_them_t2_action2(U8 e)
 	((ent_ents[e].x & 0x0e) == 0x04) &&
 	(ent_ents[e].y > E_RICK_ENT.y)) {
       /*sys_printf("e_them_t2 climbing01\n");*/
-      ent_ents[e].flgclmb = TRUE;  /* climbing */
+      ent_ents[e].flgclmb = true;  /* climbing */
       return;
     }
 
@@ -467,7 +467,7 @@ e_them_t2_action2(U8 e)
     x = ent_ents[e].x + ent_ents[e].offsx;
     /*sys_printf("e_them_t2 xmove x=%02x\n", x);*/
     if (x < 0xe8) {
-      u_envtest(x, ent_ents[e].y, FALSE, &env0, &env1);
+      u_envtest(x, ent_ents[e].y, false, &env0, &env1);
       if (!(env1 & (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))) {
 	ent_ents[e].x = x;
 	if ((x & 0x1e) != 0x08)

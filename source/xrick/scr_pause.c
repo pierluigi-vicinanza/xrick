@@ -26,9 +26,9 @@
  * Display the pause indicator
  */
 void
-screen_pause(U8 pause)
+screen_pause(bool pause)
 {
-  if (pause == TRUE) {
+  if (pause) {
     draw_tilesBank = 0;
     draw_tllst = screen_pausedtxt;
     draw_setfb(120, 80);

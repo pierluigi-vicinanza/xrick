@@ -16,7 +16,7 @@
 
 U8 control_status = 0;
 U8 control_last = 0;
-U8 control_active = TRUE;
+bool control_active = true;
 
 /* eof */
 

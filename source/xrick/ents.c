@@ -41,8 +41,8 @@ rect_t *ent_rects = NULL;
  * prototypes
  */
 static void ent_addrect(S16, S16, U16, U16);
-static U8 ent_creat1(U8 *);
-static U8 ent_creat2(U8 *, U16);
+static bool ent_creat1(U8 *);
+static bool ent_creat2(U8 *, U16);
 
 
 /*
@@ -56,7 +56,7 @@ ent_reset(void)
   U8 i;
 
   E_RICK_STRST(E_RICK_STSTOP);
-  e_bomb_lethal = FALSE;
+  e_bomb_lethal = false;
 
   ent_ents[0].n = 0;
   for (i = 2; ent_ents[i].n != 0xff; i++)
@@ -72,19 +72,19 @@ ent_reset(void)
  * ASM 209C
  *
  * e: anything, CHANGED to the allocated entity number.
- * return: TRUE/OK FALSE/not
+ * return: true/OK false/not
  */
-static U8
+static bool
 ent_creat1(U8 *e)
 {
   /* look for a slot */
   for (*e = 0x04; *e < 0x09; (*e)++)
     if (ent_ents[*e].n == 0) {  /* if slot available, use it */
       ent_ents[*e].c1 = 0;
-      return TRUE;
+      return true;
     }
 
-  return FALSE;
+  return false;
 }
 
 
@@ -97,24 +97,24 @@ ent_creat1(U8 *e)
  *
  * e: anything, CHANGED to the allocated entity number.
  * m: number of the mark triggering the creation of the entity.
- * ret: TRUE/OK FALSE/not
+ * ret: true/OK false/not
  */
-static U8
+static bool
 ent_creat2(U8 *e, U16 m)
 {
   /* make sure the entity created by this mark is not active already */
   for (*e = 0x09; *e < 0x0c; (*e)++)
     if (ent_ents[*e].n != 0 && ent_ents[*e].mark == m)
-      return FALSE;
+      return false;
 
   /* look for a slot */
   for (*e = 0x09; *e < 0x0c; (*e)++)
     if (ent_ents[*e].n == 0) {  /* if slot available, use it */
       ent_ents[*e].c1 = 2;
-      return TRUE;
+      return true;
     }
 
-  return FALSE;
+  return false;
 }
 
 
@@ -275,7 +275,7 @@ ent_actvis(U8 frow, U8 lrow)
     ent_ents[e].offsy = 0;
     ent_ents[e].ylow = 0;
 
-    ent_ents[e].front = FALSE;
+    ent_ents[e].front = false;
 
   }
 }
@@ -336,7 +336,7 @@ ent_draw(void)
 {
   U8 i;
 #ifdef ENABLE_CHEATS
-  static U8 ch3 = FALSE;
+  static bool ch3 = false;
 #endif
   S16 dx, dy;
 
