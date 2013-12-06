@@ -15,6 +15,7 @@
 #define _DEBUG_H
 
 /* enable/disable subsystem debug */
+#undef DEBUG_MEMORY
 #undef DEBUG_ENTS
 #undef DEBUG_SCROLLER
 #undef DEBUG_MAPS
@@ -32,6 +33,12 @@
 #endif
 
 /* define IFDEBUG macros */
+#ifdef DEBUG_MEMORY
+#define IFDEBUG_MEMORY(X); X
+#else
+#define IFDEBUG_MEMORY(X);
+#endif
+
 #ifdef DEBUG_ENTS
 #define IFDEBUG_ENTS(X); X
 #else

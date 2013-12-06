@@ -18,7 +18,6 @@
 #include "zlib/unzip.h"
 
 #include <stdio.h>  /* sprintf */
-#include <stdlib.h>  /* malloc */
 #include <sys/stat.h> /* fstat */
 
 /*
@@ -53,7 +52,7 @@ data_setRootPath(const char *name)
         rootPath.zip = unzOpen(rootPath.name);
         if (!rootPath.zip) 
         {
-            free(rootPath.name);
+            sysmem_pop(rootPath.name);
             sys_panic("(data) can not open data");
         } 
 	} 
@@ -74,7 +73,7 @@ data_closeRootPath()
         unzClose(rootPath.zip);
 		rootPath.zip = NULL;
 	}
-	free(rootPath.name);
+	sysmem_pop(rootPath.name);
 	rootPath.name = NULL;
 }
 
@@ -97,11 +96,11 @@ data_file_open(const char *name)
     else /* uncompressed file */
     {
         FILE *fh;
-        char *fullPath = malloc(strlen(rootPath.name) + strlen(name) + 2);
+        char *fullPath = sysmem_push(strlen(rootPath.name) + strlen(name) + 2);
         sprintf(fullPath, "%s/%s", rootPath.name, name);
         str_toNativeSeparators(fullPath);
         fh = fopen(fullPath, "rb");
-        free(fullPath);
+        sysmem_pop(fullPath);
         return (data_file_t *)fh;
     }
 }
@@ -215,7 +214,7 @@ str_dup(const char *s)
 	int i;
 
 	i = strlen(s) + 1;
-	s1 = malloc(i);
+	s1 = sysmem_push(i);
 	strncpy(s1, s, i);
 	return s1;
 }

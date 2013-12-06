@@ -100,6 +100,7 @@ void
 sys_init(int argc, char **argv)
 {
 	sysarg_init(argc, argv);
+    sysmem_init();
 	sysvid_init();
 #ifdef ENABLE_JOYSTICK
 	sysjoy_init();
@@ -126,6 +127,7 @@ sys_shutdown(void)
 	sysjoy_shutdown();
 #endif
 	sysvid_shutdown();
+    sysmem_shutdown();
 }
 
 /* eof */

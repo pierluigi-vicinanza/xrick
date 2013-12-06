@@ -12,8 +12,7 @@
  */
 
 #include "rects.h"
-
-#include <stdlib.h>  /* malloc */
+#include "system/system.h"
 
 /*
  * Free a list of rectangles and set the pointer to NULL.
@@ -21,11 +20,13 @@
  * p: rectangle list CHANGED to NULL
  */
 void
-rects_free(rect_t *r) {
-  if (r) {
-    rects_free(r->next);
-    free(r);
-  }
+rects_free(rect_t *r)
+{
+    if (r) 
+    {
+        rects_free(r->next);
+        sysmem_pop(r);
+    }
 }
 
 
@@ -35,15 +36,15 @@ rects_free(rect_t *r) {
 rect_t *
 rects_new(U16 x, U16 y, U16 width, U16 height, rect_t *next)
 {
-  rect_t *r;
+    rect_t *r;
 
-  r = malloc(sizeof *r);
-  r->x = x;
-  r->y = y;
-  r->width = width;
-  r->height = height;
-  r->next = next;
-  return r;
+    r = sysmem_push(sizeof(*r));
+    r->x = x;
+    r->y = y;
+    r->width = width;
+    r->height = height;
+    r->next = next;
+    return r;
 }
 
 /* eof */
