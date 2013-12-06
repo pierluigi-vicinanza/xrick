@@ -32,7 +32,7 @@ extern U16 draw_filter;
 #endif
 extern U8 draw_tilesBank;
 extern rect_t draw_STATUSRECT;
-extern rect_t draw_SCREENRECT;
+extern const rect_t draw_SCREENRECT;
 
 extern void draw_setfb(U16, U16);
 extern bool draw_clipms(S16 *, S16 *, U16 *, U16 *);

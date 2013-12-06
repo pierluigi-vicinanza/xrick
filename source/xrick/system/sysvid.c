@@ -221,7 +221,7 @@ sysvid_shutdown(void)
  * NOTE errors processing ?
  */
 void
-sysvid_update(rect_t *rects)
+sysvid_update(const rect_t *rects)
 {
   static SDL_Rect area;
   U16 x, y, xz, yz;

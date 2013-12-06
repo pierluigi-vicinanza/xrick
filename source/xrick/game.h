@@ -51,7 +51,7 @@ extern bool game_chsm;       /* change submap request (true, false) */
 extern bool game_waitevt;    /* wait for events (true, false) */
 extern U8 game_period;     /* time between each frame, in millisecond */
 
-extern rect_t *game_rects; /* rectangles to redraw at each frame */
+extern const rect_t *game_rects; /* rectangles to redraw at each frame */
 
 extern void game_run(void);
 extern void game_setmusic(char *name, U8 loop);

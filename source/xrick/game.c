@@ -53,7 +53,7 @@ typedef enum {
  */
 U8 game_period = 0;
 bool game_waitevt = false;
-rect_t *game_rects = NULL;
+const rect_t *game_rects = NULL;
 
 U8 game_lives = 0;
 U8 game_bombs = 0;
@@ -637,28 +637,26 @@ play0(void)
 static void
 play3(void)
 {
-  static rect_t *r;
+    draw_clearStatus();  /* clear the status bar */
+    ent_draw();          /* draw all entities onto the buffer */
+    /* sound */
+    draw_drawStatus();   /* draw the status bar onto the buffer*/
 
-  draw_clearStatus();  /* clear the status bar */
-  ent_draw();          /* draw all entities onto the buffer */
-  /* sound */
-  draw_drawStatus();   /* draw the status bar onto the buffer*/
+    game_rects = &draw_STATUSRECT; /* refresh status bar too */
+    draw_STATUSRECT.next = ent_rects;  /* take care to cleanup draw_STATUSRECT->next later! */
 
-  r = &draw_STATUSRECT; r->next = ent_rects;  /* refresh status bar too */
-  game_rects = r;  /* take care to cleanup draw_STATUSRECT->next later! */
-
-  if (!E_RICK_STTST(E_RICK_STZOMBIE)) {  /* need to scroll ? */
-    if (ent_ents[1].y >= 0xCC) {
-      game_state = SCROLL_UP;
-      return;
+    if (!E_RICK_STTST(E_RICK_STZOMBIE)) {  /* need to scroll ? */
+        if (ent_ents[1].y >= 0xCC) {
+            game_state = SCROLL_UP;
+            return;
+        }
+        if (ent_ents[1].y <= 0x60) {
+            game_state = SCROLL_DOWN;
+            return;
+        }
     }
-    if (ent_ents[1].y <= 0x60) {
-      game_state = SCROLL_DOWN;
-      return;
-    }
-  }
 
-  game_state = PLAY0;
+    game_state = PLAY0;
 }
 
 

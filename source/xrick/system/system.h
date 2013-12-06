@@ -81,7 +81,7 @@ extern void sysmem_pop(void *);
 
 extern void sysvid_init(void);
 extern void sysvid_shutdown(void);
-extern void sysvid_update(rect_t *);
+extern void sysvid_update(const rect_t *);
 extern void sysvid_clear(void);
 extern void sysvid_zoom(S8);
 extern void sysvid_toggleFullscreen(void);
