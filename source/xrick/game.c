@@ -205,40 +205,44 @@ game_stopmusic(void)
 void
 game_run(void)
 {
-  U32 tm, tmx;
+    U32 tm, tmx;
 
-	loaddata(); /* load cached data */
+    loaddata(); /* load cached data */
 
-	game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
-	tm = sys_gettime();
-	game_state = XRICK;
+    game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
+    tm = sys_gettime();
+    game_state = XRICK;
 
-	/* main loop */
-	while (game_state != EXIT) {
+    /* main loop */
+    while (game_state != EXIT) 
+    {
+        /* timer */
+        tmx = tm; tm = sys_gettime(); tmx = tm - tmx;
+        if (tmx < game_period) sys_sleep(game_period - tmx);
 
-		/* timer */
-		tmx = tm; tm = sys_gettime(); tmx = tm - tmx;
-		if (tmx < game_period) sys_sleep(game_period - tmx);
+        /* frame */
+        frame();
 
-		/* video */
-		/*DEBUG*//*game_rects=&draw_SCREENRECT;*//*DEBUG*/
-		sysvid_update(game_rects);
-		draw_STATUSRECT.next = NULL;  /* FIXME freerects should handle this */
+        /* video */
+        /*DEBUG*//*game_rects=&draw_SCREENRECT;*//*DEBUG*/
+        sysvid_update(game_rects);
 
-		/* sound */
-		/*snd_mix();*/
+        /* reset rectangles list */
+        rects_free(ent_rects);
+        ent_rects = NULL;
+        draw_STATUSRECT.next = NULL;  /* FIXME freerects should handle this */
 
-		/* events */
-		if (game_waitevt)
-			sysevt_wait();  /* wait for an event */
-		else
-			sysevt_poll();  /* process events (non-blocking) */
+        /* sound */
+        /*snd_mix();*/
 
-		/* frame */
-		frame();
-	}
+        /* events */
+        if (game_waitevt)
+            sysevt_wait();  /* wait for an event */
+        else
+            sysevt_poll();  /* process events (non-blocking) */
+    }
 
-	freedata(); /* free cached data */
+    freedata(); /* free cached data */
 }
 
 /*
