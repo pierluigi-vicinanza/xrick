@@ -31,7 +31,7 @@ typedef struct {
 typedef struct {
   U32 score;
   U8 name[10];
-} hi_score_t;
+} hiscore_t;
 
 enum { SCREEN_NBR_IMAPSL = 22 };
 extern U8 screen_imapsl[SCREEN_NBR_IMAPSL];  /* sprite lists */
@@ -46,7 +46,7 @@ enum { SCREEN_NBR_IMAPTEXT = 5 };
 extern U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT];  /* map intro texts */
 
 enum { SCREEN_NBR_HISCORES = 8 };
-extern hi_score_t screen_highScores[SCREEN_NBR_HISCORES];  /* highest scores (hall of fame) */
+extern hiscore_t screen_highScores[SCREEN_NBR_HISCORES];  /* highest scores (hall of fame) */
 
 
 #ifdef GFXPC

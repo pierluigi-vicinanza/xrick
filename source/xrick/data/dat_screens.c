@@ -247,7 +247,7 @@ U8 screen_pausedtxt[] = "\
  *  high score table
  */
 #ifdef GFXST
-hi_score_t screen_highScores[SCREEN_NBR_HISCORES] = {
+hiscore_t screen_highScores[SCREEN_NBR_HISCORES] = {
   { 8000, "SIMES@@@@@" },
   { 7000, "JAYNE@@@@@" },
   { 6000, "DANGERSTU@" },
@@ -259,7 +259,7 @@ hi_score_t screen_highScores[SCREEN_NBR_HISCORES] = {
 };
 #endif
 #ifdef GFXPC
-hi_score_t screen_highScores[SCREEN_NBR_HISCORES] = {
+hiscore_t screen_highScores[SCREEN_NBR_HISCORES] = {
   { 8000, "DANGERSTU@" },
   { 7000, "SIMES@@@@@" },
   { 6000, "KEN@T@ZEN@" },
