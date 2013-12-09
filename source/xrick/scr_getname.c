@@ -51,177 +51,196 @@ static void name_draw(void);
 U8
 screen_getname(void)
 {
-  static U32 tm = 0;
-  U8 i, j;
+    static U32 tm = 0;
+    U8 i, j;
 
-  if (seq == 0) {
-    /* figure out if this is a high score */
-    if (game_score < game_hscores[7].score)
-      return SCREEN_DONE;
+    if (seq == 0) 
+    {
+        /* figure out if this is a high score */
+        if (game_score < screen_highScores[SCREEN_NBR_HISCORES - 1].score)
+            return SCREEN_DONE;
 
-    /* prepare */
-    draw_tilesBank = 0;
+        /* prepare */
+        draw_tilesBank = 0;
 #ifdef GFXPC
-    draw_filter = 0xffff;
+        draw_filter = 0xffff;
 #endif
-    for (i = 0; i < 10; i++)
-      name[i] = '@';
-    x = 5, y = 4, p = 0;
-    game_rects = &draw_SCREENRECT;
-    seq = 1;
-  }
+        for (i = 0; i < 10; i++)
+            name[i] = '@';
+        x = 5, y = 4, p = 0;
+        game_rects = &draw_SCREENRECT;
+        seq = 1;
+    }
 
-  switch (seq) {
-  case 1:  /* prepare screen */
-    sysvid_clear();
+    switch (seq) 
+    {
+        case 1:  /* prepare screen */
+        {
+            sysvid_clear();
 #ifdef GFXPC
-    draw_setfb(32, 8);
-    draw_filter = 0xaaaa; /* red */
-    draw_tilesListImm(screen_congrats);
+            draw_setfb(32, 8);
+            draw_filter = 0xaaaa; /* red */
+            draw_tilesListImm(screen_congrats);
 #endif
 #ifdef GFXST
-    draw_pic(PIC_CONGRATS);
+            draw_pic(PIC_CONGRATS);
 #endif
-    draw_setfb(72, 40);
+            draw_setfb(72, 40);
 #ifdef GFXPC
-    draw_filter = 0xffff; /* yellow */
+            draw_filter = 0xffff; /* yellow */
 #endif
-    draw_tilesListImm((U8 *)"PLEASE@ENTER@YOUR@NAME\376");
+            draw_tilesListImm((U8 *)"PLEASE@ENTER@YOUR@NAME\376");
 #ifdef GFXPC
-    draw_filter = 0x5555; /* green */
+            draw_filter = 0x5555; /* green */
 #endif
-    for (i = 0; i < 6; i++)
-      for (j = 0; j < 4; j++) {
-	draw_setfb(TOPLEFT_X + i * 8 * 2, TOPLEFT_Y + j * 8 * 2);
-	draw_tile('A' + i + j * 6);
-      }
-    draw_setfb(TOPLEFT_X, TOPLEFT_Y + 64);
+            for (i = 0; i < 6; i++)
+            {
+                for (j = 0; j < 4; j++) 
+                {
+                    draw_setfb(TOPLEFT_X + i * 8 * 2, TOPLEFT_Y + j * 8 * 2);
+                    draw_tile('A' + i + j * 6);
+                }
+            }
+            draw_setfb(TOPLEFT_X, TOPLEFT_Y + 64);
 #ifdef GFXST
-    draw_tilesListImm((U8 *)"Y@Z@.@@@\074\373\374\375\376");
+            draw_tilesListImm((U8 *)"Y@Z@.@@@\074\373\374\375\376");
 #endif
 #ifdef GFXPC
-    draw_tilesListImm((U8 *)"Y@Z@.@@@\074@\075@\376");
+            draw_tilesListImm((U8 *)"Y@Z@.@@@\074@\075@\376");
 #endif
-    name_draw();
-    pointer_show(true);
-    seq = 2;
-    break;
+            name_draw();
+            pointer_show(true);
+            seq = 2;
+            break;
+        }
+        case 2:  /* wait for key pressed */
+        {
+            if (control_status & CONTROL_FIRE)
+                seq = 3;
+            if (control_status & CONTROL_UP) {
+                if (y > 0) {
+                    pointer_show(false);
+                    y--;
+                    pointer_show(true);
+                    tm = sys_gettime();
+                }
+                seq = 4;
+            }
+            if (control_status & CONTROL_DOWN) {
+                if (y < 4) {
+                    pointer_show(false);
+                    y++;
+                    pointer_show(true);
+                    tm = sys_gettime();
+                }
+                seq = 5;
+            }
+            if (control_status & CONTROL_LEFT) {
+                if (x > 0) {
+                    pointer_show(false);
+                    x--;
+                    pointer_show(true);
+                    tm = sys_gettime();
+                }
+                seq = 6;
+            }
+            if (control_status & CONTROL_RIGHT) {
+                if (x < 5) {
+                    pointer_show(false);
+                    x++;
+                    pointer_show(true);
+                    tm = sys_gettime();
+                }
+                seq = 7;
+            }
+            if (seq == 2)
+                sys_sleep(50);
+            break;
+        }
+        case 3:  /* wait for FIRE released */
+        {
+            if (!(control_status & CONTROL_FIRE)) 
+            {
+                if (x == 5 && y == 4) 
+                {  /* end */
+                    i = 0;
+                    while (game_score < screen_highScores[i].score) i++;
+                    j = 7;
+                    while (j > i) 
+                    {
+                        screen_highScores[j].score = screen_highScores[j - 1].score;
+                        for (x = 0; x < 10; x++)
+                        {
+                            screen_highScores[j].name[x] = screen_highScores[j - 1].name[x];
+                        }
+                        j--;
+                    }
+                    screen_highScores[i].score = game_score;
+                    for (x = 0; x < 10; x++)
+                    {
+                        screen_highScores[i].name[x] = name[x];
+                    }
+                    seq = 99;
+                }
+                else 
+                {
+                    name_update();
+                    name_draw();
+                    seq = 2;
+                }
+            }
+            else
+                sys_sleep(50);
+            break;
+        }
+        case 4:  /* wait for UP released */
+        {
+            if (!(control_status & CONTROL_UP) ||
+                sys_gettime() - tm > AUTOREPEAT_TMOUT)
+                seq = 2;
+            else
+                sys_sleep(50);
+            break;
+        }
+        case 5:  /* wait for DOWN released */
+        {
+            if (!(control_status & CONTROL_DOWN) ||
+                sys_gettime() - tm > AUTOREPEAT_TMOUT)
+                seq = 2;
+            else
+                sys_sleep(50);
+            break;
+        }
+        case 6:  /* wait for LEFT released */
+        {
+            if (!(control_status & CONTROL_LEFT) ||
+                sys_gettime() - tm > AUTOREPEAT_TMOUT)
+                seq = 2;
+            else
+                sys_sleep(50);
+            break;
+        }
+        case 7:  /* wait for RIGHT released */
+        {
+            if (!(control_status & CONTROL_RIGHT) ||
+                sys_gettime() - tm > AUTOREPEAT_TMOUT)
+                seq = 2;
+            else
+                sys_sleep(50);
+            break;
+        }
+    }
 
-  case 2:  /* wait for key pressed */
-    if (control_status & CONTROL_FIRE)
-      seq = 3;
-    if (control_status & CONTROL_UP) {
-      if (y > 0) {
-	pointer_show(false);
-	y--;
-	pointer_show(true);
-	tm = sys_gettime();
-      }
-      seq = 4;
-    }
-    if (control_status & CONTROL_DOWN) {
-      if (y < 4) {
-	pointer_show(false);
-	y++;
-	pointer_show(true);
-	tm = sys_gettime();
-      }
-      seq = 5;
-    }
-    if (control_status & CONTROL_LEFT) {
-      if (x > 0) {
-	pointer_show(false);
-	x--;
-	pointer_show(true);
-	tm = sys_gettime();
-      }
-      seq = 6;
-    }
-    if (control_status & CONTROL_RIGHT) {
-      if (x < 5) {
-	pointer_show(false);
-	x++;
-	pointer_show(true);
-	tm = sys_gettime();
-      }
-      seq = 7;
-    }
-    if (seq == 2)
-      sys_sleep(50);
-    break;
+    if (control_status & CONTROL_EXIT)  /* check for exit request */
+        return SCREEN_EXIT;
 
-  case 3:  /* wait for FIRE released */
-    if (!(control_status & CONTROL_FIRE)) {
-      if (x == 5 && y == 4) {  /* end */
-	i = 0;
-	while (game_score < game_hscores[i].score)
-	  i++;
-	j = 7;
-	while (j > i) {
-	  game_hscores[j].score = game_hscores[j - 1].score;
-	  for (x = 0; x < 10; x++)
-	    game_hscores[j].name[x] = game_hscores[j - 1].name[x];
-	  j--;
-	}
-	game_hscores[i].score = game_score;
-	for (x = 0; x < 10; x++)
-	  game_hscores[i].name[x] = name[x];
-	seq = 99;
-      }
-      else {
-	name_update();
-	name_draw();
-	seq = 2;
-      }
+    if (seq == 99) {  /* seq 99, we're done */
+        sysvid_clear();
+        seq = 0;
+        return SCREEN_DONE;
     }
     else
-      sys_sleep(50);
-    break;
-
-  case 4:  /* wait for UP released */
-    if (!(control_status & CONTROL_UP) ||
-	sys_gettime() - tm > AUTOREPEAT_TMOUT)
-      seq = 2;
-    else
-      sys_sleep(50);
-    break;
-
-  case 5:  /* wait for DOWN released */
-    if (!(control_status & CONTROL_DOWN) ||
-	sys_gettime() - tm > AUTOREPEAT_TMOUT)
-      seq = 2;
-    else
-      sys_sleep(50);
-    break;
-
-  case 6:  /* wait for LEFT released */
-    if (!(control_status & CONTROL_LEFT) ||
-	sys_gettime() - tm > AUTOREPEAT_TMOUT)
-      seq = 2;
-    else
-      sys_sleep(50);
-    break;
-
-  case 7:  /* wait for RIGHT released */
-    if (!(control_status & CONTROL_RIGHT) ||
-	sys_gettime() - tm > AUTOREPEAT_TMOUT)
-      seq = 2;
-    else
-      sys_sleep(50);
-    break;
-
-  }
-
-  if (control_status & CONTROL_EXIT)  /* check for exit request */
-    return SCREEN_EXIT;
-
-  if (seq == 99) {  /* seq 99, we're done */
-    sysvid_clear();
-    seq = 0;
-    return SCREEN_DONE;
-  }
-  else
-    return SCREEN_RUNNING;
+        return SCREEN_RUNNING;
 }
 
 

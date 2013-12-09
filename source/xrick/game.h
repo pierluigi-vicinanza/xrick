@@ -29,18 +29,11 @@
 #define GAME_BOMBS_INIT 6
 #define GAME_BULLETS_INIT 6
 
-typedef struct {
-  U32 score;
-  U8 name[10];
-} hscore_t;
-
 extern U8 game_lives;      /* lives counter */
 extern U8 game_bombs;      /* bombs counter */
 extern U8 game_bullets;    /* bullets counter */
 
 extern U32 game_score;     /* score */
-
-extern hscore_t game_hscores[8];  /* highest scores (hall of fame) */
 
 extern U16 game_map;       /* current map */
 extern U16 game_submap;    /* current submap */

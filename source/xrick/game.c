@@ -70,30 +70,6 @@ U8 game_cheat1 = 0;
 U8 game_cheat2 = 0;
 U8 game_cheat3 = 0;
 
-#ifdef GFXST
-hscore_t game_hscores[8] = {
-  { 8000, "SIMES@@@@@" },
-  { 7000, "JAYNE@@@@@" },
-  { 6000, "DANGERSTU@" },
-  { 5000, "KEN@@@@@@@" },
-  { 4000, "ROB@N@BOB@" },
-  { 3000, "TELLY@@@@@" },
-  { 2000, "NOBBY@@@@@" },
-  { 1000, "JEZEBEL@@@" }
-};
-#endif
-#ifdef GFXPC
-hscore_t game_hscores[8] = {
-  { 8000, "DANGERSTU@" },
-  { 7000, "SIMES@@@@@" },
-  { 6000, "KEN@T@ZEN@" },
-  { 5000, "BOBBLE@@@@" },
-  { 4000, "GREG@LAA@@" },
-  { 3000, "TELLY@@@@@" },
-  { 2000, "CHIGLET@@@" },
-  { 1000, "ANDYSPLEEN" }
-};
-#endif
 #ifdef ENABLE_SOUND
 sound_t *WAV_GAMEOVER;
 sound_t *WAV_SBONUS2;

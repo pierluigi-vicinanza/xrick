@@ -220,7 +220,7 @@ U8 screen_imaincdc[] = "\
 (C)@1989@CORE@DESIGN\377\377\377\
 @PRESS@SPACE@TO@START\376";
 
-#endif /* GFXST */
+#endif /* GFXPC */
 
 /*
  * gameover
@@ -242,6 +242,35 @@ U8 screen_pausedtxt[] = "\
 @@@@@@@@@@\377\
 @@PAUSED@@\377\
 @@@@@@@@@@\376";
+
+/*
+ *  high score table
+ */
+#ifdef GFXST
+hi_score_t screen_highScores[SCREEN_NBR_HISCORES] = {
+  { 8000, "SIMES@@@@@" },
+  { 7000, "JAYNE@@@@@" },
+  { 6000, "DANGERSTU@" },
+  { 5000, "KEN@@@@@@@" },
+  { 4000, "ROB@N@BOB@" },
+  { 3000, "TELLY@@@@@" },
+  { 2000, "NOBBY@@@@@" },
+  { 1000, "JEZEBEL@@@" }
+};
+#endif
+#ifdef GFXPC
+hi_score_t screen_highScores[SCREEN_NBR_HISCORES] = {
+  { 8000, "DANGERSTU@" },
+  { 7000, "SIMES@@@@@" },
+  { 6000, "KEN@T@ZEN@" },
+  { 5000, "BOBBLE@@@@" },
+  { 4000, "GREG@LAA@@" },
+  { 3000, "TELLY@@@@@" },
+  { 2000, "CHIGLET@@@" },
+  { 1000, "ANDYSPLEEN" }
+};
+#endif
+
 
 /* eof */
 
