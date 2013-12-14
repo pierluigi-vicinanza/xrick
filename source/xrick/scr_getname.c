@@ -65,7 +65,7 @@ screen_getname(void)
 #ifdef GFXPC
         draw_filter = 0xffff;
 #endif
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < HISCORE_NAME_SIZE; i++)
             name[i] = '@';
         x = 5, y = 4, p = 0;
         game_rects = &draw_SCREENRECT;
@@ -169,14 +169,14 @@ screen_getname(void)
                     while (j > i) 
                     {
                         screen_highScores[j].score = screen_highScores[j - 1].score;
-                        for (x = 0; x < 10; x++)
+                        for (x = 0; x < HISCORE_NAME_SIZE; x++)
                         {
                             screen_highScores[j].name[x] = screen_highScores[j - 1].name[x];
                         }
                         j--;
                     }
                     screen_highScores[i].score = game_score;
-                    for (x = 0; x < 10; x++)
+                    for (x = 0; x < HISCORE_NAME_SIZE; x++)
                     {
                         screen_highScores[i].name[x] = name[x];
                     }

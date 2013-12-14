@@ -28,9 +28,10 @@ typedef struct {
   U16 base;  /* base for sprite numbers table */
 } screen_imapsteps_t;  /* description of one step */
 
+enum { HISCORE_NAME_SIZE = 10 };
 typedef struct {
   U32 score;
-  U8 name[10];
+  U8 name[HISCORE_NAME_SIZE];
 } hiscore_t;
 
 enum { SCREEN_NBR_IMAPSL = 22 };
