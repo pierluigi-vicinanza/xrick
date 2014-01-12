@@ -111,7 +111,7 @@ data_file_open(const char *name)
 off_t
 data_file_size(data_file_t *file)
 {
-	off_t size = 0;
+	off_t size = -1;
     if (rootPath.zip)
     {
         /* not implemented */
