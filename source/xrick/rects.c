@@ -22,10 +22,11 @@
 void
 rects_free(rect_t *r)
 {
-    if (r) 
+    while (r)
     {
-        rects_free(r->next);
+        rect_t * next = r->next;
         sysmem_pop(r);
+        r = next;
     }
 }
 
