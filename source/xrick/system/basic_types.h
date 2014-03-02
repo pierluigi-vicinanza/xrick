@@ -20,29 +20,27 @@ typedef enum { false, true } bool;
 
 #define inline __inline
 
-typedef unsigned __int8  U8;
-typedef unsigned __int16 U16;
-typedef unsigned __int32 U32;
-typedef          __int8  S8;
-typedef          __int16 S16;
-typedef          __int32 S32;
+typedef unsigned __int8  uint8_t;
+typedef unsigned __int16 uint16_t;
+typedef unsigned __int32 uint32_t;
+typedef          __int8  int8_t;
+typedef          __int16 int16_t;
+typedef          __int32 int32_t;
 
 #else /* ndef _MSC_VER */
 
 #include <stdbool.h>
-
 #include <stdint.h>
-typedef uint8_t U8;         /*  8 bits unsigned */
-typedef uint16_t U16;   /* 16 bits unsigned */
-typedef uint32_t U32;         /* 32 bits unsigned */
-typedef int8_t S8;           /*  8 bits signed   */
-typedef int16_t S16;     /* 16 bits signed   */
-typedef int32_t S32;           /* 32 bits signed   */
 
 #endif /* def _MSC_VER */
 
-#endif
+typedef uint8_t U8;   /*  8 bits unsigned */
+typedef uint16_t U16; /* 16 bits unsigned */
+typedef uint32_t U32; /* 32 bits unsigned */
+typedef int8_t S8;    /*  8 bits signed   */
+typedef int16_t S16;  /* 16 bits signed   */
+typedef int32_t S32;  /* 32 bits signed   */
+
+#endif /* ndef _BASIC_TYPES_H */
 
 /* eof */
-
-
