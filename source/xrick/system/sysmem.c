@@ -85,6 +85,11 @@ void sysmem_pop(void * alignedPtr)
 {
     size_t allocatedSize;
 
+    if (!alignedPtr) 
+    {
+        return;
+    }
+
     if (stackSize == 0)
     {
         sys_panic("(memory) tried to release a block when memory empty");
