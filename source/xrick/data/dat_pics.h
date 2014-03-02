@@ -1,7 +1,7 @@
 /*
- * xrick/data/dat_picsPC.c
+ * xrick/data/dat_pics.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -11,10 +11,21 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_pics.h"
+#ifndef _DAT_PICS_H
+#define _DAT_PICS_H
 
-#ifdef GFXPC
+#include "pics.h"
 
-#endif /* GFXPC */
+#ifdef GFXST
+
+extern pic_t *PIC_HAF;
+extern pic_t *PIC_CONGRATS;
+extern pic_t *PIC_SPLASH;
+
+#endif /* GFXST */
+
+#endif /* ndef _DAT_PICS_H */
 
 /* eof */
+
+

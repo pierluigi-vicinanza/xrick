@@ -13,6 +13,7 @@
 
 #include "sysvid.h"
 
+#include "draw.h"
 #include "game.h"
 #include "img.h"
 #include "debug.h"
@@ -34,17 +35,6 @@ static U8 szoom = 0;  /* saved zoom level */
 static U8 fszoom = 0;  /* fullscreen zoom level */
 
 #include "data/img_icon.e"
-
-
-/*
- * color tables
- */
-#ifdef GFXPC
-#include "data/sysvid_palettePC.e"
-#endif
-#ifdef GFXST
-#include "data/sysvid_paletteST.e"
-#endif
 
 /*
  * Initialize screen
@@ -77,7 +67,7 @@ sysvid_restorePalette()
 void
 sysvid_setGamePalette()
 {
-  sysvid_setPalette(GAME_COLORS, GAME_COLOR_COUNT);
+  sysvid_setPalette(game_colors, game_color_count);
 }
 
 /*

@@ -28,9 +28,9 @@ typedef struct {
   U32 *pixels;
 } pic_t;
 
-extern pic_t *PIC_HAF;
-extern pic_t *PIC_CONGRATS;
-extern pic_t *PIC_SPLASH;
+extern pic_t *pic_haf;
+extern pic_t *pic_congrats;
+extern pic_t *pic_splash;
 
 #endif /* GFXST */
 

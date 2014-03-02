@@ -11,12 +11,12 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "screens.h"
+#include "dat_screens.h"
 
 /*
  * map intro, sprites lists
  */
-U8 screen_imapsl[] = {
+U8 SCREEN_IMAPSL[SCREEN_NBR_IMAPSL] = {
   0x1b, 0x00,
   0x1c, 0x1d, 0x00,
   0x01, 0x00,
@@ -30,7 +30,7 @@ U8 screen_imapsl[] = {
 /*
  * map intro, steps
  */
-screen_imapsteps_t screen_imapsteps[] = {
+screen_imapsteps_t SCREEN_IMAPSTEPS[SCREEN_NBR_IMAPSTESPS] = {
   { 0x0000, 0x0002, 0x0002, 0x0000 },
 
   { 0x000b, 0x0000, 0x0001, 0x0000 },
@@ -69,7 +69,7 @@ screen_imapsteps_t screen_imapsteps[] = {
 /*
  * map intro, step offset per map
  */
-U8 screen_imapsofs[] = {
+U8 SCREEN_IMAPSOFS[SCREEN_NBR_IMAPSOFS] = {
   0x00, 0x03, 0x07, 0x0a, 0x0f
 };
 
@@ -79,7 +79,7 @@ U8 screen_imapsofs[] = {
  *
  * \376=0xfe \377=0xff
  */
-U8 screen_imaptext_amazon[] = "\
+U8 SCREEN_IMAPTEXT_AMAZON[] = "\
 @@@@@SOUTH@AMERICA@@1945@@@@@@\377\
 RICK@DANGEROUS@CRASH@LANDS@HIS\377\
 @PLANE@OVER@THE@AMAZON@WHILE@@\377\
@@ -91,7 +91,7 @@ FATE@HE@LANDS@IN@THE@MIDDLE@OF\377\
 @@CAN@RICK@ESCAPE@THESE@ANGRY@\377\
 @@@AMAZONIAN@ANTAGONISTS?@@@@@\376";
 
-U8 screen_imaptext_egypt[] = "\
+U8 SCREEN_IMAPTEXT_EGYPT[] = "\
 @@@@EGYPT,@SOMETIME@LATER@@@@@\377\
 RICK@HEADS@FOR@THE@PYRAMIDS@AT\377\
 @@@@THE@REQUEST@OF@LONDON.@@@@\377\377\
@@ -102,7 +102,7 @@ FANATICS@WHO@THREATEN@TO@SMASH\377\
 CAN@RICK@SAVE@THE@GEM,@OR@WILL\377\
 HE@JUST@GET@A@BROKEN@ANKHEL@?@\376";
 
-U8 screen_imaptext_castle[] = "\
+U8 SCREEN_IMAPTEXT_CASTLE[] = "\
 @@@@EUROPE,@LATER@THAT@WEEK@@@\377\
 @@RICK@RECEIVES@A@COMMUNIQUE@@\377\
 @@FROM@BRITISH@INTELLIGENCE@@@\377\
@@ -113,7 +113,7 @@ U8 screen_imaptext_castle[] = "\
 @@@BUT@CAN@HE@LIBERATE@THE@@@@\377\
 @CRUELLY@CAPTURED@COMMANDOS@?@\376";
 
-U8 screen_imaptext_missile[] = "\
+U8 SCREEN_IMAPTEXT_MISSILE[] = "\
 @@@@@@EUROPE,@EVEN@LATER@@@@@@\377\
 RICK@LEARNS@FROM@THE@PRISONERS\377\
 @THAT@THE@ENEMY@ARE@TO@LAUNCH@\377\
@@ -123,7 +123,7 @@ WITHOUT@HESITATION,@HE@DECIDES\377\
 @@@TO@INFILTRATE@THE@BASE.@@@@\377\377\
 CAN@RICK@SAVE@LONDON@IN@TIME@?\376";
 
-U8 screen_imaptext_muchlater[] = "\
+U8 SCREEN_IMAPTEXT_MUCHLATER[] = "\
 @@@LONDON,@MUCH,@MUCH@LATER@@@\377\
 @RICK@RETURNS@TO@A@TRIUMPHANT@\377\
 @@WELCOME@HOME@HAVING@HELPED@@\377\
@@ -134,12 +134,12 @@ BUT,@MEANWHILE,@IN@SPACE,@THE@\377\
 @@@@@TO@INVADE@THE@EARTH.@@@@@\377\377\
 @WHAT@WILL@RICK@DO@NEXT@...@?@\376";
 
-U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT] =
-{ screen_imaptext_amazon,
-  screen_imaptext_egypt,
-  screen_imaptext_castle,
-  screen_imaptext_missile,
-  screen_imaptext_muchlater
+U8 *SCREEN_IMAPTEXT[SCREEN_NBR_IMAPTEXT] =
+{ SCREEN_IMAPTEXT_AMAZON,
+  SCREEN_IMAPTEXT_EGYPT,
+  SCREEN_IMAPTEXT_CASTLE,
+  SCREEN_IMAPTEXT_MISSILE,
+  SCREEN_IMAPTEXT_MUCHLATER
 };
 
 #ifdef GFXPC
@@ -147,7 +147,7 @@ U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT] =
  * main intro, hall of fame title
  * (from ds + 0x8810 + 0x2642)
  */
-U8 screen_imainhoft[] =
+U8 SCREEN_IMAINHOFT[] =
 { 0x2f, 0x2f, 0x2f, 0x2f, 0x2f, 0xd4, 0xb7, 0xb1,
   0xac, 0xc6, 0x2f, 0xc6, 0x2f, 0x2f, 0xa4, 0xac,
   0x9b, 0xc1, 0x2f, 0x9b, 0xc1, 0xb1, 0xac, 0xb6,
@@ -169,7 +169,7 @@ U8 screen_imainhoft[] =
  * main intro, Rick Dangerous title
  * (from ds + 0x8810 + 0x27a1)
  */
-U8 screen_imainrdt[] =
+U8 SCREEN_IMAINRDT[] =
 { 0x2f, 0x2f, 0x2f, 0x9b, 0x9c, 0xa1, 0xa4, 0xa5,
   0xa9, 0xaa, 0x2f, 0x9b, 0xac, 0xb1, 0xac, 0xb6,
   0xb7, 0xa4, 0xa5, 0x9b, 0xc1, 0x9b, 0x9c, 0xa4,
@@ -191,7 +191,7 @@ U8 screen_imainrdt[] =
  * congratulations
  * (from ds + 0x8810 + 0x257d)
  */
-U8 screen_congrats[] =
+U8 SCREEN_CONGRATS[] =
 { 0xa4, 0xa5, 0xa4, 0xac, 0xb6, 0xb7, 0xa4, 0xa5,
   0x9b, 0x9c, 0xb1, 0xac, 0xcd, 0xce, 0xc6, 0xc7,
   0xd3, 0x2f, 0xb1, 0xac, 0xcd, 0xce, 0xa1, 0xa4,
@@ -215,7 +215,7 @@ U8 screen_congrats[] =
  *
  * \376=0xfe \377=0xff
  */
-U8 screen_imaincdc[] = "\
+U8 SCREEN_IMAINCDC[] = "\
 @@@@@@@@@@@@@@@@@@@\377\377\
 (C)@1989@CORE@DESIGN\377\377\377\
 @PRESS@SPACE@TO@START\376";
@@ -228,7 +228,7 @@ U8 screen_imaincdc[] = "\
  *
  * \376=0xfe \377=0xff
  */
-U8 screen_gameovertxt[] = "\
+U8 SCREEN_GAMEOVERTXT[] = "\
 @@@@@@@@@@@\377\
 @GAME@OVER@\377\
 @@@@@@@@@@@\376";
@@ -238,7 +238,7 @@ U8 screen_gameovertxt[] = "\
  *
  * \376=0xfe \377=0xff
  */
-U8 screen_pausedtxt[] = "\
+U8 SCREEN_PAUSEDTXT[] = "\
 @@@@@@@@@@\377\
 @@PAUSED@@\377\
 @@@@@@@@@@\376";
@@ -247,7 +247,7 @@ U8 screen_pausedtxt[] = "\
  *  high score table
  */
 #ifdef GFXST
-hiscore_t screen_highScores[SCREEN_NBR_HISCORES] = {
+hiscore_t SCREEN_HIGHSCORES[SCREEN_NBR_HISCORES] = {
   { 8000, "SIMES@@@@@" },
   { 7000, "JAYNE@@@@@" },
   { 6000, "DANGERSTU@" },
@@ -259,7 +259,7 @@ hiscore_t screen_highScores[SCREEN_NBR_HISCORES] = {
 };
 #endif
 #ifdef GFXPC
-hiscore_t screen_highScores[SCREEN_NBR_HISCORES] = {
+hiscore_t SCREEN_HIGHSCORES[SCREEN_NBR_HISCORES] = {
   { 8000, "DANGERSTU@" },
   { 7000, "SIMES@@@@@" },
   { 6000, "KEN@T@ZEN@" },

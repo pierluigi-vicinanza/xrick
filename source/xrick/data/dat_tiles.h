@@ -1,7 +1,7 @@
 /*
- * xrick/data/dat_picsPC.c
+ * xrick/data/dat_tiles.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -11,10 +11,21 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_pics.h"
+#ifndef _DAT_TILES_H_
+#define _DAT_TILES_H_
+
+#include "tiles.h"
 
 #ifdef GFXPC
+enum { TILES_NBR_BANKS = 4 };
+#endif
 
-#endif /* GFXPC */
+#ifdef GFXST
+enum { TILES_NBR_BANKS = 3 };
+#endif
+
+extern tile_t TILES_DATA[TILES_NBR_BANKS][TILES_NBR_TILES];
+
+#endif /* ndef _DAT_TILES_H_ */
 
 /* eof */

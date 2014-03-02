@@ -11,9 +11,9 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "maps.h"
+#include "dat_maps.h"
 
-map_t map_maps[MAP_NBR_MAPS] = {
+map_t MAP_MAPS[MAP_NBR_MAPS] = {
   {0x0008, 0x008b, 0x0008, 000000, "sounds/tune0.wav"},
   {0x0008, 0x008b, 0x0068, 0x0009, "sounds/tune1.wav"},
   {0x0010, 0x008b, 0x0010, 0x0014, "sounds/tune2.wav"},
@@ -21,7 +21,7 @@ map_t map_maps[MAP_NBR_MAPS] = {
   {0x0074, 0x00c8, 0x0008, 0x0026, "sounds/tune4.wav"},
 };
 
-submap_t map_submaps[MAP_NBR_SUBMAPS] = {
+submap_t MAP_SUBMAPS[MAP_NBR_SUBMAPS] = {
   {000000, 000000, 000000, 000000},
   {000000, 0x0078, 0x0003, 0x0005},
   {000000, 0x0150, 0x0006, 0x0011},
@@ -71,7 +71,7 @@ submap_t map_submaps[MAP_NBR_SUBMAPS] = {
   {0x0001, 0x1f5a, 0x0096, 0x0202},
 };
 
-connect_t map_connect[MAP_NBR_CONNECT] = {
+connect_t MAP_CONNECT[MAP_NBR_CONNECT] = {
 
   /* map 0 */
 
@@ -286,7 +286,7 @@ connect_t map_connect[MAP_NBR_CONNECT] = {
   {0xff, 0x00, 0x00, 0x00},
 };
 
-U8 map_bnums[MAP_NBR_BNUMS] = {
+U8 MAP_BNUMS[MAP_NBR_BNUMS] = {
   0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46,
   0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46,
   0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46, 0x46,
@@ -1308,7 +1308,7 @@ U8 map_bnums[MAP_NBR_BNUMS] = {
   0xc0, 0xc0, 0000, 0000, 0000, 0000, 0000, 0000,
 };
 
-block_t map_blocks[MAP_NBR_BLOCKS] = {
+block_t MAP_BLOCKS[MAP_NBR_BLOCKS] = {
   {0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000,
    0000, 0000, 0000, 0000, 0000, 0000, 0000, 0000},
   {0x29, 0x2a, 0x2d, 0x2e, 0x2b, 0x2c, 0x2f, 0x30,
@@ -1823,7 +1823,7 @@ block_t map_blocks[MAP_NBR_BLOCKS] = {
    0x22, 0x2d, 0x2e, 0xe7, 0x28, 0x2b, 0x2c, 0xea},
 };
 
-mark_t map_marks[MAP_NBR_MARKS] = {
+mark_t MAP_MARKS[MAP_NBR_MARKS] = {
   {0x18, 0x16, 0000, 0x08, 0x08}, /* 0 */
   {0x18, 0x2a, 0x88, 0x01, 0x28},
   {0x38, 0x04, 0xf0, 0x15, 0x29},
@@ -2349,7 +2349,7 @@ mark_t map_marks[MAP_NBR_MARKS] = {
   {0xff, 0000, 0000, 0000, 0000},
 };
 
-U8 map_eflg_c[MAP_NBR_EFLGC] = {
+U8 MAP_EFLG_C[MAP_NBR_EFLGC] = {
   0x4d, 0000, 0x0e, 0x02, 0x04, 0x04, 0x57, 0x08,
   0x08, 0x18, 0x03, 0x68, 0x3b, 0x48, 0x04, 0x80,
   0x37, 0000, 0x04, 0x02, 0x04, 0x04, 0x90, 0x08,

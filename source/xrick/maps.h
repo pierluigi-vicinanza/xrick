@@ -16,13 +16,7 @@
 
 #include "system/basic_types.h"
 
-#define MAP_NBR_MAPS 0x05
-#define MAP_NBR_SUBMAPS 0x2F
-#define MAP_NBR_CONNECT 0x99
-#define MAP_NBR_BNUMS 0x1FD8
-#define MAP_NBR_BLOCKS 0x0100
-#define MAP_NBR_MARKS 0x020B
-#define MAP_NBR_EFLGC 0x0020
+#include <stddef.h> /* size_t */
 
 /*
  * map row definitions, for three zones : hidden top, screen, hidden bottom
@@ -48,7 +42,8 @@ typedef struct {
   char *tune;	/* map tune */
 } map_t;
 
-extern map_t map_maps[MAP_NBR_MAPS];
+extern size_t map_nbr_maps;
+extern map_t *map_maps;
 
 /*
  * sub maps
@@ -60,7 +55,8 @@ typedef struct {
   U16 mark;            /* first entity mark */
 } submap_t;
 
-extern submap_t map_submaps[MAP_NBR_SUBMAPS];
+extern size_t map_nbr_submaps;
+extern submap_t *map_submaps;
 
 /*
  * connections
@@ -72,14 +68,16 @@ typedef struct {
   U8 rowin;
 } connect_t;
 
-extern connect_t map_connect[MAP_NBR_CONNECT];
+extern size_t map_nbr_connect;
+extern connect_t *map_connect;
 
 /*
  * blocks - one block is 4 by 4 tiles.
  */
 typedef U8 block_t[0x10];
 
-extern block_t map_blocks[MAP_NBR_BLOCKS];
+extern size_t map_nbr_blocks;
+extern block_t *map_blocks;
 
 /*
  * flags for map_marks[].ent ("yes" when set)
@@ -99,12 +97,14 @@ typedef struct {
   U8 lt;  /* bits XXXX XNNN (from b04) with X->trig_x, NNN->lat & trig_y */
 } mark_t;
 
-extern mark_t map_marks[MAP_NBR_MARKS];
+extern size_t map_nbr_marks;
+extern mark_t *map_marks;
 
 /*
  * block numbers, i.e. array of rows of 8 blocks
  */
-extern U8 map_bnums[MAP_NBR_BNUMS];
+extern size_t map_nbr_bnums;
+extern U8 *map_bnums;
 
 /*
  * flags for map_eflg[map_map[row][col]]  ("yes" when set)
@@ -127,7 +127,8 @@ extern U8 map_bnums[MAP_NBR_BNUMS];
 #define MAP_EFLG_CLIMB (0x02)
 #define MAP_EFLG_01 (0x01)
 
-extern U8 map_eflg_c[MAP_NBR_EFLGC];  /* compressed */
+extern size_t map_nbr_eflgc;
+extern U8 *map_eflg_c;  /* compressed */
 extern U8 map_eflg[0x100];  /* current */
 
 /*

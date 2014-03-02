@@ -24,6 +24,7 @@
 #include "scroller.h"
 #include "control.h"
 #include "data.h"
+#include "resources.h"
 
 #ifdef ENABLE_DEVTOOLS
 #include "devtools.h"
@@ -183,6 +184,11 @@ game_run(void)
 {
     U32 tm, tmx;
 
+    if (!resources_load())
+    {
+        resources_unload();
+        return;
+    }
     loaddata(); /* load cached data */
 
     game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
@@ -218,6 +224,7 @@ game_run(void)
             sysevt_poll();  /* process events (non-blocking) */
     }
 
+    resources_unload();
     freedata(); /* free cached data */
 }
 
@@ -419,7 +426,7 @@ frame(void)
 	game_bombs = 0x06;
 	game_map++;
 
-	if (game_map == 0x04) {
+	if (game_map == map_nbr_maps - 1) {
 	  /* reached end of game */
 	  /* FIXME @292?*/
 	}
@@ -435,7 +442,7 @@ frame(void)
       case SCREEN_RUNNING:
 	return;
       case SCREEN_DONE:
-	if (game_map >= 0x04) {  /* reached end of game */
+	if (game_map >= map_nbr_maps - 1) {  /* reached end of game */
 	  sysarg_args_map = 0;
 	  sysarg_args_submap = 0;
 	  game_state = GAMEOVER;
@@ -554,20 +561,24 @@ init(void)
 
   game_map = sysarg_args_map;
 
-  if (sysarg_args_submap == 0) {
-    game_submap = map_maps[game_map].submap;
-    map_frow = (U8)map_maps[game_map].row;
+  if (sysarg_args_submap == 0) 
+  {
+      game_submap = map_maps[game_map].submap;
+      map_frow = (U8)map_maps[game_map].row;
   }
-  else {
-    /* dirty hack to determine frow */
-    game_submap = sysarg_args_submap;
-    i = 0;
-    while (i < MAP_NBR_CONNECT &&
-	   (map_connect[i].submap != game_submap ||
-	    map_connect[i].dir != RIGHT))
-      i++;
-    map_frow = map_connect[i].rowin - 0x10;
-    ent_ents[1].y = 0x10 << 3;
+  else 
+  {
+      /* dirty hack to determine frow */
+      game_submap = sysarg_args_submap;
+      i = 0;
+      while (i < map_nbr_connect &&
+            (map_connect[i].submap != game_submap ||
+             map_connect[i].dir != RIGHT))
+      {
+          i++;
+      }
+      map_frow = map_connect[i].rowin - 0x10;
+      ent_ents[1].y = 0x10 << 3;
   }
 
   ent_ents[1].x = map_maps[game_map].x;

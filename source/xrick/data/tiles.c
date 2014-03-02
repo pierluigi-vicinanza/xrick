@@ -1,7 +1,7 @@
 /*
- * xrick/data/dat_picsPC.c
+ * xrick/data/tiles.c
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -11,10 +11,12 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_pics.h"
+#include "tiles.h"
 
-#ifdef GFXPC
-
-#endif /* GFXPC */
+/*
+ * globals
+ */
+size_t tiles_nbr_banks = 0;
+tile_t *tiles_data = NULL;
 
 /* eof */

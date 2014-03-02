@@ -11,13 +11,11 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
+#include "dat_sprites.h"
 
 #ifdef GFXST
 
-#include "sprites.h"
-
-sprite_t sprites_data[SPRITES_NBR_SPRITES] =
+sprite_t SPRITES_DATA[SPRITES_NBR_SPRITES] =
 {
   { /* 000000 */
     0000000000, 0000000000, 0000000000, 0000000000,

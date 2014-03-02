@@ -71,7 +71,7 @@ screen_introMain(void)
             draw_tilesList();
 #endif
 #ifdef GFXST
-            draw_pic(PIC_SPLASH);
+            draw_pic(pic_splash);
 #endif
             seq = 2;
             break;
@@ -108,7 +108,7 @@ screen_introMain(void)
             draw_tilesList();
 #endif
 #ifdef GFXST
-            draw_pic(PIC_HAF);
+            draw_pic(pic_haf);
 #endif
             /* hall of fame content */
             draw_setfb(56, 48);

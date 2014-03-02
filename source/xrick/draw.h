@@ -20,6 +20,8 @@
 #include "data/pics.h"
 #endif
 
+#include <stddef.h> /* size_t */
+
 /* map coordinates of the screen */
 #define DRAW_XYMAP_SCRLEFT (-0x0020)
 #define DRAW_XYMAP_SCRTOP (0x0040)
@@ -31,8 +33,12 @@ extern U8 *draw_tllst;
 extern U16 draw_filter;
 #endif
 extern U8 draw_tilesBank;
+
 extern rect_t draw_STATUSRECT;
 extern const rect_t draw_SCREENRECT;
+
+extern size_t game_color_count;
+extern img_color_t *game_colors;
 
 extern void draw_setfb(U16, U16);
 extern bool draw_clipms(S16 *, S16 *, U16 *, U16 *);

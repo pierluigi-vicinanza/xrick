@@ -82,6 +82,7 @@ U8 *draw_tllst;    /* pointer to tiles list */
 U16 draw_filter;   /* CGA colors filter */
 #endif
 U8 draw_tilesBank; /* tile number offset */
+
 rect_t draw_STATUSRECT = {
   DRAW_STATUS_SCORE_X, DRAW_STATUS_Y,
   DRAW_STATUS_LIVES_X + 6 * 8 - DRAW_STATUS_SCORE_X, 8,
@@ -89,6 +90,8 @@ rect_t draw_STATUSRECT = {
 };
 const rect_t draw_SCREENRECT = { 0, 0, SYSVID_WIDTH, SYSVID_HEIGHT, NULL };
 
+size_t game_color_count = 0;
+img_color_t *game_colors = NULL;
 
 /*
  * private vars
@@ -237,10 +240,10 @@ draw_tile(U8 tileNumber)
 #endif
 
   f = fb;  /* frame buffer */
-  for (i = 0; i < 8; i++) {  /* for all 8 pixel lines */
+  for (i = 0; i < TILES_NBR_LINES; i++) {  /* for all 8 pixel lines */
 
 #ifdef GFXPC
-    x = tiles_data[draw_tilesBank][tileNumber][i] & draw_filter;
+    x = tiles_data[draw_tilesBank * TILES_NBR_TILES + tileNumber][i] & draw_filter;
     /*
      * tiles / perform the transformation from CGA 2 bits
      * per pixel to frame buffer 8 bits per pixels
@@ -251,7 +254,7 @@ draw_tile(U8 tileNumber)
 #endif
 
 #ifdef GFXST
-  x = tiles_data[draw_tilesBank][tileNumber][i];
+  x = tiles_data[draw_tilesBank * TILES_NBR_TILES + tileNumber][i];
   /*
    * tiles / perform the transformation from ST 4 bits
    * per pixel to frame buffer 8 bits per pixels

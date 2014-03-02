@@ -24,7 +24,7 @@
  */
 static U8 seq = 0;
 static U8 x, y, p;
-static U8 name[10];
+static U8 player_name[HISCORE_NAME_SIZE];
 
 #define TILE_POINTER '\072'
 #define TILE_CURSOR '\073'
@@ -57,7 +57,7 @@ screen_getname(void)
     if (seq == 0) 
     {
         /* figure out if this is a high score */
-        if (game_score < screen_highScores[SCREEN_NBR_HISCORES - 1].score)
+        if (game_score < screen_highScores[screen_nbr_hiscores - 1].score)
             return SCREEN_DONE;
 
         /* prepare */
@@ -66,7 +66,9 @@ screen_getname(void)
         draw_filter = 0xffff;
 #endif
         for (i = 0; i < HISCORE_NAME_SIZE; i++)
-            name[i] = '@';
+        {
+            player_name[i] = '@';
+        }
         x = 5, y = 4, p = 0;
         game_rects = &draw_SCREENRECT;
         seq = 1;
@@ -83,7 +85,7 @@ screen_getname(void)
             draw_tilesListImm(screen_congrats);
 #endif
 #ifdef GFXST
-            draw_pic(PIC_CONGRATS);
+            draw_pic(pic_congrats);
 #endif
             draw_setfb(72, 40);
 #ifdef GFXPC
@@ -178,7 +180,7 @@ screen_getname(void)
                     screen_highScores[i].score = game_score;
                     for (x = 0; x < HISCORE_NAME_SIZE; x++)
                     {
-                        screen_highScores[i].name[x] = name[x];
+                        screen_highScores[i].name[x] = player_name[x];
                     }
                     seq = 99;
                 }
@@ -261,11 +263,11 @@ name_update(void)
 
   i = x + y * 6;
   if (i < 26 && p < 10)
-    name[p++] = 'A' + i;
+    player_name[p++] = 'A' + i;
   if (i == 26 && p < 10)
-    name[p++] = '.';
+    player_name[p++] = '.';
   if (i == 27 && p < 10)
-    name[p++] = '@';
+    player_name[p++] = '@';
   if (i == 28 && p > 0) {
     p--;
   }
@@ -281,7 +283,7 @@ name_draw(void)
   draw_filter = 0xaaaa; /* red */
 #endif
   for (i = 0; i < p; i++)
-    draw_tile(name[i]);
+    draw_tile(player_name[i]);
   for (i = p; i < 10; i++)
     draw_tile(TILE_CURSOR);
 

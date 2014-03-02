@@ -14,7 +14,7 @@
 /*
  * NOTES -- PC version
  *
- * A sprite consists in 4 columns and 0x15 rows of (U16 mask, U16 pict),
+ * A sprite consists in 4 columns and 21 rows of (U16 mask, U16 pict),
  * each pair representing 8 pixels (cga encoding, two bits per pixels).
  * Sprites are stored in 'sprites.bin' and are loaded by spr_init. Memory
  * is freed by spr_shutdown.
@@ -32,6 +32,8 @@
 
 #include "system/basic_types.h"
 
+#include <stddef.h> /* size_t */
+
 #ifdef GFXPC
 
 typedef struct {
@@ -40,13 +42,10 @@ typedef struct {
 } spriteX_t;
 
 enum {
-    SPRITES_NBR_ROWS = 0x15,
-    SPRITES_NBR_COLS = 0x04
+    SPRITES_NBR_ROWS = 21,
+    SPRITES_NBR_COLS = 4
 };
 typedef spriteX_t sprite_t[SPRITES_NBR_COLS][SPRITES_NBR_ROWS];   /* one sprite */
-
-enum { SPRITES_NBR_SPRITES = 0x9b };
-extern sprite_t sprites_data[SPRITES_NBR_SPRITES];
 
 #endif /* GFXPC */
 
@@ -54,18 +53,18 @@ extern sprite_t sprites_data[SPRITES_NBR_SPRITES];
 #ifdef GFXST
 
 enum {
-    SPRITES_NBR_ROWS = 0x15,
-    SPRITES_NBR_COLS = 0x04,
+    SPRITES_NBR_ROWS = 21,
+    SPRITES_NBR_COLS = 4,
     SPRITES_NBR_DATA = SPRITES_NBR_ROWS * SPRITES_NBR_COLS
 };
 typedef U32 sprite_t[SPRITES_NBR_DATA];
 
-enum { SPRITES_NBR_SPRITES = 0xD5 };
-extern sprite_t sprites_data[SPRITES_NBR_SPRITES];
-
 #endif /* GFXST */
 
-#endif
+extern size_t sprites_nbr_sprites;
+extern sprite_t *sprites_data;
+
+#endif /* def _SPRITES_H_ */
 
 /* eof */
 

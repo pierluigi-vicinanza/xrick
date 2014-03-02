@@ -1,5 +1,5 @@
 /*
- * xrick/data/dat_tiles.c
+ * xrick/data/dat_tilesST.c
  *
  * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
  *
@@ -11,13 +11,11 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
+#include "dat_tiles.h"
 
 #ifdef GFXST
 
-#include "tiles.h"
-
-tile_t tiles_data[TILES_NBR_BANKS][TILES_NBR_TILES] = {
+tile_t TILES_DATA[TILES_NBR_BANKS][TILES_NBR_TILES] = {
   { /* BANK 0 */
     { /* 0x11 */
       0000000000,

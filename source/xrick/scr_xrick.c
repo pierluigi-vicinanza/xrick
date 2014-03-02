@@ -22,6 +22,34 @@
 #include "data/img_splash.e"
 
 /*
+ * global vars
+ */
+size_t screen_nbr_imapsl = 0;
+U8 *screen_imapsl = NULL;
+
+size_t screen_nbr_imapstesps = 0;
+screen_imapsteps_t *screen_imapsteps = NULL;
+
+size_t screen_nbr_imapsofs = 0;
+U8 *screen_imapsofs = NULL;
+
+size_t screen_nbr_imaptext = 0;
+U8 **screen_imaptext = NULL;
+
+size_t screen_nbr_hiscores = 0;
+hiscore_t *screen_highScores = NULL;
+
+#ifdef GFXPC
+U8 *screen_imainhoft = NULL;
+U8 *screen_imainrdt = NULL;
+U8 *screen_imaincdc = NULL;
+U8 *screen_congrats = NULL;
+#endif
+U8 *screen_gameovertxt = NULL;
+U8 *screen_pausedtxt = NULL;
+
+
+/*
  * Display XRICK splash screen
  *
  * return: SCREEN_RUNNING, SCREEN_DONE, SCREEN_EXIT

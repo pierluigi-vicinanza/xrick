@@ -11,11 +11,9 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
+#include "dat_pics.h"
 
 #ifdef GFXST
-
-#include "pics.h"
 
 static U32 PIC_CONGRATS_PIXELS[] =
 {

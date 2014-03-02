@@ -11,9 +11,9 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "ents.h"
+#include "dat_ents.h"
 
-entdata_t ent_entdata[ENT_NBR_ENTDATA] = {
+entdata_t ENT_ENTDATA[ENT_NBR_ENTDATA] = {
   {0000, 0000, 000000, 000000, 0000, 0000, 0x00},
   {0x18, 0x15, 000000, 000000, 0000, 0000, 0x00},
   {0000, 0000, 000000, 000000, 0000, 0000, 0x00},
@@ -95,7 +95,7 @@ entdata_t ent_entdata[ENT_NBR_ENTDATA] = {
   {0x18, 0x10, 0x000c, 0x0005, 0x04, 0x04, 0x14},
 };
 
-U8 ent_sprseq[ENT_NBR_SPRSEQ] = {
+U8 ENT_SPRSEQ[ENT_NBR_SPRSEQ] = {
   0000, 0x01, 0000, 0x02, 0x05, 0x03, 0x04, 0x03,
   0x65, 0xff, 0x66, 0xff, 0x55, 0xff, 0000, 0x56,
   0xff, 0000, 0x57, 0xff, 0000, 0x58, 0x59, 0xff,
@@ -116,7 +116,7 @@ U8 ent_sprseq[ENT_NBR_SPRSEQ] = {
   0xff, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xff, 0x00,
 };
 
-mvstep_t ent_mvstep[ENT_NBR_MVSTEP] = {
+mvstep_t ENT_MVSTEP[ENT_NBR_MVSTEP] = {
   { 0x10, 0, 0 } ,
   { 0x0c, 0, 4 } ,
   { 0xfa, 0, 0 } ,

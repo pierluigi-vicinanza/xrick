@@ -34,8 +34,17 @@
  * global vars
  */
 ent_t ent_ents[ENT_ENTSNUM + 1];
+
+size_t ent_nbr_entdata = 0;
+entdata_t *ent_entdata = NULL;
+
 rect_t *ent_rects = NULL;
 
+size_t ent_nbr_sprseq = 0;
+U8 *ent_sprseq = NULL;
+
+size_t ent_nbr_mvstep = 0;
+mvstep_t *ent_mvstep = NULL;
 
 /*
  * prototypes

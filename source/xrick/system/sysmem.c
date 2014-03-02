@@ -14,9 +14,12 @@
 #include "system.h"
 #include "debug.h"
 
+/*
+ * local vars
+ */
 enum 
 { 
-    STACK_MAX_SIZE = 1024,
+    STACK_MAX_SIZE = 192*1024,
     ALIGNMENT = sizeof(void*)  /* this is more of an educated guess; might want to adjust for your specific architecture */
 };
 static U8 stackBuffer[STACK_MAX_SIZE];

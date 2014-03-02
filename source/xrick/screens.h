@@ -17,6 +17,8 @@
 #include "system/basic_types.h"
 #include "config.h"
 
+#include <stddef.h> /* size_t */
+
 #define SCREEN_TIMEOUT 4000
 #define SCREEN_RUNNING 0
 #define SCREEN_DONE 1
@@ -34,30 +36,29 @@ typedef struct {
   U8 name[HISCORE_NAME_SIZE];
 } hiscore_t;
 
-enum { SCREEN_NBR_IMAPSL = 22 };
-extern U8 screen_imapsl[SCREEN_NBR_IMAPSL];  /* sprite lists */
+extern size_t screen_nbr_imapsl;
+extern U8 *screen_imapsl;  /* sprite lists */
 
-enum { SCREEN_NBR_IMAPSTESPS = 23 };
-extern screen_imapsteps_t screen_imapsteps[SCREEN_NBR_IMAPSTESPS];  /* map intro steps */
+extern size_t screen_nbr_imapstesps;
+extern screen_imapsteps_t *screen_imapsteps;  /* map intro steps */
 
-enum { SCREEN_NBR_IMAPSOFS = 5 };
-extern U8 screen_imapsofs[SCREEN_NBR_IMAPSOFS];  /* first step for each map */
+extern size_t screen_nbr_imapsofs;
+extern U8 *screen_imapsofs;  /* first step for each map */
 
-enum { SCREEN_NBR_IMAPTEXT = 5 };
-extern U8 *screen_imaptext[SCREEN_NBR_IMAPTEXT];  /* map intro texts */
+extern size_t screen_nbr_imaptext;
+extern U8 **screen_imaptext;  /* map intro texts */
 
-enum { SCREEN_NBR_HISCORES = 8 };
-extern hiscore_t screen_highScores[SCREEN_NBR_HISCORES];  /* highest scores (hall of fame) */
-
+extern size_t screen_nbr_hiscores;
+extern hiscore_t *screen_highScores;  /* highest scores (hall of fame) */
 
 #ifdef GFXPC
-extern U8 screen_imainhoft[];  /* hall of fame title */
-extern U8 screen_imainrdt[];  /*rick dangerous title */
-extern U8 screen_imaincdc[];  /* core design copyright text */
-extern U8 screen_congrats[];  /* congratulations */
+extern U8 *screen_imainhoft;  /* hall of fame title */
+extern U8 *screen_imainrdt;  /* rick dangerous title */
+extern U8 *screen_imaincdc;  /* core design copyright text */
+extern U8 *screen_congrats;  /* congratulations */
 #endif
-extern U8 screen_gameovertxt[];  /* game over */
-extern U8 screen_pausedtxt[];  /* paused */
+extern U8 *screen_gameovertxt;  /* game over */
+extern U8 *screen_pausedtxt;  /* paused */
 
 extern U8 screen_xrick(void);  /* splash */
 extern U8 screen_introMain(void);  /* main intro */

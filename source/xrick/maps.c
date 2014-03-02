@@ -42,7 +42,29 @@
  * global vars
  */
 U8 map_map[0x2C][0x20];
+
+size_t map_nbr_maps = 0;
+map_t *map_maps = NULL;
+
+size_t map_nbr_submaps = 0;
+submap_t *map_submaps = NULL;
+
+size_t map_nbr_connect = 0;
+connect_t *map_connect = NULL;
+
+size_t map_nbr_blocks = 0;
+block_t *map_blocks = NULL;
+
+size_t map_nbr_marks = 0;
+mark_t *map_marks = NULL;
+
+size_t map_nbr_bnums = 0;
+U8 *map_bnums = NULL;
+
+size_t map_nbr_eflgc = 0;
+U8 *map_eflg_c = NULL;
 U8 map_eflg[0x100];
+
 U8 map_frow;
 U8 map_tilesBank;
 
@@ -99,12 +121,12 @@ map_init(void)
   /*sys_printf("xrick/map_init: map=%#04x submap=%#04x\n", g_map, game_submap);*/
 #ifdef GFXPC
   draw_filter = 0xffff;
-  map_tilesBank = (map_submaps[game_submap].page == 1) ? 3 : 2;
+  map_tilesBank = 2 + map_submaps[game_submap].page;
 #endif
 #ifdef GFXST
-  map_tilesBank = (map_submaps[game_submap].page == 1) ? 2 : 1;
+  map_tilesBank = 1 + map_submaps[game_submap].page;
 #endif
-  map_eflg_expand((map_submaps[game_submap].page == 1) ? 0x10 : 0x00);
+  map_eflg_expand(map_submaps[game_submap].page << 4);
   map_expand();
   ent_reset();
   ent_actvis(map_frow + MAP_ROW_SCRTOP, map_frow + MAP_ROW_SCRBOT);
@@ -208,7 +230,7 @@ void
 map_resetMarks(void)
 {
   U16 i;
-  for (i = 0; i < MAP_NBR_MARKS; i++)
+  for (i = 0; i < map_nbr_marks; i++)
     map_marks[i].ent &= ~MAP_MARK_NACT;
 }
 

@@ -16,13 +16,9 @@
 
 #include "rects.h"
 
+#include <stddef.h> /* size_t */
+
 #define ENT_XRICK ent_ents[1]
-
-#define ENT_NBR_ENTDATA 0x4a
-#define ENT_NBR_SPRSEQ 0x88
-#define ENT_NBR_MVSTEP 0x310
-
-#define ENT_ENTSNUM 0x0c
 
 /*
  * flags for ent_ents[e].n  ("yes" when set)
@@ -95,11 +91,19 @@ typedef struct {
   S8 dx, dy;
 } mvstep_t;
 
+enum { ENT_ENTSNUM = 12 };
 extern ent_t ent_ents[ENT_ENTSNUM + 1];
-extern entdata_t ent_entdata[ENT_NBR_ENTDATA];
+
+extern size_t ent_nbr_entdata;
+extern entdata_t *ent_entdata;
+
 extern rect_t *ent_rects;
-extern U8 ent_sprseq[ENT_NBR_SPRSEQ];
-extern mvstep_t ent_mvstep[ENT_NBR_MVSTEP];
+
+extern size_t ent_nbr_sprseq;
+extern U8 *ent_sprseq;
+
+extern size_t ent_nbr_mvstep;
+extern mvstep_t *ent_mvstep;
 
 extern void ent_reset(void);
 extern void ent_actvis(U8, U8);

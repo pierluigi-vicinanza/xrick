@@ -33,6 +33,8 @@
 
 #include "config.h"
 
+#include <stddef.h> /* size_t */
+
 /*
  * three special tile numbers
  */
@@ -57,15 +59,9 @@ typedef U32 tile_t[TILES_NBR_LINES];
 /*
  * tiles banks (each bank is 0x100 tiles)
  */
-#ifdef GFXPC
-enum { TILES_NBR_BANKS = 4 };
-#endif
-#ifdef GFXST
-enum { TILES_NBR_BANKS = 3 };
-#endif
-
 enum { TILES_NBR_TILES = 0x100 };
-extern tile_t tiles_data[TILES_NBR_BANKS][TILES_NBR_TILES];
+extern size_t tiles_nbr_banks;
+extern tile_t *tiles_data;
 
 #endif
 
