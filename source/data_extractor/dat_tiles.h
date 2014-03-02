@@ -1,5 +1,5 @@
 /*
- * xrick/data/dat_pics.h
+ * xrick/data/dat_tiles.h
  *
  * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
@@ -11,21 +11,21 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#ifndef _DAT_PICS_H
-#define _DAT_PICS_H
+#ifndef _DAT_TILES_H_
+#define _DAT_TILES_H_
 
-#include "pics.h"
+#include "data/tiles.h"
+
+#ifdef GFXPC
+enum { TILES_NBR_BANKS = 4 };
+#endif
 
 #ifdef GFXST
+enum { TILES_NBR_BANKS = 3 };
+#endif
 
-extern pic_t *PIC_HAF;
-extern pic_t *PIC_CONGRATS;
-extern pic_t *PIC_SPLASH;
+extern tile_t TILES_DATA[TILES_NBR_BANKS][TILES_NBR_TILES];
 
-#endif /* GFXST */
-
-#endif /* ndef _DAT_PICS_H */
+#endif /* ndef _DAT_TILES_H_ */
 
 /* eof */
-
-

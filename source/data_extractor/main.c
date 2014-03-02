@@ -13,19 +13,19 @@
 
 #include "config.h"
 #include "resources.h"
-#include "data/dat_ents.h"
-#include "data/dat_maps.h"
-#include "data/dat_screens.h"
-#include "data/dat_sprites.h"
-#include "data/dat_tiles.h"
-#include "data/dat_pics.h"
+#include "dat_ents.h"
+#include "dat_maps.h"
+#include "dat_screens.h"
+#include "dat_sprites.h"
+#include "dat_tiles.h"
+#include "dat_pics.h"
 #include "system/basic_funcs.h"
 #include "img.h"
 #ifdef GFXPC
-#include "data/dat_palettePC.e"
+#include "dat_palettePC.e"
 #endif
 #ifdef GFXST
-#include "data/dat_paletteST.e"
+#include "dat_paletteST.e"
 #endif
 
 #include <stdio.h>

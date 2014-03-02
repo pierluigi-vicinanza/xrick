@@ -14,7 +14,7 @@
 #ifndef _DAT_SPRITES_H_
 #define _DAT_SPRITES_H_
 
-#include "sprites.h"
+#include "data/sprites.h"
 
 #ifdef GFXPC
 
