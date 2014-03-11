@@ -20,7 +20,7 @@
 typedef void *data_file_t;
 
 extern void data_setRootPath(const char *);
-extern void data_closeRootPath();
+extern void data_closeRootPath(void);
 
 extern data_file_t *data_file_open(const char *);
 extern int data_file_seek(data_file_t *file, long offset, int origin);

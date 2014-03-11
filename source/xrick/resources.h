@@ -121,8 +121,8 @@ enum
 
 #define BOOTSTRAP_RESOURCE_NAME "filelist.dat"
 
-bool resources_load();
-void resources_unload();
+bool resources_load(void);
+void resources_unload(void);
 
 #endif /* ndef _RESOURCES_H */
 
