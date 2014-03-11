@@ -38,7 +38,10 @@
 #undef ENABLE_DEVTOOLS
 #undef DEBUG /* see include/debug.h */
 
-#endif
+/* compressed archive support*/
+#define ENABLE_ZIP
+
+#endif /* _CONFIG_H */
 
 /* eof */
 

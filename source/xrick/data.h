@@ -19,6 +19,8 @@
 
 typedef void *data_file_t;
 
+extern const char * data_defaultPath;
+
 extern void data_setRootPath(const char *);
 extern void data_closeRootPath(void);
 

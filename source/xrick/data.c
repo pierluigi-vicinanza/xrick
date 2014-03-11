@@ -15,23 +15,43 @@
 
 #include "system/system.h"
 
+#ifdef ENABLE_ZIP
 #include "zlib/unzip.h"
+#endif
 
 #include <stdio.h>  /* sprintf */
 #include <sys/stat.h> /* fstat */
 
 /*
+ * Global variables
+ */
+#ifdef ENABLE_ZIP
+const char * data_defaultPath = "data.zip";
+#else
+const char * data_defaultPath = ".";
+#endif
+
+/*
  * Private typedefs
  */
-typedef struct {
+typedef struct 
+{
 	char *name;
+#ifdef ENABLE_ZIP
 	unzFile zip;
+#endif
 } path_t;
 
 /*
  * Static variables
  */
-static path_t rootPath = {NULL, NULL}; /* will store either main data folder path or main zipped archive path */
+static path_t rootPath = 
+{
+    NULL, 
+#ifdef ENABLE_ZIP
+    NULL
+#endif
+}; /* will store either main data folder path or main zipped archive path */
 
 /*
  * Prototypes
@@ -47,6 +67,7 @@ void
 data_setRootPath(const char *name)
 {
     rootPath.name = str_toNativeSeparators(str_dup(name));
+#ifdef ENABLE_ZIP
 	if (str_hasZipExtension(rootPath.name)) 
     {
         rootPath.zip = unzOpen(rootPath.name);
@@ -61,6 +82,7 @@ data_setRootPath(const char *name)
 		/* FIXME check that it is a valid directory */
 		rootPath.zip = NULL;
 	}
+#endif  /* ENABLE_ZIP */
 }
 
 /*
@@ -69,10 +91,13 @@ data_setRootPath(const char *name)
 void
 data_closeRootPath()
 {
-	if (rootPath.zip) {
+#ifdef ENABLE_ZIP
+	if (rootPath.zip) 
+    {
         unzClose(rootPath.zip);
 		rootPath.zip = NULL;
 	}
+#endif  /* ENABLE_ZIP */
 	sysmem_pop(rootPath.name);
 	rootPath.name = NULL;
 }
@@ -83,6 +108,7 @@ data_closeRootPath()
 data_file_t *
 data_file_open(const char *name)
 {
+#ifdef ENABLE_ZIP
     if (rootPath.zip) 
     {
         unzFile zh = rootPath.zip;
@@ -94,6 +120,7 @@ data_file_open(const char *name)
         return (data_file_t *)zh;
     }
     else /* uncompressed file */
+#endif /* ENABLE_ZIP */
     {
         FILE *fh;
         char *fullPath = sysmem_push(strlen(rootPath.name) + strlen(name) + 2);
@@ -112,11 +139,13 @@ off_t
 data_file_size(data_file_t *file)
 {
 	off_t size = -1;
+#ifdef ENABLE_ZIP
     if (rootPath.zip)
     {
         /* not implemented */
     } 
-    else 
+    else
+#endif /* ENABLE_ZIP */
     {
         FILE *fh = (FILE *)file;
         int fd = fileno(fh);
@@ -135,10 +164,15 @@ data_file_size(data_file_t *file)
 int
 data_file_seek(data_file_t *file, long offset, int origin)
 {
-	if (rootPath.zip) {
+#ifdef ENABLE_ZIP
+	if (rootPath.zip) 
+    {
 		/* not implemented */
 		return -1;
-	} else {
+	} 
+    else
+#endif /* ENABLE_ZIP */
+    {
 		return fseek((FILE *)file, offset, origin);
 	}
 }
@@ -149,10 +183,15 @@ data_file_seek(data_file_t *file, long offset, int origin)
 int
 data_file_tell(data_file_t *file)
 {
-	if (rootPath.zip) {
+#ifdef ENABLE_ZIP
+	if (rootPath.zip) 
+    {
 		/* not implemented */
 		return -1;
-	} else {
+	} 
+    else
+#endif /* ENABLE_ZIP */
+    {
 		return ftell((FILE *)file);
 	}
 }
@@ -163,9 +202,14 @@ data_file_tell(data_file_t *file)
 int
 data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
 {
-	if (rootPath.zip) {
+#ifdef ENABLE_ZIP
+	if (rootPath.zip) 
+    {
 		return unzReadCurrentFile((unzFile)file, buf, size * count) / size;
-	} else {
+	} 
+    else
+#endif /* ENABLE_ZIP */
+    {
 		return fread(buf, size, count, (FILE *)file);
 	}
 }
@@ -176,9 +220,14 @@ data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
 void
 data_file_close(data_file_t *file)
 {
-	if (rootPath.zip) {
+#ifdef ENABLE_ZIP
+	if (rootPath.zip) 
+    {
         unzCloseCurrentFile((unzFile)file);
-	} else {
+	}
+    else
+#endif /* ENABLE_ZIP */
+    {
 		fclose((FILE *)file);
 	}
 }

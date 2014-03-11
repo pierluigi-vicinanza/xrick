@@ -24,10 +24,14 @@ main(int argc, char *argv[])
 {
 	sys_init(argc, argv);
 	if (sysarg_args_data)
+    {
 		data_setRootPath(sysarg_args_data);
-	else
-		data_setRootPath("data.zip");
-	game_run();
+    }
+    else
+    {
+        data_setRootPath(data_defaultPath);
+    }
+    game_run();
 	data_closeRootPath();
 	sys_shutdown();
 	return 0;
