@@ -19,9 +19,6 @@
 #include "control.h"
 #include "ents.h"
 
-#include <stddef.h> /* NULL */
-
-
 /*
  * Display the pause indicator
  */
