@@ -232,6 +232,7 @@ data_file_close(data_file_t *file)
 	}
 }
 
+#ifdef ENABLE_ZIP
 /*
  * Returns 1 if filename has .zip extension.
  */
@@ -252,6 +253,7 @@ str_hasZipExtension(const char *name)
 	if (i < 0) return 0;
 	return 1;
 }
+#endif /* ENABLE_ZIP */
 
 /*
  *
