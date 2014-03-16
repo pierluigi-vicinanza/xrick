@@ -16,7 +16,6 @@
 
 #include "config.h"
 #include "rects.h"
-#include "data.h"
 #include "system/system.h"
 
 #include <stddef.h> /* NULL */

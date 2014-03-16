@@ -23,7 +23,6 @@
 #include "rects.h"
 #include "scroller.h"
 #include "control.h"
-#include "data.h"
 #include "resources.h"
 
 #ifdef ENABLE_DEVTOOLS

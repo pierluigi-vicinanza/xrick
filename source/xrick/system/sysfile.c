@@ -11,8 +11,6 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "data.h"
-
 #include "system/system.h"
 
 #ifdef ENABLE_ZIP
@@ -26,9 +24,9 @@
  * Global variables
  */
 #ifdef ENABLE_ZIP
-const char * data_defaultPath = "data.zip";
+const char *sysfile_defaultPath = "data.zip";
 #else
-const char * data_defaultPath = ".";
+const char *sysfile_defaultPath = ".";
 #endif
 
 /*
@@ -56,7 +54,9 @@ static path_t rootPath =
 /*
  * Prototypes
  */
+#ifdef ENABLE_ZIP
 static int str_hasZipExtension(const char *);
+#endif
 static char *str_dup(const char *);
 static char *str_toNativeSeparators(char *);
 
@@ -64,7 +64,7 @@ static char *str_toNativeSeparators(char *);
  *
  */
 void
-data_setRootPath(const char *name)
+sysfile_setRootPath(const char *name)
 {
     rootPath.name = str_toNativeSeparators(str_dup(name));
 #ifdef ENABLE_ZIP
@@ -89,7 +89,7 @@ data_setRootPath(const char *name)
  *
  */
 void
-data_closeRootPath()
+sysfile_clearRootPath()
 {
 #ifdef ENABLE_ZIP
 	if (rootPath.zip) 
@@ -105,8 +105,8 @@ data_closeRootPath()
 /*
  * Open a data file.
  */
-data_file_t *
-data_file_open(const char *name)
+file_t
+sysfile_open(const char *name)
 {
 #ifdef ENABLE_ZIP
     if (rootPath.zip) 
@@ -117,7 +117,7 @@ data_file_open(const char *name)
         {
                 zh = NULL;
         }
-        return (data_file_t *)zh;
+        return (file_t)zh;
     }
     else /* uncompressed file */
 #endif /* ENABLE_ZIP */
@@ -128,7 +128,7 @@ data_file_open(const char *name)
         str_toNativeSeparators(fullPath);
         fh = fopen(fullPath, "rb");
         sysmem_pop(fullPath);
-        return (data_file_t *)fh;
+        return (file_t)fh;
     }
 }
 
@@ -136,7 +136,7 @@ data_file_open(const char *name)
  * 
  */
 off_t
-data_file_size(data_file_t *file)
+sysfile_size(file_t file)
 {
 	off_t size = -1;
 #ifdef ENABLE_ZIP
@@ -162,7 +162,7 @@ data_file_size(data_file_t *file)
  * Seek.
  */
 int
-data_file_seek(data_file_t *file, long offset, int origin)
+sysfile_seek(file_t file, long offset, int origin)
 {
 #ifdef ENABLE_ZIP
 	if (rootPath.zip) 
@@ -181,7 +181,7 @@ data_file_seek(data_file_t *file, long offset, int origin)
  * Tell.
  */
 int
-data_file_tell(data_file_t *file)
+sysfile_tell(file_t file)
 {
 #ifdef ENABLE_ZIP
 	if (rootPath.zip) 
@@ -200,7 +200,7 @@ data_file_tell(data_file_t *file)
  * Read a file within a data archive.
  */
 int
-data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
+sysfile_read(file_t file, void *buf, size_t size, size_t count)
 {
 #ifdef ENABLE_ZIP
 	if (rootPath.zip) 
@@ -218,7 +218,7 @@ data_file_read(data_file_t *file, void *buf, size_t size, size_t count)
  * Close a file within a data archive.
  */
 void
-data_file_close(data_file_t *file)
+sysfile_close(file_t file)
 {
 #ifdef ENABLE_ZIP
 	if (rootPath.zip) 

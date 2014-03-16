@@ -14,7 +14,6 @@
 #include "resources.h"
 
 #include "draw.h"
-#include "data.h"
 #include "ents.h"
 #include "maps.h"
 #include "data/sprites.h"
@@ -38,31 +37,31 @@
  */
 static bool readFile(const unsigned id);
 static bool checkCrc32(const unsigned id);
-static bool readHeader(data_file_t * fp, const unsigned id);
-static bool loadString(data_file_t * fp, char ** str, const char terminator);
+static bool readHeader(file_t fp, const unsigned id);
+static bool loadString(file_t fp, char ** str, const char terminator);
 static void unloadString(char ** buffer);
-static bool loadResourceFilelist(data_file_t * fp);
+static bool loadResourceFilelist(file_t fp);
 static void unloadResourceFilelist(void);
-static bool loadResourceEntdata(data_file_t * fp);
+static bool loadResourceEntdata(file_t fp);
 static void unloadResourceEntdata(void);
-static bool loadRawData(data_file_t * fp, void ** buffer, const size_t size, size_t * count);
+static bool loadRawData(file_t fp, void ** buffer, const size_t size, size_t * count);
 static void unloadRawData(void ** buffer, size_t * count);
-static bool loadResourceMaps(data_file_t * fp);
+static bool loadResourceMaps(file_t fp);
 static void unloadResourceMaps(void);
-static bool loadResourceSubmaps(data_file_t * fp);
+static bool loadResourceSubmaps(file_t fp);
 static void unloadResourceSubmaps(void);
-static bool loadResourceImapsteps(data_file_t * fp);
+static bool loadResourceImapsteps(file_t fp);
 static void unloadResourceImapsteps(void);
-static bool loadResourceImaptext(data_file_t * fp);
+static bool loadResourceImaptext(file_t fp);
 static void unloadResourceImaptext(void);
-static bool loadResourceHighScores(data_file_t * fp);
+static bool loadResourceHighScores(file_t fp);
 static void unloadResourceHighScores(void);
-static bool loadResourceSpritesData(data_file_t * fp);
+static bool loadResourceSpritesData(file_t fp);
 static void unloadResourceSpritesData(void);
-static bool loadResourceTilesData(data_file_t * fp);
+static bool loadResourceTilesData(file_t fp);
 static void unloadResourceTilesData(void);
 #ifdef GFXST 
-static bool loadPicture(data_file_t * fp, pic_t ** picture);
+static bool loadPicture(file_t fp, pic_t ** picture);
 static void unloadPicture(pic_t ** picture);
 #endif /* GFXST */
 
@@ -78,13 +77,13 @@ static char * resourceFiles[Resource_MAX_COUNT] =
 /*
  * load 16b length + not-terminated string
  */
-static bool loadString(data_file_t * fp, char ** str, const char terminator)
+static bool loadString(file_t fp, char ** str, const char terminator)
 {
     size_t length;
     U16 u16Temp;
     char * buffer;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -98,7 +97,7 @@ static bool loadString(data_file_t * fp, char ** str, const char terminator)
 
     if (length)
     {
-        if (data_file_read(fp, buffer, length, 1) != 1)
+        if (sysfile_read(fp, buffer, length, 1) != 1)
         {
             return false;
         }
@@ -122,7 +121,7 @@ static void unloadString(char ** buffer)
 /*
  *
  */
-static bool loadResourceFilelist(data_file_t * fp)
+static bool loadResourceFilelist(file_t fp)
 {
     unsigned id;
 
@@ -152,13 +151,13 @@ static void unloadResourceFilelist()
 /*
  *
  */
-static bool loadResourceEntdata(data_file_t * fp)
+static bool loadResourceEntdata(file_t fp)
 {
     size_t i;
     U16 u16Temp;
     resource_entdata_t dataTemp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -172,7 +171,7 @@ static bool loadResourceEntdata(data_file_t * fp)
 
     for (i = 0; i < ent_nbr_entdata; ++i)
     {
-        if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+        if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
         }
@@ -202,10 +201,10 @@ static void unloadResourceEntdata()
 /*
  *
  */
-static bool loadRawData(data_file_t * fp, void ** buffer, const size_t size, size_t * count)
+static bool loadRawData(file_t fp, void ** buffer, const size_t size, size_t * count)
 {
     U16 u16Temp;
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -217,7 +216,7 @@ static bool loadRawData(data_file_t * fp, void ** buffer, const size_t size, siz
         return false;
     }
 
-    if (data_file_read(fp, *buffer, size, *count) != *count)
+    if (sysfile_read(fp, *buffer, size, *count) != *count)
     {
         return false;
     }
@@ -238,13 +237,13 @@ static void unloadRawData(void ** buffer, size_t * count)
 /*
  *
  */
-static bool loadResourceMaps(data_file_t * fp)
+static bool loadResourceMaps(file_t fp)
 {
     size_t i;
     U16 u16Temp;
     resource_map_t dataTemp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -258,7 +257,7 @@ static bool loadResourceMaps(data_file_t * fp)
 
     for (i = 0; i < map_nbr_maps; ++i)
     {
-        if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+        if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
         }
@@ -298,13 +297,13 @@ static void unloadResourceMaps()
 /*
  *
  */
-static bool loadResourceSubmaps(data_file_t * fp)
+static bool loadResourceSubmaps(file_t fp)
 {
     size_t i;
     U16 u16Temp;
     resource_submap_t dataTemp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -318,7 +317,7 @@ static bool loadResourceSubmaps(data_file_t * fp)
 
     for (i = 0; i < map_nbr_submaps; ++i) 
     {
-        if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+        if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
         }
@@ -347,13 +346,13 @@ static void unloadResourceSubmaps()
 /*
  *
  */
-static bool loadResourceImapsteps(data_file_t * fp)
+static bool loadResourceImapsteps(file_t fp)
 {
     size_t i;
     U16 u16Temp;
     resource_imapsteps_t dataTemp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -367,7 +366,7 @@ static bool loadResourceImapsteps(data_file_t * fp)
 
     for (i = 0; i < screen_nbr_imapstesps; ++i) 
     {
-        if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+        if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
         }
@@ -396,12 +395,12 @@ static void unloadResourceImapsteps()
 /*
  *
  */
-static bool loadResourceImaptext(data_file_t * fp)
+static bool loadResourceImaptext(file_t fp)
 {
     size_t i;
     U16 u16Temp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -443,14 +442,14 @@ static void unloadResourceImaptext()
 /*
  *
  */
-static bool loadResourceHighScores(data_file_t * fp)
+static bool loadResourceHighScores(file_t fp)
 {
     size_t i;
     U16 u16Temp;
     U32 u32Temp;
     resource_hiscore_t dataTemp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -464,7 +463,7 @@ static bool loadResourceHighScores(data_file_t * fp)
 
     for (i = 0; i < screen_nbr_hiscores; ++i) 
     {
-        if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+        if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
         }
@@ -488,12 +487,12 @@ static void unloadResourceHighScores()
 /*
  *
  */
-static bool loadResourceSpritesData(data_file_t * fp)
+static bool loadResourceSpritesData(file_t fp)
 {
     size_t i, j;
     U16 u16Temp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -511,7 +510,7 @@ static bool loadResourceSpritesData(data_file_t * fp)
         for (j = 0; j < SPRITES_NBR_DATA; ++j) 
         {
             U32 u32Temp;
-            if (data_file_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
+            if (sysfile_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
             {
                 return false;
             }
@@ -529,7 +528,7 @@ static bool loadResourceSpritesData(data_file_t * fp)
             for (k = 0; k < SPRITES_NBR_ROWS; ++k) 
             {
                 resource_spriteX_t dataTemp;
-                if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+                if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
                 {
                     return false;
                 }
@@ -558,12 +557,12 @@ static void unloadResourceSpritesData()
 /*
  *
  */
-static bool loadResourceTilesData(data_file_t * fp)
+static bool loadResourceTilesData(file_t fp)
 {
     size_t i, j, k;
     U16 u16Temp;
 
-    if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+    if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
         return false;
     }
@@ -582,7 +581,7 @@ static bool loadResourceTilesData(data_file_t * fp)
             for (k = 0; k < TILES_NBR_LINES ; ++k)
             {
 #ifdef GFXPC
-                if (data_file_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
+                if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
                 {
                     return false;
                 }
@@ -590,7 +589,7 @@ static bool loadResourceTilesData(data_file_t * fp)
 #endif /* GFXPC */
 #ifdef GFXST
                 U32 u32Temp;
-                if (data_file_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
+                if (sysfile_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
                 {
                     return false;
                 }
@@ -616,7 +615,7 @@ static void unloadResourceTilesData()
  *
  */
 #ifdef GFXST
-static bool loadPicture(data_file_t * fp, pic_t ** picture)
+static bool loadPicture(file_t fp, pic_t ** picture)
 {
     U16 u16Temp;
     size_t i, pixelWords32b;
@@ -629,7 +628,7 @@ static bool loadPicture(data_file_t * fp, pic_t ** picture)
         return false;
     }
 
-    if (data_file_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+    if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
     {
         return false;
     }
@@ -653,7 +652,7 @@ static bool loadPicture(data_file_t * fp, pic_t ** picture)
     for (i = 0; i < pixelWords32b; ++i)
     {
         U32 u32Temp;
-        if (data_file_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
+        if (sysfile_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
         {
             return false;
         }
@@ -681,12 +680,12 @@ static void unloadPicture(pic_t ** picture)
 /*
  *
  */
-static bool readHeader(data_file_t * fp, const unsigned id)
+static bool readHeader(file_t fp, const unsigned id)
 {
     resource_header_t header;
     U16 u16Temp;
 
-    if (data_file_read(fp, &header, sizeof(header), 1) != 1)
+    if (sysfile_read(fp, &header, sizeof(header), 1) != 1)
     {
         sys_printf("xrick/resources: unable to read header from \"%s\"\n", resourceFiles[id]);
         return false;
@@ -725,30 +724,30 @@ static bool checkCrc32(const unsigned id)
     U8 tempBuffer[1024];
     U32 expectedCrc32, calculatedCrc32 = MZ_CRC32_INIT;
 
-    data_file_t * fp = data_file_open(resourceFiles[id]);
+    file_t fp = sysfile_open(resourceFiles[id]);
     if (fp == NULL)
     {
         sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
         return false;
     }
 
-    bytesRead = data_file_read(fp, tempBuffer, sizeof(U32), 1); /* prepare beginning of buffer for the following loop */
+    bytesRead = sysfile_read(fp, tempBuffer, sizeof(U32), 1); /* prepare beginning of buffer for the following loop */
     if (bytesRead != 1)
     {
         sys_printf("xrick/resources: not enough data for \"%s\"\n", resourceFiles[id]);
-        data_file_close(fp);
+        sysfile_close(fp);
         return false;
     }
     do
     {
-        bytesRead = data_file_read(fp, tempBuffer + sizeof(U32), sizeof(U8), sizeof(tempBuffer) - sizeof(U32));
+        bytesRead = sysfile_read(fp, tempBuffer + sizeof(U32), sizeof(U8), sizeof(tempBuffer) - sizeof(U32));
 
         calculatedCrc32 = mz_crc32(calculatedCrc32, tempBuffer, bytesRead);
 
         memcpy(tempBuffer, tempBuffer + bytesRead, sizeof(U32));
     } while (bytesRead == sizeof(tempBuffer) - sizeof(U32));
     
-    data_file_close(fp);
+    sysfile_close(fp);
 
     memcpy(&expectedCrc32, tempBuffer, sizeof(U32));
     expectedCrc32 = letoh32(expectedCrc32);
@@ -766,7 +765,7 @@ static bool checkCrc32(const unsigned id)
 static bool readFile(const unsigned id)
 {
     bool success;
-    data_file_t * fp;
+    file_t fp;
 
     switch (id)
     {
@@ -795,7 +794,7 @@ static bool readFile(const unsigned id)
         return false;
     }
      
-    fp = data_file_open(resourceFiles[id]);
+    fp = sysfile_open(resourceFiles[id]);
     if (fp == NULL)
     {
         sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
@@ -849,7 +848,7 @@ static bool readFile(const unsigned id)
         sys_printf("xrick/resources: error when parsing \"%s\"\n", resourceFiles[id]);
     }
 
-    data_file_close(fp);
+    sysfile_close(fp);
     return success;
 }
 

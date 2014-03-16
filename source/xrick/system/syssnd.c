@@ -23,7 +23,6 @@
 #include "game.h"
 #include "syssnd.h"
 #include "debug.h"
-#include "data.h"
 
 #define ADJVOL(S) (((S)*sndVol)/SDL_MIX_MAXVOLUME)
 
@@ -396,9 +395,9 @@ syssnd_free(sound_t *s)
 static int
 sdlRWops_open(SDL_RWops *context, char *name)
 {
-	data_file_t *f;
+	file_t f;
 
-	f = data_file_open(name);
+	f = sysfile_open(name);
 	if (!f) return -1;
 	context->hidden.unknown.data1 = (void *)f;
 
@@ -408,13 +407,13 @@ sdlRWops_open(SDL_RWops *context, char *name)
 static int
 sdlRWops_seek(SDL_RWops *context, int offset, int whence)
 {
-	return data_file_seek((data_file_t *)(context->hidden.unknown.data1), offset, whence);
+	return sysfile_seek((file_t)(context->hidden.unknown.data1), offset, whence);
 }
 
 static int
 sdlRWops_read(SDL_RWops *context, void *ptr, int size, int maxnum)
 {
-	return data_file_read((data_file_t *)(context->hidden.unknown.data1), ptr, size, maxnum);
+	return sysfile_read((file_t)(context->hidden.unknown.data1), ptr, size, maxnum);
 }
 
 static int
@@ -429,7 +428,7 @@ sdlRWops_close(SDL_RWops *context)
 {
 	if (context)
 	{
-		data_file_close((data_file_t *)(context->hidden.unknown.data1));
+		sysfile_close((file_t)(context->hidden.unknown.data1));
 		free(context);
 	}
 	return 0;

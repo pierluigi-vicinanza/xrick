@@ -52,6 +52,7 @@
 #include "img.h"
 
 #include <stddef.h> /* size_t */
+#include <sys/types.h> /* off_t */
 
 /*
  * main section
@@ -87,6 +88,23 @@ extern void sysvid_zoom(S8);
 extern void sysvid_toggleFullscreen(void);
 extern void sysvid_setGamePalette(void);
 extern void sysvid_setPalette(img_color_t *, U16);
+
+/*
+ * file management section
+ */
+typedef void *file_t;
+
+extern const char *sysfile_defaultPath;
+
+extern void sysfile_setRootPath(const char *);
+extern void sysfile_clearRootPath(void);
+
+extern file_t sysfile_open(const char *);
+extern int sysfile_seek(file_t file, long offset, int origin);
+extern int sysfile_tell(file_t);
+extern off_t sysfile_size(file_t);
+extern int sysfile_read(file_t, void *, size_t, size_t);
+extern void sysfile_close(file_t);
 
 /*
  * events section
@@ -131,7 +149,7 @@ extern void syssnd_stopall(void);
 extern int syssnd_isplaying(sound_t *);
 extern sound_t *syssnd_load(char *name);
 extern void syssnd_free(sound_t *);
-#endif
+#endif /* ENABLE_ SOUND */
 
 /*
  * args section
@@ -158,7 +176,7 @@ extern void sysjoy_shutdown(void);
 #endif
 
 
-#endif
+#endif /* ndef _SYSTEM_H */
 
 /* eof */
 
