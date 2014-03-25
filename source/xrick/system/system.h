@@ -57,7 +57,7 @@
 /*
  * main section
  */
-extern void sys_init(int, char **);
+extern bool sys_init(int, char **);
 extern void sys_shutdown(void);
 extern void sys_panic(char *, ...);
 extern void sys_printf(char *, ...);
@@ -67,7 +67,7 @@ extern void sys_sleep(int);
 /*
  * memory section
  */
-extern void sysmem_init(void);
+extern bool sysmem_init(void);
 extern void sysmem_shutdown(void);
 extern void *sysmem_push(size_t);
 extern void sysmem_pop(void *);
@@ -80,7 +80,7 @@ extern void sysmem_pop(void *);
 #define SYSVID_WIDTH 320
 #define SYSVID_HEIGHT 200
 
-extern void sysvid_init(void);
+extern bool sysvid_init(void);
 extern void sysvid_shutdown(void);
 extern void sysvid_update(const rect_t *);
 extern void sysvid_clear(void);
@@ -96,7 +96,7 @@ typedef void *file_t;
 
 extern const char *sysfile_defaultPath;
 
-extern void sysfile_setRootPath(const char *);
+extern bool sysfile_setRootPath(const char *);
 extern void sysfile_clearRootPath(void);
 
 extern file_t sysfile_open(const char *);
@@ -137,7 +137,7 @@ typedef struct {
   bool dispose;
 } sound_t;
 
-extern void syssnd_init(void);
+extern bool syssnd_init(void);
 extern void syssnd_shutdown(void);
 extern void syssnd_vol(S8);
 extern void syssnd_toggleMute(void);
@@ -160,18 +160,18 @@ extern int sysarg_args_submap;
 extern int sysarg_args_fullscreen;
 extern int sysarg_args_zoom;
 #ifdef ENABLE_SOUND
-extern int sysarg_args_nosound;
+extern bool sysarg_args_nosound;
 extern int sysarg_args_vol;
 #endif
 extern char *sysarg_args_data;
 
-extern void sysarg_init(int, char **);
+extern bool sysarg_init(int, char **);
 
 /*
  * joystick section
  */
 #ifdef ENABLE_JOYSTICK
-extern void sysjoy_init(void);
+extern bool sysjoy_init(void);
 extern void sysjoy_shutdown(void);
 #endif
 

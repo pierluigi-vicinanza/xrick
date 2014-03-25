@@ -22,7 +22,7 @@
 
 static SDL_Joystick *j = NULL;
 
-void
+bool
 sysjoy_init(void)
 {
   U8 i, jcount;
@@ -31,13 +31,13 @@ sysjoy_init(void)
     IFDEBUG_JOYSTICK(
       sys_printf("xrick/joystick: can not initialize joystick subsystem\n");
       );
-    return;
+    return true;
   }
 
   jcount = SDL_NumJoysticks();
   if (!jcount) {  /* no joystick on this system */
     IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: no joystick available\n"););
-    return;
+    return true;
   }
 
   /* use the first joystick that we can open */
@@ -49,6 +49,7 @@ sysjoy_init(void)
 
   /* enable events */
   SDL_JoystickEventState(SDL_ENABLE);
+  return true;
 }
 
 void

@@ -96,22 +96,41 @@ sys_sleep(int s)
 /*
  * Initialize system
  */
-void
+bool
 sys_init(int argc, char **argv)
 {
-	sysarg_init(argc, argv);
-    sysmem_init();
-	sysvid_init();
+	if (!sysarg_init(argc, argv))
+    {
+        return false;
+    }
+    if (!sysmem_init())
+    {
+        return false;
+    }
+	if (!sysvid_init())
+    {
+        return false;
+    }
 #ifdef ENABLE_JOYSTICK
-	sysjoy_init();
+	if (!sysjoy_init())
+    {
+        return false;
+    }
 #endif
 #ifdef ENABLE_SOUND
-	if (sysarg_args_nosound == 0)
-		syssnd_init();
+	if (!sysarg_args_nosound && !syssnd_init())
+    {
+        return false;
+    }
 #endif
+    if (!sysfile_setRootPath(sysarg_args_data? sysarg_args_data : sysfile_defaultPath))
+    {
+        return false;
+    }
 	atexit(sys_shutdown);
 	signal(SIGINT, exit);
 	signal(SIGTERM, exit);
+    return true;
 }
 
 /*
@@ -120,6 +139,7 @@ sys_init(int argc, char **argv)
 void
 sys_shutdown(void)
 {
+	sysfile_clearRootPath();
 #ifdef ENABLE_SOUND
 	syssnd_shutdown();
 #endif

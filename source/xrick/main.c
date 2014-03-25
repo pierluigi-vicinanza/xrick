@@ -22,19 +22,13 @@
 int
 main(int argc, char *argv[])
 {
-	sys_init(argc, argv);
-	if (sysarg_args_data)
+    bool success = sys_init(argc, argv);
+	if (success)
     {
-		sysfile_setRootPath(sysarg_args_data);
+        game_run();
     }
-    else
-    {
-        sysfile_setRootPath(sysfile_defaultPath);
-    }
-    game_run();
-	sysfile_clearRootPath();
 	sys_shutdown();
-	return 0;
+    return (success? 0 : 1);
 }
 
 /* eof */

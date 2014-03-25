@@ -73,8 +73,7 @@ sysvid_setGamePalette()
 /*
  * Initialize video modes
  */
-void
-sysvid_chkvm(void)
+static bool sysvid_chkvm(void)
 {
   SDL_Rect **modes;
   U8 i, mode = 0;
@@ -84,7 +83,10 @@ sysvid_chkvm(void)
   modes = SDL_ListModes(NULL, videoFlags|SDL_FULLSCREEN);
 
   if (modes == (SDL_Rect **)0)
+  {
     sys_panic("xrick/video: SDL can not find an appropriate video mode\n");
+    return false;
+  }
 
   if (modes == (SDL_Rect **)-1) {
     /* can do what you want, everything is possible */
@@ -114,12 +116,13 @@ sysvid_chkvm(void)
       fszoom = 1;
     }
   }
+  return true;
 }
 
 /*
  * Initialise video
  */
-void
+bool
 sysvid_init(void)
 {
   SDL_Surface *s;
@@ -130,7 +133,10 @@ sysvid_init(void)
 
   /* SDL */
   if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) < 0)
+  {
     sys_panic("xrick/video: could not init SDL\n");
+    return false;
+  }
 
   /* various WM stuff */
   SDL_WM_SetCaption("xrick", "xrick");
@@ -172,10 +178,16 @@ sysvid_init(void)
 
   /* video modes and screen */
   videoFlags = SDL_HWSURFACE|SDL_HWPALETTE;
-  sysvid_chkvm();  /* check video modes */
+  if (!sysvid_chkvm()) /* check video modes */
+  {
+      return false;
+  }
   if (sysarg_args_zoom)
+  {
     zoom = sysarg_args_zoom;
-  if (sysarg_args_fullscreen) {
+  }
+  if (sysarg_args_fullscreen) 
+  {
     videoFlags |= SDL_FULLSCREEN;
     szoom = zoom;
     zoom = fszoom;
@@ -189,9 +201,13 @@ sysvid_init(void)
    */
   sysvid_fb = malloc(SYSVID_WIDTH * SYSVID_HEIGHT);
   if (!sysvid_fb)
+  {
     sys_panic("xrick/video: sysvid_fb malloc failed\n");
+    return false;
+  }
 
   IFDEBUG_VIDEO(printf("xrick/video: ready\n"););
+  return true;
 }
 
 /*
@@ -221,7 +237,10 @@ sysvid_update(const rect_t *rects)
     return;
 
   if (SDL_LockSurface(screen) == -1)
+  {
     sys_panic("xrick/panic: SDL_LockSurface failed\n");
+    return;
+  }
 
   while (rects) {
     p0 = sysvid_fb;

@@ -110,7 +110,7 @@ end_channel(U8 c)
 	channel[c].snd = NULL;
 }
 
-void
+bool
 syssnd_init(void)
 {
   SDL_AudioSpec desired, obtained;
@@ -120,7 +120,7 @@ syssnd_init(void)
     IFDEBUG_AUDIO(
       sys_printf("xrick/audio: can not initialize audio subsystem\n");
       );
-    return;
+    return true; /* shall we treat this as an error? */
   }
 
   desired.freq = SYSSND_FREQ;
@@ -134,14 +134,14 @@ syssnd_init(void)
     IFDEBUG_AUDIO(
       sys_printf("xrick/audio: can not open audio (%s)\n", SDL_GetError());
       );
-    return;
+    return true; /* shall we treat this as an error? */
   }
 
   sndlock = SDL_CreateMutex();
   if (sndlock == NULL) {
     IFDEBUG_AUDIO(sys_printf("xrick/audio: can not create lock\n"););
     SDL_CloseAudio();
-    return;
+    return true; /* shall we treat this as an error? */
   }
 
   if (sysarg_args_vol != 0) {
@@ -154,6 +154,7 @@ syssnd_init(void)
 
 	isAudioActive = true;
 	SDL_PauseAudio(0);
+    return true;
 }
 
 /*

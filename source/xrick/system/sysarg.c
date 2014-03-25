@@ -46,15 +46,14 @@ int sysarg_args_map = 0;
 int sysarg_args_submap = 0;
 int sysarg_args_fullscreen = 0;
 int sysarg_args_zoom = 0;
-int sysarg_args_nosound = 0;
+bool sysarg_args_nosound = false;
 int sysarg_args_vol = 0;
 char *sysarg_args_data = NULL;
 
 /*
  * Fail
  */
-void
-sysarg_fail(char *msg)
+static void sysarg_fail(char *msg)
 {
 #ifdef ENABLE_SOUND
 	printf("xrick [version #%s]: %s\n"
@@ -98,14 +97,12 @@ sysarg_fail(char *msg)
            "    bindings (cf. KeyCodes)\n", VERSION, msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/);
 #endif
     /* TODO: remove hardcoded map/submap max counts because they are now loaded from resource files */
-	exit(1);
 }
 
 /*
  * Get SDL key code
  */
-static int
-sysarg_sdlcode(char *k)
+static int sysarg_sdlcode(char *k)
 {
   int i, result;
 
@@ -126,8 +123,7 @@ sysarg_sdlcode(char *k)
 /*
  * Scan key codes sequence
  */
-int
-sysarg_scankeys(char *keys)
+static bool sysarg_scankeys(char *keys)
 {
   char k[16];
   int i, j;
@@ -136,136 +132,196 @@ sysarg_scankeys(char *keys)
 
   j = 0;
   while (keys[i] != '\0' && keys[i] != '-' && j + 1 < sizeof k) k[j++] = keys[i++];
-  if (keys[i++] == '\0') return -1;
+  if (keys[i++] == '\0') return false;
   k[j] = '\0';
   syskbd_left = sysarg_sdlcode(k);
-  if (!syskbd_left) return -1;
+  if (!syskbd_left) return false;
 
   j = 0;
   while (keys[i] != '\0' && keys[i] != '-' && j + 1 < sizeof k) k[j++] = keys[i++];
-  if (keys[i++] == '\0') return -1;
+  if (keys[i++] == '\0') return false;
   k[j] = '\0';
   syskbd_right = sysarg_sdlcode(k);
-  if (!syskbd_right) return -1;
+  if (!syskbd_right) return false;
 
   j = 0;
   while (keys[i] != '\0' && keys[i] != '-' && j + 1 < sizeof k) k[j++] = keys[i++];
-  if (keys[i++] == '\0') return -1;
+  if (keys[i++] == '\0') return false;
   k[j] = '\0';
   syskbd_up = sysarg_sdlcode(k);
-  if (!syskbd_up) return -1;
+  if (!syskbd_up) return false;
 
   j = 0;
   while (keys[i] != '\0' && keys[i] != '-' && j + 1 < sizeof k) k[j++] = keys[i++];
-  if (keys[i++] == '\0') return -1;
+  if (keys[i++] == '\0') return false;
   k[j] = '\0';
   syskbd_down = sysarg_sdlcode(k);
-  if (!syskbd_down) return -1;
+  if (!syskbd_down) return false;
 
   j = 0;
   while (keys[i] != '\0' && keys[i] != '-' && j + 1 < sizeof k) k[j++] = keys[i++];
-  if (keys[i] != '\0') return -1;
+  if (keys[i] != '\0') return false;
   k[j] = '\0';
   syskbd_fire = sysarg_sdlcode(k);
-  if (!syskbd_fire) return -1;
+  if (!syskbd_fire) return false;
 
-  return 0;
+  return true;
 }
 
 /*
  * Read and process arguments
  */
-void
+bool
 sysarg_init(int argc, char **argv)
 {
-  int i;
+    int i;
 
-  for (i = 1; i < argc; i++) {
-
-    if (!strcmp(argv[i], "-fullscreen")) {
-      sysarg_args_fullscreen = 1;
-    }
-
-    else if (!strcmp(argv[i], "-help") ||
-	     !strcmp(argv[i], "-h")) {
-      sysarg_fail("help");
-    }
-
-    else if (!strcmp(argv[i], "-speed")) {
-      if (++i == argc) sysarg_fail("missing speed value");
-      sysarg_args_period = atoi(argv[i]) - 1;
-      if (sysarg_args_period < 0 || sysarg_args_period > 99)
-	sysarg_fail("invalid speed value");
-    }
-
-    else if (!strcmp(argv[i], "-keys")) {
-      if (++i == argc) sysarg_fail("missing key codes");
-      if (sysarg_scankeys(argv[i]) == -1)
-	sysarg_fail("invalid key codes");
-    }
-
-    else if (!strcmp(argv[i], "-zoom")) {
-      if (++i == argc) sysarg_fail("missing zoom value");
-      sysarg_args_zoom = atoi(argv[i]);
-      if (sysarg_args_zoom < 1 || sysarg_args_zoom > SYSVID_MAXZOOM)
-	sysarg_fail("invalid zoom value");
-    }
-
-    else if (!strcmp(argv[i], "-map")) {
-      if (++i == argc) sysarg_fail("missing map number");
-      sysarg_args_map = atoi(argv[i]) - 1;
-      if (sysarg_args_map < 0 || sysarg_args_map >= 5/*MAP_NBR_MAPS*/-1) /* TODO: remove hardcoded map max count */
-	sysarg_fail("invalid map number");
-    }
-
-    else if (!strcmp(argv[i], "-submap")) {
-      if (++i == argc) sysarg_fail("missing submap number");
-      sysarg_args_submap = atoi(argv[i]) - 1;
-      if (sysarg_args_submap < 0 || sysarg_args_submap >= 47/*MAP_NBR_SUBMAPS*/) /* TODO: remove hardcoded submap max count */
-	sysarg_fail("invalid submap number");
-    }
+    for (i = 1; i < argc; i++) 
+    {
+        if (!strcmp(argv[i], "-fullscreen")) 
+        {
+            sysarg_args_fullscreen = 1;
+        }
+        else if (!strcmp(argv[i], "-help") ||
+                 !strcmp(argv[i], "-h")) 
+        {
+            sysarg_fail("help");
+            return false;
+        }
+        else if (!strcmp(argv[i], "-speed")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing speed value");
+                return false;
+            }
+            sysarg_args_period = atoi(argv[i]) - 1;
+            if (sysarg_args_period < 0 || sysarg_args_period > 99)
+            {
+                sysarg_fail("invalid speed value");
+                return false;
+            }
+        }
+        else if (!strcmp(argv[i], "-keys")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing key codes");
+                return false;
+            }
+            if (!sysarg_scankeys(argv[i]))
+            {
+                sysarg_fail("invalid key codes");
+                return false;
+            }
+        }
+        else if (!strcmp(argv[i], "-zoom")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing zoom value");
+                return false;
+            }
+            sysarg_args_zoom = atoi(argv[i]);
+            if (sysarg_args_zoom < 1 || sysarg_args_zoom > SYSVID_MAXZOOM)
+            {
+                sysarg_fail("invalid zoom value");
+                return false;
+            }
+        }
+        else if (!strcmp(argv[i], "-map")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing map number");
+                return false;
+            }
+            sysarg_args_map = atoi(argv[i]) - 1;
+            if (sysarg_args_map < 0 || sysarg_args_map >= 5/*MAP_NBR_MAPS*/-1) /* TODO: remove hardcoded map max count */
+            {
+                sysarg_fail("invalid map number");
+                return false;
+            }
+        }
+        else if (!strcmp(argv[i], "-submap")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing submap number");
+                return false;
+            }
+            sysarg_args_submap = atoi(argv[i]) - 1;
+            if (sysarg_args_submap < 0 || sysarg_args_submap >= 47/*MAP_NBR_SUBMAPS*/) /* TODO: remove hardcoded submap max count */
+            {
+                sysarg_fail("invalid submap number");
+                return false;
+            }
+        }
 #ifdef ENABLE_SOUND
-    else if (!strcmp(argv[i], "-vol")) {
-      if (++i == argc) sysarg_fail("missing volume");
-      sysarg_args_vol = atoi(argv[i]) - 1;
-      if (sysarg_args_submap < 0 || sysarg_args_submap >= SYSSND_MAXVOL)
-	sysarg_fail("invalid volume");
+        else if (!strcmp(argv[i], "-vol")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing volume");
+                return false;
+            }
+            sysarg_args_vol = atoi(argv[i]) - 1;
+            if (sysarg_args_submap < 0 || sysarg_args_submap >= SYSSND_MAXVOL)
+            {
+                sysarg_fail("invalid volume");
+                return false;
+            }
+        }
+        else if (!strcmp(argv[i], "-nosound")) 
+        {
+            sysarg_args_nosound = true;
+        }
+#endif /* ENABLE_SOUND */
+        else if (!strcmp(argv[i], "-data")) 
+        {
+            if (++i == argc) 
+            {
+                sysarg_fail("missing data");
+                return false;
+            }
+            sysarg_args_data = argv[i];
+        }
+        else 
+        {
+            sysarg_fail("invalid argument(s)");
+            return false;
+        }
     }
 
-    else if (!strcmp(argv[i], "-nosound")) {
-      sysarg_args_nosound = 1;
+    /* TODO: remove checks below based on hardcoded values. 
+    *       Add code to check sysarg_args_map and sysarg_args_submap against map/submap max counts 
+    *       (after these have been loaded from resource files). 
+    */
+
+    /* this is dirty (sort of) */
+    if (sysarg_args_submap > 0 && sysarg_args_submap < 9)
+    {
+        sysarg_args_map = 0;
     }
-#endif
-	else if (!strcmp(argv[i], "-data")) {
-		if (++i == argc) sysarg_fail("missing data");
-		sysarg_args_data = argv[i];
-	}
-
-    else {
-      sysarg_fail("invalid argument(s)");
+    if (sysarg_args_submap >= 9 && sysarg_args_submap < 20)
+    {
+        sysarg_args_map = 1;
     }
-
-  }
-
-  /* TODO: remove checks below based on hardcoded values. 
-   *       Add code to check sysarg_args_map and sysarg_args_submap against map/submap max counts 
-   *       (after these have been loaded from resource files). 
-   */
-
-  /* this is dirty (sort of) */
-  if (sysarg_args_submap > 0 && sysarg_args_submap < 9)
-    sysarg_args_map = 0;
-  if (sysarg_args_submap >= 9 && sysarg_args_submap < 20)
-    sysarg_args_map = 1;
-  if (sysarg_args_submap >= 20 && sysarg_args_submap < 38)
-    sysarg_args_map = 2;
-  if (sysarg_args_submap >= 38)
-    sysarg_args_map = 3;
-  if (sysarg_args_submap == 9 ||
-      sysarg_args_submap == 20 ||
-      sysarg_args_submap == 38)
-    sysarg_args_submap = 0;
-
+    if (sysarg_args_submap >= 20 && sysarg_args_submap < 38)
+    {
+        sysarg_args_map = 2;
+    }
+    if (sysarg_args_submap >= 38)
+    {
+        sysarg_args_map = 3;
+    }
+    if (sysarg_args_submap == 9 ||
+        sysarg_args_submap == 20 ||
+        sysarg_args_submap == 38)
+    {
+        sysarg_args_submap = 0;
+    }
+    return true;
 }
 
 /* eof */

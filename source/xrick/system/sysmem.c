@@ -30,10 +30,11 @@ IFDEBUG_MEMORY( static size_t maxUsedMemory = 0; );
 /*
  * Initialise memory stack
  */
-void sysmem_init()
+bool sysmem_init()
 {
     stackTop = stackBuffer;
     stackSize = 0;
+    return true;
 }
 
 /*
@@ -63,6 +64,7 @@ void *sysmem_push(size_t size)
     if (stackSize + neededSize > STACK_MAX_SIZE)
     {
         sys_panic("(memory) tried to allocate a block when memory full");
+        return NULL;
     }
 
     alignedPtr = (((uintptr_t)stackTop) + sizeof(size_t) + ALIGNMENT) & ~((uintptr_t)(ALIGNMENT - 1));
@@ -96,6 +98,7 @@ void sysmem_pop(void * alignedPtr)
     if (stackSize == 0)
     {
         sys_panic("(memory) tried to release a block when memory empty");
+        return;
     }
 
     allocatedSize = ((size_t *)(alignedPtr))[-1];
@@ -106,6 +109,7 @@ void sysmem_pop(void * alignedPtr)
         if ((uintptr_t)alignedPtr != ((((uintptr_t)stackTop) + sizeof(size_t) + ALIGNMENT) & ~((uintptr_t)(ALIGNMENT - 1))))
         {
             sys_panic("(memory) tried to release a wrong block");
+            return;
         }
     );
 

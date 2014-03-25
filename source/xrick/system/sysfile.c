@@ -63,7 +63,7 @@ static char *str_toNativeSeparators(char *);
 /*
  *
  */
-void
+bool
 sysfile_setRootPath(const char *name)
 {
     rootPath.name = str_toNativeSeparators(str_dup(name));
@@ -75,6 +75,7 @@ sysfile_setRootPath(const char *name)
         {
             sysmem_pop(rootPath.name);
             sys_panic("(data) can not open data");
+            return false;
         } 
 	} 
     else /* dealing with a directory */
@@ -83,6 +84,7 @@ sysfile_setRootPath(const char *name)
 		rootPath.zip = NULL;
 	}
 #endif  /* ENABLE_ZIP */
+    return true;
 }
 
 /*
