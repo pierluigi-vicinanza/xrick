@@ -101,13 +101,13 @@ processEvent()
 #endif
 #ifdef ENABLE_CHEATS
     else if (key == SDLK_F7) {
-      game_toggleCheat(1);
+      game_toggleCheat(Cheat_UNLIMITED_ALL);
     }
     else if (key == SDLK_F8) {
-      game_toggleCheat(2);
+      game_toggleCheat(Cheat_NEVER_DIE);
     }
     else if (key == SDLK_F9) {
-      game_toggleCheat(3);
+      game_toggleCheat(Cheat_EXPOSE);
     }
 #endif
     break;

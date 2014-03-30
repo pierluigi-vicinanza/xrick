@@ -51,10 +51,16 @@ extern void game_stopmusic(void);
 
 
 #ifdef ENABLE_CHEATS
-extern U8 game_cheat1;     /* infinite lives, bombs and bullets */
-extern U8 game_cheat2;     /* never die */
-extern U8 game_cheat3;     /* highlight sprites */
-extern void game_toggleCheat(U8);
+typedef enum 
+{
+    Cheat_UNLIMITED_ALL,
+    Cheat_NEVER_DIE,
+    Cheat_EXPOSE
+} cheat_t;
+extern bool game_cheat1;     /* infinite lives, bombs and bullets */
+extern bool game_cheat2;     /* never die */
+extern bool game_cheat3;     /* highlight sprites */
+extern void game_toggleCheat(cheat_t);
 #endif
 
 #ifdef ENABLE_SOUND

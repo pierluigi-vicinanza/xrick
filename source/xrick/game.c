@@ -66,9 +66,9 @@ U16 game_submap = 0;
 U8 game_dir = RIGHT;
 bool game_chsm = false;
 
-U8 game_cheat1 = 0;
-U8 game_cheat2 = 0;
-U8 game_cheat3 = 0;
+bool game_cheat1 = false;
+bool game_cheat2 = false;
+bool game_cheat3 = false;
 
 #ifdef ENABLE_SOUND
 sound_t *WAV_GAMEOVER;
@@ -118,33 +118,41 @@ static void freedata(void);
  */
 #ifdef ENABLE_CHEATS
 void
-game_toggleCheat(U8 nbr)
+game_toggleCheat(cheat_t cheat)
 {
-  if (game_state != INTRO_MAIN && game_state != INTRO_MAP &&
-      game_state != GAMEOVER && game_state != GETNAME &&
+    if (game_state != INTRO_MAIN && game_state != INTRO_MAP &&
+        game_state != GAMEOVER && game_state != GETNAME &&
 #ifdef ENABLE_DEVTOOLS
-      game_state != DEVTOOLS &&
+        game_state != DEVTOOLS &&
 #endif
-      game_state != XRICK && game_state != EXIT) {
-    switch (nbr) {
-    case 1:
-      game_cheat1 = ~game_cheat1;
-      game_lives = 6;
-      game_bombs = 6;
-      game_bullets = 6;
-      break;
-    case 2:
-      game_cheat2 = ~game_cheat2;
-      break;
-    case 3:
-      game_cheat3 = ~game_cheat3;
-      break;
+        game_state != XRICK && game_state != EXIT) 
+    {
+        switch (cheat) 
+        {
+            case Cheat_UNLIMITED_ALL:
+            {
+                game_cheat1 = !game_cheat1;
+                game_lives = 6;
+                game_bombs = 6;
+                game_bullets = 6;
+                break;
+            }
+            case Cheat_NEVER_DIE:
+            {
+                game_cheat2 = !game_cheat2;
+                break;
+            }
+            case Cheat_EXPOSE:
+            {
+                game_cheat3 = !game_cheat3;
+                break;
+            }
+        }
+        draw_infos();
+        /* FIXME this should probably only raise a flag ... */
+        /* plus we only need to update INFORECT not the whole screen */
+        sysvid_update(&draw_SCREENRECT);
     }
-    draw_infos();
-    /* FIXME this should probably only raise a flag ... */
-    /* plus we only need to update INFORECT not the whole screen */
-    sysvid_update(&draw_SCREENRECT);
-  }
 }
 #endif
 
