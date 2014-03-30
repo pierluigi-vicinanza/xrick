@@ -123,7 +123,7 @@ static int sysarg_sdlcode(char *k)
 /*
  * Scan key codes sequence
  */
-static bool sysarg_scankeys(char *keys)
+static bool sysarg_scankeys(const char *keys)
 {
   char k[16];
   int i, j;
