@@ -20,8 +20,6 @@
 #include "e_rick.h"
 #include "maps.h"
 
-#include <stddef.h> /* NULL */
-
 /*
  * Full box test.
  *
