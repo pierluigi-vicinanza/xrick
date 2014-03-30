@@ -57,7 +57,7 @@
 /*
  * main section
  */
-extern bool sys_init(int, char **);
+extern bool sys_init(int, const char **);
 extern void sys_shutdown(void);
 extern void sys_panic(char *, ...);
 extern void sys_printf(char *, ...);
@@ -165,7 +165,7 @@ extern int sysarg_args_vol;
 #endif
 extern char *sysarg_args_data;
 
-extern bool sysarg_init(int, char **);
+extern bool sysarg_init(int, const char **);
 
 /*
  * joystick section

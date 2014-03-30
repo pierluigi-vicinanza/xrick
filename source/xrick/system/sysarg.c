@@ -172,7 +172,7 @@ static bool sysarg_scankeys(char *keys)
  * Read and process arguments
  */
 bool
-sysarg_init(int argc, char **argv)
+sysarg_init(int argc, const char **argv)
 {
     int i;
 

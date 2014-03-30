@@ -97,7 +97,7 @@ sys_sleep(int s)
  * Initialize system
  */
 bool
-sys_init(int argc, char **argv)
+sys_init(int argc, const char **argv)
 {
 	if (!sysarg_init(argc, argv))
     {
