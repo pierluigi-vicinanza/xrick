@@ -19,8 +19,7 @@
 #ifdef GFXST
 #include "data/pics.h"
 #endif
-
-#include <stdio.h>  /* sprintf */
+#include "system/system.h"
 
 /*
  * Main introduction
@@ -115,8 +114,8 @@ screen_introMain(void)
 #ifdef GFXPC
             draw_filter = 0x5555;
 #endif
-            for (i = 0; i < 8; i++) {
-                sprintf((char *)s, "%06d@@@====@@@%s",
+            for (i = 0; i < screen_nbr_hiscores; i++) {
+                sys_snprintf((char *)s, sizeof(s), "%06d@@@====@@@%s",
                     screen_highScores[i].score, screen_highScores[i].name);
                 s[26] = '\377'; s[27] = '\377'; s[28] = '\376';
                 draw_tllst = s;

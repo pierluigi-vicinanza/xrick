@@ -25,7 +25,7 @@
  * Panic
  */
 void
-sys_panic(char *err, ...)
+sys_panic(const char *err, ...)
 {
   va_list argptr;
   char s[1024];
@@ -45,12 +45,11 @@ sys_panic(char *err, ...)
   exit(1);
 }
 
-
 /*
- * Print a message
+ * Print a message to standard output
  */
 void
-sys_printf(char *msg, ...)
+sys_printf(const char *msg, ...)
 {
   va_list argptr;
   char s[1024];
@@ -65,6 +64,19 @@ sys_printf(char *msg, ...)
   vsprintf(s, msg, argptr);
   va_end(argptr);
   printf(s);
+}
+
+/*
+ * Print a message to string buffer
+ */
+void
+sys_snprintf(char *buf, size_t size, const char *msg, ...)
+{
+    va_list argptr;
+
+    va_start(argptr, msg);
+    vsnprintf(buf, size, msg, argptr);
+    va_end(argptr);
 }
 
 /*

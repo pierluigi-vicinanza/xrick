@@ -59,8 +59,9 @@
  */
 extern bool sys_init(int, const char **);
 extern void sys_shutdown(void);
-extern void sys_panic(char *, ...);
-extern void sys_printf(char *, ...);
+extern void sys_panic(const char *, ...);
+extern void sys_printf(const char *, ...);
+extern void sys_snprintf(char *, size_t, const char *, ...);
 extern U32 sys_gettime(void);
 extern void sys_sleep(int);
 

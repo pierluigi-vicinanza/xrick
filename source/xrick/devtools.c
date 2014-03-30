@@ -24,8 +24,7 @@
 #include "draw.h"
 #include "data/sprites.h"
 #include "maps.h"
-
-#include <stdio.h>  /* sprintf */
+#include "system/system.h"
 
 /*
  * DevTools
@@ -53,7 +52,7 @@ devtools_run(void)
   case 1:  /* draw tiles */
     sysvid_clear();
     draw_tilesBank = 0;
-    sprintf(s, "TILES@BANK@%d\376", pos);
+    sys_snprintf(s, sizeof(s), "TILES@BANK@%d\376", pos);
     draw_setfb(4, 4);
     draw_tilesListImm(s);
     k = 0;
@@ -102,7 +101,7 @@ devtools_run(void)
   case 21:  /* draw sprites */
     sysvid_clear();
     draw_tilesBank = 0;
-    sprintf(s, "SPRITES\376");
+    sys_snprintf(s, sizeof(s), "SPRITES\376");
     draw_setfb(4, 4);
     draw_tilesListImm(s);
     for (i = 0; i < 8; i++) {
@@ -148,7 +147,7 @@ devtools_run(void)
     break;
   case 32:  /* wait for key released */
     if (!(control_status & CONTROL_UP)) {
-      if (pos < SPRITES_NBR_SPRITES - 32) pos += 32;
+      if (pos < sprites_nbr_sprites - 32) pos += 32;
       seq = 21;
     }
     break;
@@ -166,7 +165,7 @@ devtools_run(void)
 #ifdef GFXST
     if (pos2 == 0) pos2 = 1;
 #endif
-    sprintf(s, "BLOCKS@%#04X@TO@%#04X@WITH@BANK@%d\376",
+    sys_snprintf(s, sizeof(s), "BLOCKS@%#04X@TO@%#04X@WITH@BANK@%d\376",
 	    pos, pos + 4*8-1, pos2);
     draw_setfb(4, 4);
     draw_tilesBank = 0;
@@ -195,7 +194,7 @@ devtools_run(void)
     break;
   case 42:
     if (!(control_status & CONTROL_UP)) {
-      if (pos < MAP_NBR_BLOCKS - 8*4) pos += 8 * 4;
+      if (pos < map_nbr_blocks - 8*4) pos += 8 * 4;
       seq = 40;
     }
     break;
