@@ -164,7 +164,7 @@ extern int sysarg_args_zoom;
 extern bool sysarg_args_nosound;
 extern int sysarg_args_vol;
 #endif
-extern char *sysarg_args_data;
+extern const char *sysarg_args_data;
 
 extern bool sysarg_init(int, const char **);
 

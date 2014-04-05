@@ -48,7 +48,7 @@ int sysarg_args_fullscreen = 0;
 int sysarg_args_zoom = 0;
 bool sysarg_args_nosound = false;
 int sysarg_args_vol = 0;
-char *sysarg_args_data = NULL;
+const char *sysarg_args_data = NULL;
 
 /*
  * Fail
