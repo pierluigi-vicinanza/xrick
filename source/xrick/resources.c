@@ -216,13 +216,12 @@ static bool loadRawData(file_t fp, void ** buffer, const size_t size, size_t * c
         return false;
     }
 
-    if (sysfile_read(fp, *buffer, size, *count) != *count)
+    if (sysfile_read(fp, *buffer, size, *count) != (int)(*count))
     {
         return false;
     }
     return true;
 }
-
 
 /*
  *
@@ -414,7 +413,7 @@ static bool loadResourceImaptext(file_t fp)
 
     for (i = 0; i < screen_nbr_imaptext; ++i) 
     {
-        if (!loadString(fp, &(screen_imaptext[i]), 0xFE))
+        if (!loadString(fp, (char **)(&(screen_imaptext[i])), 0xFE))
         {
             return false;
         }  
@@ -431,7 +430,7 @@ static void unloadResourceImaptext()
 
     for (i = screen_nbr_imaptext - 1; i >= 0; --i)
     {
-        unloadString(&(screen_imaptext[i]));
+        unloadString((char **)(&(screen_imaptext[i])));
     } 
 
     sysmem_pop(screen_imaptext);
@@ -766,6 +765,7 @@ static bool readFile(const unsigned id)
 {
     bool success;
     file_t fp;
+    void * vp;
 
     switch (id)
     {
@@ -808,23 +808,83 @@ static bool readFile(const unsigned id)
         switch (id)
         {
             case Resource_FILELIST: success = loadResourceFilelist(fp); break;
-            case Resource_PALETTE: success = loadRawData(fp, &game_colors, sizeof(*game_colors), &game_color_count); break;
+            case Resource_PALETTE: 
+            {
+                vp = game_colors; 
+                success = loadRawData(fp, &vp, sizeof(*game_colors), &game_color_count);
+                game_colors = vp;
+                break;
+            }
             case Resource_ENTDATA: success = loadResourceEntdata(fp); break;
-            case Resource_SPRSEQ: success = loadRawData(fp, &ent_sprseq, sizeof(*ent_sprseq), &ent_nbr_sprseq); break;
-            case Resource_MVSTEP: success = loadRawData(fp, &ent_mvstep, sizeof(*ent_mvstep), &ent_nbr_mvstep); break;
+            case Resource_SPRSEQ:
+            {
+                vp = ent_sprseq;
+                success = loadRawData(fp, &vp, sizeof(*ent_sprseq), &ent_nbr_sprseq); 
+                ent_sprseq = vp;
+                break;
+            }
+            case Resource_MVSTEP: 
+            {
+                vp = ent_mvstep; 
+                success = loadRawData(fp, &vp, sizeof(*ent_mvstep), &ent_nbr_mvstep); 
+                ent_mvstep = vp;
+                break;
+            }
             case Resource_MAPS: success = loadResourceMaps(fp); break;
             case Resource_SUBMAPS: success = loadResourceSubmaps(fp); break;
-            case Resource_CONNECT: success = loadRawData(fp, &map_connect, sizeof(*map_connect), &map_nbr_connect); break;
-            case Resource_BNUMS: success = loadRawData(fp, &map_bnums, sizeof(*map_bnums), &map_nbr_bnums); break;
-            case Resource_BLOCKS: success = loadRawData(fp, &map_blocks, sizeof(*map_blocks), &map_nbr_blocks); break;
-            case Resource_MARKS: success = loadRawData(fp, &map_marks, sizeof(*map_marks), &map_nbr_marks); break;
-            case Resource_EFLGC: success = loadRawData(fp, &map_eflg_c, sizeof(*map_eflg_c), &map_nbr_eflgc); break;
-            case Resource_IMAPSL: success = loadRawData(fp, &screen_imapsl, sizeof(*screen_imapsl), &screen_nbr_imapsl); break;
+            case Resource_CONNECT: 
+            {
+                vp = map_connect; 
+                success = loadRawData(fp, &vp, sizeof(*map_connect), &map_nbr_connect); 
+                map_connect = vp;
+                break;
+            }
+            case Resource_BNUMS: 
+            {
+                vp = map_bnums; 
+                success = loadRawData(fp, &vp, sizeof(*map_bnums), &map_nbr_bnums); 
+                map_bnums = vp; 
+                break;
+            }
+            case Resource_BLOCKS:
+            {
+                vp = map_blocks; 
+                success = loadRawData(fp, &vp, sizeof(*map_blocks), &map_nbr_blocks); 
+                map_blocks = vp;
+                break;
+            }
+            case Resource_MARKS: 
+            {
+                vp = map_marks; 
+                success = loadRawData(fp, &vp, sizeof(*map_marks), &map_nbr_marks); 
+                map_marks = vp;
+                break;
+            }
+            case Resource_EFLGC: 
+            {
+                vp = map_eflg_c; 
+                success = loadRawData(fp, &vp, sizeof(*map_eflg_c), &map_nbr_eflgc); 
+                map_eflg_c = vp;
+                break;
+            }
+            case Resource_IMAPSL:
+            {
+                vp = screen_imapsl; 
+                success = loadRawData(fp, &vp, sizeof(*screen_imapsl), &screen_nbr_imapsl);
+                screen_imapsl = vp;
+                break;
+            }
             case Resource_IMAPSTEPS: success = loadResourceImapsteps(fp); break;
-            case Resource_IMAPSOFS: success = loadRawData(fp, &screen_imapsofs, sizeof(*screen_imapsofs), &screen_nbr_imapsofs); break;
+            case Resource_IMAPSOFS: 
+            {
+                vp = screen_imapsofs; 
+                success = loadRawData(fp, &vp, sizeof(*screen_imapsofs), &screen_nbr_imapsofs); 
+                screen_imapsofs = vp;
+                break;
+            }
             case Resource_IMAPTEXT: success = loadResourceImaptext(fp); break;
-            case Resource_GAMEOVERTXT: success = loadString(fp, &screen_gameovertxt, 0xFE); break;
-            case Resource_PAUSEDTXT: success = loadString(fp, &screen_pausedtxt, 0xFE); break;           
+            case Resource_GAMEOVERTXT: success = loadString(fp, (char **)(&screen_gameovertxt), 0xFE); break;
+            case Resource_PAUSEDTXT: success = loadString(fp, (char **)(&screen_pausedtxt), 0xFE); break;           
             case Resource_SPRITESDATA: success = loadResourceSpritesData(fp); break;
             case Resource_TILESDATA: success = loadResourceTilesData(fp); break;
             case Resource_HIGHSCORES: success = loadResourceHighScores(fp); break;
@@ -834,10 +894,10 @@ static bool readFile(const unsigned id)
             case Resource_PICSPLASH: loadPicture(fp, &pic_splash); break;
 #endif /* GFXST */
 #ifdef GFXPC
-            case Resource_IMAINHOFT: success = loadString(fp, &screen_imainhoft, 0xFE); break;
-            case Resource_IMAINRDT: success = loadString(fp, &screen_imainrdt, 0xFE); break;
-            case Resource_IMAINCDC: success = loadString(fp, &screen_imaincdc, 0xFE); break;
-            case Resource_SCREENCONGRATS: success = loadString(fp, &screen_congrats, 0xFE); break;
+            case Resource_IMAINHOFT: success = loadString(fp, (char **)(&screen_imainhoft), 0xFE); break;
+            case Resource_IMAINRDT: success = loadString(fp, (char **)(&screen_imainrdt), 0xFE); break;
+            case Resource_IMAINCDC: success = loadString(fp, (char **)(&screen_imaincdc), 0xFE); break;
+            case Resource_SCREENCONGRATS: success = loadString(fp, (char **)(&screen_congrats), 0xFE); break;
 #endif /* GFXPC */
             default: success = false; break;
         }
@@ -873,29 +933,90 @@ bool resources_load()
 void resources_unload()
 {    
     int id;
+    void * vp;
 
     for (id = Resource_MAX_COUNT - 1; id >= Resource_FILELIST; --id)
     {
         switch (id)
         {
             case Resource_FILELIST: unloadResourceFilelist(); break;
-            case Resource_PALETTE: unloadRawData(&game_colors, &game_color_count); break;
+            case Resource_PALETTE: 
+            {
+                vp = game_colors; 
+                unloadRawData(&vp, &game_color_count); 
+                game_colors = vp;
+                break;
+            }
             case Resource_ENTDATA: unloadResourceEntdata(); break;
-            case Resource_SPRSEQ: unloadRawData(&ent_sprseq, &ent_nbr_sprseq); break;
-            case Resource_MVSTEP: unloadRawData(&ent_mvstep, &ent_nbr_mvstep); break;
+            case Resource_SPRSEQ: 
+            {
+                vp = ent_sprseq; 
+                unloadRawData(&vp, &ent_nbr_sprseq); 
+                ent_sprseq = vp;
+                break;
+            }
+            case Resource_MVSTEP: 
+            {
+                vp = ent_mvstep; 
+                unloadRawData(&vp, &ent_nbr_mvstep); 
+                ent_mvstep = vp;
+                break;
+            }
             case Resource_MAPS: unloadResourceMaps(); break;
             case Resource_SUBMAPS: unloadResourceSubmaps(); break;
-            case Resource_CONNECT: unloadRawData(&map_connect, &map_nbr_connect); break;
-            case Resource_BNUMS: unloadRawData(&map_bnums, &map_nbr_bnums); break;
-            case Resource_BLOCKS: unloadRawData(&map_blocks, &map_nbr_blocks); break;
-            case Resource_MARKS: unloadRawData(&map_marks, &map_nbr_marks); break;
-            case Resource_EFLGC: unloadRawData(&map_eflg_c, &map_nbr_eflgc); break;
-            case Resource_IMAPSL: unloadRawData(&screen_imapsl, &screen_nbr_imapsl); break;
+            case Resource_CONNECT: 
+            {
+                vp = map_connect; 
+                unloadRawData(&vp, &map_nbr_connect); 
+                map_connect = vp;
+                break;
+            }
+            case Resource_BNUMS: 
+            {
+                vp = map_bnums;
+                unloadRawData(&vp, &map_nbr_bnums); 
+                map_bnums = vp;
+                break;
+            }
+            case Resource_BLOCKS: 
+            {
+                vp = map_blocks;
+                unloadRawData(&vp, &map_nbr_blocks); 
+                map_blocks = vp;
+                break;
+            }
+            case Resource_MARKS: 
+            {
+                vp = map_marks;
+                unloadRawData(&vp, &map_nbr_marks); 
+                map_marks = vp;
+                break;
+            }
+            case Resource_EFLGC: 
+            {
+                vp = map_eflg_c;
+                unloadRawData(&vp, &map_nbr_eflgc); 
+                map_eflg_c = vp;
+                break;
+            }
+            case Resource_IMAPSL: 
+            {
+                vp = screen_imapsl;
+                unloadRawData(&vp, &screen_nbr_imapsl); 
+                screen_imapsl = vp;
+                break;
+            }
             case Resource_IMAPSTEPS: unloadResourceImapsteps(); break;
-            case Resource_IMAPSOFS: unloadRawData(&screen_imapsofs, &screen_nbr_imapsofs); break;
+            case Resource_IMAPSOFS: 
+            {
+                vp = screen_imapsofs;
+                unloadRawData(&vp, &screen_nbr_imapsofs); 
+                screen_imapsofs = vp;
+                break;
+            }
             case Resource_IMAPTEXT: unloadResourceImaptext(); break;
-            case Resource_GAMEOVERTXT: unloadString(&screen_gameovertxt); break;
-            case Resource_PAUSEDTXT: unloadString(&screen_pausedtxt); break;           
+            case Resource_GAMEOVERTXT: unloadString((char **)(&screen_gameovertxt)); break;
+            case Resource_PAUSEDTXT: unloadString((char **)(&screen_pausedtxt)); break;           
             case Resource_SPRITESDATA: unloadResourceSpritesData(); break;
             case Resource_TILESDATA: unloadResourceTilesData(); break;
             case Resource_HIGHSCORES: unloadResourceHighScores(); break;
@@ -905,10 +1026,10 @@ void resources_unload()
             case Resource_PICSPLASH: unloadPicture(&pic_splash); break;
 #endif /* GFXST */
 #ifdef GFXPC
-            case Resource_IMAINHOFT: unloadString(&screen_imainhoft); break;
-            case Resource_IMAINRDT: unloadString(&screen_imainrdt); break;
-            case Resource_IMAINCDC: unloadString(&screen_imaincdc); break;
-            case Resource_SCREENCONGRATS: unloadString(&screen_congrats); break;
+            case Resource_IMAINHOFT: unloadString((char **)(&screen_imainhoft)); break;
+            case Resource_IMAINRDT: unloadString((char **)(&screen_imainrdt)); break;
+            case Resource_IMAINCDC: unloadString((char **)(&screen_imaincdc)); break;
+            case Resource_SCREENCONGRATS: unloadString((char **)(&screen_congrats)); break;
 #endif /* GFXPC */
             default: break;
         }
