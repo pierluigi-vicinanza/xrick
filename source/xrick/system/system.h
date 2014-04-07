@@ -63,7 +63,7 @@ extern void sys_panic(const char *, ...);
 extern void sys_printf(const char *, ...);
 extern void sys_snprintf(char *, size_t, const char *, ...);
 extern U32 sys_gettime(void);
-extern void sys_sleep(int);
+extern void sys_sleep(U32);
 
 /*
  * memory section

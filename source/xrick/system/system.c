@@ -80,29 +80,21 @@ sys_snprintf(char *buf, size_t size, const char *msg, ...)
 }
 
 /*
- * Return number of microseconds elapsed since first call
+ * Return number of milliseconds elapsed since first call
  */
 U32
 sys_gettime(void)
 {
-  static U32 ticks_base = 0;
-  U32 ticks;
-
-  ticks = SDL_GetTicks();
-
-  if (!ticks_base)
-    ticks_base = ticks;
-
-  return ticks - ticks_base;
+    return SDL_GetTicks();
 }
 
 /*
- * Sleep a number of microseconds
+ * Sleep a number of milliseconds
  */
 void
-sys_sleep(int s)
+sys_sleep(U32 ms)
 {
-  SDL_Delay(s);
+    SDL_Delay(ms);
 }
 
 /*
