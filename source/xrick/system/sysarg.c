@@ -83,7 +83,7 @@ static void sysarg_fail(char *msg)
            "<option> =\n"
            "  -h, -help : Display this information.\n"
            "  -fullscreen : Run in fullscreen mode.\n"
-           "    The default is to run in a window.\n
+           "    The default is to run in a window.\n"
            "  -speed <speed> : Run at speed <speed>. Speed must be an integer between 1\n"
            "    (fast) and 100 (slow). The default is %d\n"
            "  -zoom <zoom> : Display with zoom factor <zoom>. <zoom> must be an integer\n"
