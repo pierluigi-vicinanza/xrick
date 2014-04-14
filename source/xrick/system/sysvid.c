@@ -24,7 +24,6 @@
 #include <SDL.h>
 
 U8 *sysvid_fb; /* frame buffer */
-rect_t SCREENRECT = {0, 0, SYSVID_WIDTH, SYSVID_HEIGHT, NULL}; /* whole fb */
 
 static SDL_Color palette[256];
 static SDL_Surface *screen;
@@ -318,7 +317,7 @@ sysvid_zoom(S8 z)
 			SYSVID_HEIGHT * zoom,
 			screen->format->BitsPerPixel, videoFlags);
     sysvid_restorePalette();
-    sysvid_update(&SCREENRECT);
+    sysvid_update(&draw_SCREENRECT);
   }
 }
 
@@ -341,7 +340,7 @@ sysvid_toggleFullscreen(void)
 		      SYSVID_HEIGHT * zoom,
 		      screen->format->BitsPerPixel, videoFlags);
   sysvid_restorePalette();
-  sysvid_update(&SCREENRECT);
+  sysvid_update(&draw_SCREENRECT);
 }
 
 /* eof */

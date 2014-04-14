@@ -35,7 +35,7 @@ extern U16 draw_filter;
 extern U8 draw_tilesBank;
 
 extern rect_t draw_STATUSRECT;
-extern const rect_t draw_SCREENRECT;
+extern const rect_t draw_SCREENRECT; /* whole fb */
 
 extern size_t game_color_count;
 extern img_color_t *game_colors;
