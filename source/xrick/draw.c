@@ -44,7 +44,6 @@
  */
 
 #include "system/system.h"
-#include "system/sysvid.h"
 
 #include "game.h"
 #include "draw.h"

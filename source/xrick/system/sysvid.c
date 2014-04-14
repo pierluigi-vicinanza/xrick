@@ -11,8 +11,6 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "sysvid.h"
-
 #include "draw.h"
 #include "game.h"
 #include "img.h"

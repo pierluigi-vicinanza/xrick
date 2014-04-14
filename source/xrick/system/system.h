@@ -81,6 +81,8 @@ extern void sysmem_pop(void *);
 #define SYSVID_WIDTH 320
 #define SYSVID_HEIGHT 200
 
+extern U8 *sysvid_fb;  /* frame buffer */
+
 extern bool sysvid_init(void);
 extern void sysvid_shutdown(void);
 extern void sysvid_update(const rect_t *);
