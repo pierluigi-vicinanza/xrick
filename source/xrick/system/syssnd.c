@@ -227,35 +227,35 @@ syssnd_play(sound_t *sound, S8 loop)
     SDL_mutexP(sndlock);
     
     c = 0;
-    while ((channel[c].snd != sound || channel[c].loop == 0) &&
-        channel[c].loop != 0 &&
-        c < SYSSND_MIXCHANNELS)
+    while (channel[c].snd != sound &&
+           channel[c].loop != 0 &&
+           c < SYSSND_MIXCHANNELS)
     {
         c++;
     }
-    if (c == SYSSND_MIXCHANNELS)
-    {
-        c = -1;
-    }
 
-    IFDEBUG_AUDIO(
-        if (channel[c].snd == sound && channel[c].loop != 0)
-        {
-            sys_printf("xrick/sound: already playing %s on channel %d - resetting\n",
-                sound->name, c);
-        }
-        else if (c >= 0)
-        {
-            sys_printf("xrick/sound: playing %s on channel %d\n", sound->name, c);
-        }
+    if (c < SYSSND_MIXCHANNELS) 
+    {
+        IFDEBUG_AUDIO(
+            if (channel[c].snd == sound)
+            {
+                sys_printf("xrick/sound: already playing %s on channel %d - resetting\n",
+                    sound->name, c);
+            }
+            else
+            {
+                sys_printf("xrick/sound: playing %s on channel %d\n", sound->name, c);
+            }
         );
 
-    if (c >= 0) 
-    {
         channel[c].loop = loop;
         channel[c].snd = sound;
         channel[c].buf = sound->buf;
         channel[c].len = sound->len;
+    }
+    else
+    {
+        c = -1;
     }
 
     SDL_mutexV(sndlock);
