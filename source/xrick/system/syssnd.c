@@ -106,8 +106,6 @@ void syssnd_callback(UNUSED(void *userdata), U8 *stream, int len)
         }
     }
 
-    memcpy(stream, stream, len);
-
     SDL_mutexV(sndlock);
 }
 
