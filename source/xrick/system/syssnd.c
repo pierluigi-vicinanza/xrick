@@ -54,51 +54,61 @@ static void end_channel(U8);
  */
 void syssnd_callback(UNUSED(void *userdata), U8 *stream, int len)
 {
-  U8 c;
-  S16 s;
-  U32 i;
+    U8 c;
+    S16 s;
+    U32 i;
 
-  SDL_mutexP(sndlock);
+    SDL_mutexP(sndlock);
 
-  for (i = 0; i < (U32)len; i++) {
-    s = 0;
-    for (c = 0; c < SYSSND_MIXCHANNELS; c++) {
-      if (channel[c].loop != 0) {  /* channel is active */
-	if (channel[c].len > 0) {  /* not ending */
-	  s += ADJVOL(*channel[c].buf - 0x80);
-	  channel[c].buf++;
-	  channel[c].len--;
-	}
-	else {  /* ending */
-	  if (channel[c].loop > 0) channel[c].loop--;
-	  if (channel[c].loop) {  /* just loop */
-	    IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - loop\n", c););
-	    channel[c].buf = channel[c].snd->buf;
-	    channel[c].len = channel[c].snd->len;
-	    s += ADJVOL(*channel[c].buf - 0x80);
-	    channel[c].buf++;
-	    channel[c].len--;
-	  }
-	  else {  /* end for real */
-	    IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - end\n", c););
-	    end_channel(c);
-	  }
-	}
-      }
+    for (i = 0; i < (U32)len; i++) 
+    {
+        s = 0;
+        for (c = 0; c < SYSSND_MIXCHANNELS; c++) 
+        {
+            if (channel[c].loop != 0) 
+            {  /* channel is active */
+                if (channel[c].len > 0) 
+                {  /* not ending */
+                    s += ADJVOL(*channel[c].buf - 0x80);
+                    channel[c].buf++;
+                    channel[c].len--;
+                }
+                else 
+                {  /* ending */
+                    if (channel[c].loop > 0) channel[c].loop--;
+                    if (channel[c].loop) 
+                    {  /* just loop */
+                        IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - loop\n", c););
+                        channel[c].buf = channel[c].snd->buf;
+                        channel[c].len = channel[c].snd->len;
+                        s += ADJVOL(*channel[c].buf - 0x80);
+                        channel[c].buf++;
+                        channel[c].len--;
+                    }
+                    else 
+                    {  /* end for real */
+                        IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - end\n", c););
+                        end_channel(c);
+                    }
+                }
+            }
+        }
+        if (sndMute)
+        {
+            stream[i] = 0x80;
+        }
+        else 
+        {
+            s += 0x80;
+            if (s > 0xff) s = 0xff;
+            if (s < 0x00) s = 0x00;
+            stream[i] = (U8)s;
+        }
     }
-    if (sndMute)
-      stream[i] = 0x80;
-    else {
-      s += 0x80;
-      if (s > 0xff) s = 0xff;
-      if (s < 0x00) s = 0x00;
-      stream[i] = (U8)s;
-    }
-  }
 
-  memcpy(stream, stream, len);
+    memcpy(stream, stream, len);
 
-  SDL_mutexV(sndlock);
+    SDL_mutexV(sndlock);
 }
 
 static void
@@ -209,37 +219,50 @@ syssnd_vol(S8 d)
 S8
 syssnd_play(sound_t *sound, S8 loop)
 {
-  S8 c;
+    S8 c;
 
-  if (!isAudioActive) return -1;
-  if (sound == NULL) return -1;
+    if (!isAudioActive || !sound)
+    {
+        return -1;
+    }
 
-  c = 0;
-  SDL_mutexP(sndlock);
-  while ((channel[c].snd != sound || channel[c].loop == 0) &&
-	 channel[c].loop != 0 &&
-	 c < SYSSND_MIXCHANNELS)
-    c++;
-  if (c == SYSSND_MIXCHANNELS)
-    c = -1;
+    SDL_mutexP(sndlock);
+    
+    c = 0;
+    while ((channel[c].snd != sound || channel[c].loop == 0) &&
+        channel[c].loop != 0 &&
+        c < SYSSND_MIXCHANNELS)
+    {
+        c++;
+    }
+    if (c == SYSSND_MIXCHANNELS)
+    {
+        c = -1;
+    }
 
-  IFDEBUG_AUDIO(
-    if (channel[c].snd == sound && channel[c].loop != 0)
-      sys_printf("xrick/sound: already playing %s on channel %d - resetting\n",
-		 sound->name, c);
-    else if (c >= 0)
-      sys_printf("xrick/sound: playing %s on channel %d\n", sound->name, c);
-    );
+    IFDEBUG_AUDIO(
+        if (channel[c].snd == sound && channel[c].loop != 0)
+        {
+            sys_printf("xrick/sound: already playing %s on channel %d - resetting\n",
+                sound->name, c);
+        }
+        else if (c >= 0)
+        {
+            sys_printf("xrick/sound: playing %s on channel %d\n", sound->name, c);
+        }
+        );
 
-  if (c >= 0) {
-    channel[c].loop = loop;
-    channel[c].snd = sound;
-    channel[c].buf = sound->buf;
-    channel[c].len = sound->len;
-  }
-  SDL_mutexV(sndlock);
+    if (c >= 0) 
+    {
+        channel[c].loop = loop;
+        channel[c].snd = sound;
+        channel[c].buf = sound->buf;
+        channel[c].len = sound->len;
+    }
 
-  return c;
+    SDL_mutexV(sndlock);
+
+    return c;
 }
 
 /*
