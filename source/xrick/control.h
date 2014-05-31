@@ -26,7 +26,6 @@
 #define CONTROL_FIRE 0x10
 
 extern U8 control_status;
-extern U8 control_last;
 extern bool control_active;
 
 #endif

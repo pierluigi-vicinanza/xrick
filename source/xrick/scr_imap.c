@@ -90,7 +90,6 @@ screen_introMap(void)
     drawlr();
     drawsprite();
     draw_drawStatus();
-    control_last = 0;
 
     game_rects = &draw_SCREENRECT;
 

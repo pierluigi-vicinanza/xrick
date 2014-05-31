@@ -611,20 +611,20 @@ init(void)
 static void
 play0(void)
 {
-  if (control_status & CONTROL_END) {  /* request to end the game */
-    game_state = GAMEOVER;
-    return;
-  }
+    if (control_status & CONTROL_END) {  /* request to end the game */
+        game_state = GAMEOVER;
+        return;
+    }
 
-  if (control_last == CONTROL_EXIT) {  /* request to exit the game */
-    game_state = EXIT;
-    return;
-  }
+    if (control_status & CONTROL_EXIT) {  /* request to exit the game */
+        game_state = EXIT;
+        return;
+    }
 
-  ent_action();      /* run entities */
-  e_them_rndseed++;  /* (0270) */
+    ent_action();      /* run entities */
+    e_them_rndseed++;  /* (0270) */
 
-  game_state = PLAY1;
+    game_state = PLAY1;
 }
 
 

@@ -49,35 +49,27 @@ processEvent()
     key = event.key.keysym.sym;
     if (key == syskbd_up || key == SDLK_UP) {
       SETBIT(control_status, CONTROL_UP);
-      control_last = CONTROL_UP;
     }
     else if (key == syskbd_down || key == SDLK_DOWN) {
       SETBIT(control_status, CONTROL_DOWN);
-      control_last = CONTROL_DOWN;
     }
     else if (key == syskbd_left || key == SDLK_LEFT) {
       SETBIT(control_status, CONTROL_LEFT);
-      control_last = CONTROL_LEFT;
     }
     else if (key == syskbd_right || key == SDLK_RIGHT) {
       SETBIT(control_status, CONTROL_RIGHT);
-      control_last = CONTROL_RIGHT;
     }
     else if (key == syskbd_pause) {
       SETBIT(control_status, CONTROL_PAUSE);
-      control_last = CONTROL_PAUSE;
     }
     else if (key == syskbd_end) {
       SETBIT(control_status, CONTROL_END);
-      control_last = CONTROL_END;
     }
     else if (key == syskbd_xtra) {
       SETBIT(control_status, CONTROL_EXIT);
-      control_last = CONTROL_EXIT;
     }
     else if (key == syskbd_fire) {
       SETBIT(control_status, CONTROL_FIRE);
-      control_last = CONTROL_FIRE;
     }
     else if (key == SDLK_F1) {
       sysvid_toggleFullscreen();
@@ -115,41 +107,32 @@ processEvent()
     key = event.key.keysym.sym;
     if (key == syskbd_up || key == SDLK_UP) {
       CLRBIT(control_status, CONTROL_UP);
-      control_last = CONTROL_UP;
     }
     else if (key == syskbd_down || key == SDLK_DOWN) {
       CLRBIT(control_status, CONTROL_DOWN);
-      control_last = CONTROL_DOWN;
     }
     else if (key == syskbd_left || key == SDLK_LEFT) {
       CLRBIT(control_status, CONTROL_LEFT);
-      control_last = CONTROL_LEFT;
     }
     else if (key == syskbd_right || key == SDLK_RIGHT) {
       CLRBIT(control_status, CONTROL_RIGHT);
-      control_last = CONTROL_RIGHT;
     }
     else if (key == syskbd_pause) {
       CLRBIT(control_status, CONTROL_PAUSE);
-      control_last = CONTROL_PAUSE;
     }
     else if (key == syskbd_end) {
       CLRBIT(control_status, CONTROL_END);
-      control_last = CONTROL_END;
     }
     else if (key == syskbd_xtra) {
       CLRBIT(control_status, CONTROL_EXIT);
-      control_last = CONTROL_EXIT;
     }
     else if (key == syskbd_fire) {
       CLRBIT(control_status, CONTROL_FIRE);
-      control_last = CONTROL_FIRE;
     }
     break;
   case SDL_QUIT:
     /* player tries to close the window -- this is the same as pressing ESC */
     SETBIT(control_status, CONTROL_EXIT);
-    control_last = CONTROL_EXIT;
     break;
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
