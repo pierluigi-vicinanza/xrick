@@ -212,7 +212,7 @@ u_strdup(const char *sourceStr)
 	char *destStr;
 	size_t length;
 
-	length = strlen(sourceStr) + 1;
+	length = sys_strlen(sourceStr) + 1;
 	destStr = sysmem_push(length);
 	memcpy(destStr, sourceStr, length);
 	return destStr;

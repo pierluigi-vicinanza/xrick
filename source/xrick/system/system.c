@@ -17,6 +17,7 @@
 #include <fcntl.h>    /* fcntl in sys_panic */
 #include <stdio.h>    /* printf */
 #include <stdlib.h>
+#include <string.h>   /* strlen */
 #include <signal.h>
 
 #include "system.h"
@@ -77,6 +78,15 @@ sys_snprintf(char *buf, size_t size, const char *msg, ...)
     va_start(argptr, msg);
     vsnprintf(buf, size, msg, argptr);
     va_end(argptr);
+}
+
+/*
+ * Returns string length
+ */
+size_t
+sys_strlen(const char * str)
+{
+    return strlen(str);
 }
 
 /*
