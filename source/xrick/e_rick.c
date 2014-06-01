@@ -303,8 +303,11 @@ e_rick_action2(void)
       return;
 #ifdef ENABLE_CHEATS
     if (!game_cheat1)
-      game_bullets--;
 #endif
+    {
+      game_bullets--;
+    }
+
     /* initialize bullet */
     e_bullet_init(E_RICK_ENT.x, E_RICK_ENT.y);
     return;
@@ -322,8 +325,11 @@ e_rick_action2(void)
       return;
 #ifdef ENABLE_CHEATS
     if (!game_cheat1)
-      game_bombs--;
 #endif
+    {
+      game_bombs--;
+    }
+
     /* initialize bomb */
     e_bomb_init(E_RICK_ENT.x, E_RICK_ENT.y);
     return;
