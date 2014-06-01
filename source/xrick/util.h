@@ -20,6 +20,7 @@ extern void u_envtest(S16, S16, bool, U8 *, U8 *);
 extern bool u_boxtest(U8, U8);
 extern bool u_fboxtest(U8, S16, S16);
 extern bool u_trigbox(U8, S16, S16);
+extern char * u_strdup(const char *);
 
 #endif
 

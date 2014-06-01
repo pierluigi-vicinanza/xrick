@@ -16,6 +16,7 @@
 #ifdef ENABLE_ZIP
 #include "zlib/unzip.h"
 #endif
+#include "util.h"
 
 #include <stdio.h>  /* sprintf */
 #include <sys/stat.h> /* fstat */
@@ -57,7 +58,6 @@ static path_t rootPath =
 #ifdef ENABLE_ZIP
 static int str_hasZipExtension(const char *);
 #endif
-static char *str_dup(const char *);
 static char *str_toNativeSeparators(char *);
 
 /*
@@ -66,7 +66,7 @@ static char *str_toNativeSeparators(char *);
 bool
 sysfile_setRootPath(const char *name)
 {
-    rootPath.name = str_toNativeSeparators(str_dup(name));
+    rootPath.name = str_toNativeSeparators(u_strdup(name));
 #ifdef ENABLE_ZIP
 	if (str_hasZipExtension(rootPath.name)) 
     {
@@ -256,21 +256,6 @@ str_hasZipExtension(const char *name)
 	return 1;
 }
 #endif /* ENABLE_ZIP */
-
-/*
- *
- */
-static char *
-str_dup(const char *s)
-{
-	char *s1;
-	int i;
-
-	i = strlen(s) + 1;
-	s1 = sysmem_push(i);
-	strncpy(s1, s, i);
-	return s1;
-}
 
 /*
  *

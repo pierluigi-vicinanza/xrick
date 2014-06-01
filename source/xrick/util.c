@@ -15,10 +15,10 @@
 
 #include "config.h"
 #include "game.h"
-
 #include "ents.h"
 #include "e_rick.h"
 #include "maps.h"
+#include "system/system.h"
 
 /*
  * Full box test.
@@ -201,6 +201,21 @@ u_trigbox(U8 e, S16 x, S16 y)
     return false;
   else
     return true;
+}
+
+/*
+ * Custom implementation of strdup function
+ */
+char *
+u_strdup(const char *sourceStr)
+{
+	char *destStr;
+	size_t length;
+
+	length = strlen(sourceStr) + 1;
+	destStr = sysmem_push(length);
+	memcpy(destStr, sourceStr, length);
+	return destStr;
 }
 
 
