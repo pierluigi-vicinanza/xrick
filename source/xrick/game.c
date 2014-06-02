@@ -355,7 +355,7 @@ frame(void)
 				game_waitevt = false;
 				screen_pause(false);
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(false, false);
+				syssnd_pauseAll(false);
 #endif
 				game_state = PLAY2;
 			}
@@ -372,14 +372,14 @@ frame(void)
 		case PLAY1:
 			if (control_status & CONTROL_PAUSE) {
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(true, false);
+				syssnd_pauseAll(true);
 #endif
 				game_waitevt = true;
 				game_state = PAUSE_PRESSED1;
 			}
 			else if (!control_active) {
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(true, false);
+				syssnd_pauseAll(true);
 #endif
 				game_waitevt = true;
 				screen_pause(true);

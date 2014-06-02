@@ -257,29 +257,14 @@ syssnd_play(sound_t *sound, S8 loop)
 }
 
 /*
- * Pause
- *
- * pause: true or false
- * clear: true to cleanup all sounds and make sure we start from scratch
+ * Pause all sounds
  */
 void
-syssnd_pauseAll(bool pause, bool clear)
+syssnd_pauseAll(bool pause)
 {
-  U8 c;
+    if (!isAudioActive) return;
 
-  if (!isAudioActive) return;
-
-  if (clear) {
-    SDL_mutexP(sndlock);
-    for (c = 0; c < SYSSND_MIXCHANNELS; c++)
-      channel[c].loop = 0;
-    SDL_mutexV(sndlock);
-  }
-
-  if (pause)
-    SDL_PauseAudio(1);
-  else
-    SDL_PauseAudio(0);
+    SDL_PauseAudio(pause);
 }
 
 /*
