@@ -145,7 +145,10 @@ game_toggleCheat(cheat_t cheat)
 void
 game_setmusic(sound_t * newMusic, U8 loop)
 {
-	U8 channel;
+    if (!newMusic)
+    {
+        return;
+    }
 
 	if (currentMusic)
     {
@@ -154,11 +157,8 @@ game_setmusic(sound_t * newMusic, U8 loop)
 
     syssnd_load(newMusic);
 
-	if (newMusic)
-	{
-		newMusic->dispose = true; /* music is always "fire and forget" */
-		channel = syssnd_play(newMusic, loop);
-	}
+    newMusic->dispose = true; /* music is always "fire and forget" */
+    syssnd_play(newMusic, loop);
 
     currentMusic = newMusic;
 }

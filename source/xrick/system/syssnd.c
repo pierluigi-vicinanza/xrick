@@ -208,20 +208,19 @@ syssnd_vol(S8 d)
  * Play a sound
  *
  * loop: number of times the sound should be played, -1 to loop forever
- * returns: channel number, or -1 if none was available
  *
  * NOTE if sound is already playing, simply reset it (i.e. can not have
  * twice the same sound playing -- tends to become noisy when too many
  * bad guys die at the same time).
  */
-S8
+void
 syssnd_play(sound_t *sound, S8 loop)
 {
     S8 c;
 
     if (!isAudioActive || !sound)
     {
-        return -1;
+        return;
     }
 
     SDL_mutexP(sndlock);
@@ -253,14 +252,8 @@ syssnd_play(sound_t *sound, S8 loop)
         channel[c].buf = sound->buf;
         channel[c].len = sound->len;
     }
-    else
-    {
-        c = -1;
-    }
 
     SDL_mutexV(sndlock);
-
-    return c;
 }
 
 /*
