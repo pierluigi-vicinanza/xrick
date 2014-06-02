@@ -283,20 +283,6 @@ syssnd_pause(bool pause, bool clear)
 }
 
 /*
- * Stop a channel
- */
-void
-syssnd_stopchan(S8 chan)
-{
-  if (chan < 0 || chan > SYSSND_MIXCHANNELS)
-    return;
-
-  SDL_mutexP(sndlock);
-  if (channel[chan].snd) end_channel(chan);
-  SDL_mutexV(sndlock);
-}
-
-/*
  * Stop a sound
  */
 void
@@ -311,23 +297,6 @@ syssnd_stopsound(sound_t *sound)
 		if (channel[i].snd == sound) end_channel(i);
 	SDL_mutexV(sndlock);
 }
-
-/*
- * See if a sound is playing
- */
-int
-syssnd_isplaying(sound_t *sound)
-{
-	U8 i, playing;
-
-	playing = 0;
-	SDL_mutexP(sndlock);
-	for (i = 0; i < SYSSND_MIXCHANNELS; i++)
-		if (channel[i].snd == sound) playing = 1;
-	SDL_mutexV(sndlock);
-	return playing;
-}
-
 
 /*
  * Stops all channels.
