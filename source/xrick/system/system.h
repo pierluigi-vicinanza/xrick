@@ -50,6 +50,9 @@
 #include "config.h"
 #include "rects.h"
 #include "img.h"
+#ifdef ENABLE_SOUND
+#include "data/sounds.h"
+#endif
 
 #include <stddef.h> /* size_t */
 #include <sys/types.h> /* off_t */
@@ -132,15 +135,6 @@ extern U8 syskbd_fire;
  * sound section
  */
 #ifdef ENABLE_SOUND
-typedef struct {
-#ifdef DEBUG
-  char *name;
-#endif
-  U8 *buf;
-  U32 len;
-  bool dispose;
-} sound_t;
-
 extern bool syssnd_init(void);
 extern void syssnd_shutdown(void);
 extern void syssnd_vol(S8);
@@ -151,7 +145,7 @@ extern void syssnd_stopchan(S8);
 extern void syssnd_stopsound(sound_t *);
 extern void syssnd_stopall(void);
 extern int syssnd_isplaying(sound_t *);
-extern sound_t *syssnd_load(char *name);
+extern void syssnd_load(sound_t *);
 extern void syssnd_free(sound_t *);
 #endif /* ENABLE_ SOUND */
 
@@ -166,7 +160,7 @@ extern int sysarg_args_zoom;
 #ifdef ENABLE_SOUND
 extern bool sysarg_args_nosound;
 extern int sysarg_args_vol;
-#endif
+#endif /* ENABLE_ SOUND */
 extern const char *sysarg_args_data;
 
 extern bool sysarg_init(int, const char **);

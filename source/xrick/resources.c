@@ -16,6 +16,7 @@
 #include "draw.h"
 #include "ents.h"
 #include "maps.h"
+#include "util.h"
 #include "data/sprites.h"
 #include "data/tiles.h"
 #include "data/pics.h"
@@ -64,6 +65,11 @@ static void unloadResourceTilesData(void);
 static bool loadPicture(file_t fp, pic_t ** picture);
 static void unloadPicture(pic_t ** picture);
 #endif /* GFXST */
+#ifdef ENABLE_SOUND
+static bool fromResourceIdToSound(const unsigned id, sound_t *** sound);
+static bool loadSound(const unsigned id);
+static void unloadSound(const unsigned id);
+#endif /* ENABLE_SOUND */
 
 /*
  * local vars
@@ -256,6 +262,9 @@ static bool loadResourceMaps(file_t fp)
 
     for (i = 0; i < map_nbr_maps; ++i)
     {
+#ifdef ENABLE_SOUND
+        sound_t **soundTemp;
+#endif
         if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
             return false;
@@ -268,10 +277,14 @@ static bool loadResourceMaps(file_t fp)
         map_maps[i].row = letoh16(u16Temp);
         memcpy(&u16Temp, dataTemp.submap, sizeof(U16));
         map_maps[i].submap = letoh16(u16Temp);
-        if (!loadString(fp, &(map_maps[i].tune), 0x00))
+#ifdef ENABLE_SOUND
+        memcpy(&u16Temp, dataTemp.tuneId, sizeof(U16));
+        if (!fromResourceIdToSound(u16Temp, &soundTemp))
         {
             return false;
         }
+        map_maps[i].tune = *soundTemp;
+#endif /* ENABLE_SOUND */
     }     
     return true;
 }
@@ -281,13 +294,6 @@ static bool loadResourceMaps(file_t fp)
  */
 static void unloadResourceMaps()
 {
-    int i;
-
-    for (i = map_nbr_maps - 1; i >= 0; --i)
-    {
-        unloadString(&(map_maps[i].tune));
-    } 
-
     sysmem_pop(map_maps);
     map_maps = NULL;
     map_nbr_maps = 0;
@@ -676,6 +682,171 @@ static void unloadPicture(pic_t ** picture)
 }
 #endif /* GFXST */
 
+#ifdef ENABLE_SOUND
+
+/*
+ *
+ */
+static bool fromResourceIdToSound(const unsigned id, sound_t *** sound)
+{
+    switch (id)
+    {
+        case Resource_SOUNDBOMBSHHT: *sound = &soundBombshht; return true;
+        case Resource_SOUNDBONUS: *sound = &soundBonus; return true;
+        case Resource_SOUNDBOX: *sound = &soundBox; return true;
+        case Resource_SOUNDBULLET: *sound = &soundBullet; return true;
+        case Resource_SOUNDCRAWL: *sound = &soundCrawl; return true;
+        case Resource_SOUNDDIE: *sound = &soundDie; return true;
+        case Resource_SOUNDENTITY0: *sound = &(soundEntity[0]); return true;
+        case Resource_SOUNDENTITY1: *sound = &(soundEntity[1]); return true;
+        case Resource_SOUNDENTITY2: *sound = &(soundEntity[2]); return true;
+        case Resource_SOUNDENTITY3: *sound = &(soundEntity[3]); return true;
+        case Resource_SOUNDENTITY4: *sound = &(soundEntity[4]); return true;
+        case Resource_SOUNDENTITY5: *sound = &(soundEntity[5]); return true;
+        case Resource_SOUNDENTITY6: *sound = &(soundEntity[6]); return true;
+        case Resource_SOUNDENTITY7: *sound = &(soundEntity[7]); return true;
+        case Resource_SOUNDENTITY8: *sound = &(soundEntity[8]); return true;
+        case Resource_SOUNDEXPLODE: *sound = &soundExplode; return true;
+        case Resource_SOUNDGAMEOVER: *sound = &soundGameover; return true;
+        case Resource_SOUNDJUMP: *sound = &soundJump; return true;
+        case Resource_SOUNDPAD: *sound = &soundPad; return true;
+        case Resource_SOUNDSBONUS1: *sound = &soundSbonus1; return true;
+        case Resource_SOUNDSBONUS2: *sound = &soundSbonus2; return true;
+        case Resource_SOUNDSTICK: *sound = &soundStick; return true;
+        case Resource_SOUNDTUNE0: *sound = &soundTune0; return true;
+        case Resource_SOUNDTUNE1: *sound = &soundTune1; return true;
+        case Resource_SOUNDTUNE2: *sound = &soundTune2; return true;
+        case Resource_SOUNDTUNE3: *sound = &soundTune3; return true;
+        case Resource_SOUNDTUNE4: *sound = &soundTune4; return true;
+        case Resource_SOUNDTUNE5: *sound = &soundTune5; return true;
+        case Resource_SOUNDWALK: *sound = &soundWalk; return true;
+        default: 
+        {
+            sys_printf("xrick/resources: no associated sound found for ID %d\n", id);             
+            return false;
+        }
+    }
+}
+
+/*
+ *
+ */
+static bool loadSound(const unsigned id)
+{
+    sound_t ** sound;
+    file_t fp;
+    wave_header_t header;
+    U16 u16Temp;
+    U32 u32Temp;
+    int bytesRead;
+    bool isHeaderValid;
+
+    if (!fromResourceIdToSound(id, &sound))
+    {
+        return false;
+    }
+
+    *sound = sysmem_push(sizeof(**sound));
+    if (!*sound)
+    {
+        return false;
+    }
+
+    (*sound)->buf = NULL;
+    (*sound)->dispose = false;
+
+    (*sound)->name = u_strdup(resourceFiles[id]);
+    if (!(*sound)->name)
+    {
+        return false;
+    }
+
+    fp = sysfile_open(resourceFiles[id]);
+    if (!fp)
+    {
+        sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
+        return false;
+    }
+
+    bytesRead = sysfile_read(fp, &header, sizeof(header), 1);
+    sysfile_close(fp);
+    if (bytesRead != 1)
+    {
+        sys_printf("xrick/resources: unable to read WAVE header from \"%s\"\n", resourceFiles[id]);
+        return false;
+    }
+
+    isHeaderValid = false;
+    for (;;)
+    {
+        if (memcmp(header.riffChunkId, "RIFF", 4) ||
+            memcmp(header.riffType, "WAVE", 4) ||
+            memcmp(header.formatChunkId, "fmt ", 4) ||
+            memcmp(header.dataChunkId, "data", 4))
+        {
+            break;
+        }
+        memcpy(&u16Temp, header.audioFormat, sizeof(u16Temp));
+        if (letoh16(u16Temp) != Wave_AUDIO_FORMAT)
+        {
+            break;
+        }        
+        memcpy(&u16Temp, header.channelCount, sizeof(u16Temp));
+        if (letoh16(u16Temp) != Wave_CHANNEL_COUNT) 
+        {
+            break;
+        }
+        memcpy(&u32Temp, header.sampleRate, sizeof(u32Temp));
+        if (letoh32(u32Temp) != Wave_SAMPLE_RATE) 
+        {
+            isHeaderValid = false;
+            break;
+        }
+        memcpy(&u16Temp, header.bitsPerSample, sizeof(u16Temp));
+        if (letoh16(u16Temp) != Wave_BITS_PER_SAMPLE) 
+        {
+            isHeaderValid = false;
+            break;
+        }
+
+        memcpy(&u32Temp, header.dataChunkSize, sizeof(u32Temp));
+        (*sound)->len = letoh32(u32Temp);
+
+        isHeaderValid = true;
+        break;
+    }
+    if (!isHeaderValid)
+    {
+        sys_printf("xrick/audio: incompatible WAVE header for \"%s\"\n", resourceFiles[id]);
+        return false;
+    }
+    return true;
+}
+
+/*
+ *
+ */
+static void unloadSound(const unsigned id)
+{
+    sound_t ** sound;
+
+    if (!fromResourceIdToSound(id, &sound))
+    {
+        return;
+    }
+
+    if (!*sound)
+    {
+        return;
+    }
+
+    sysmem_pop((*sound)->name);
+    sysmem_pop(*sound);
+    *sound = NULL;
+}
+#endif /* ENABLE_SOUND */
+
+
 /*
  *
  */
@@ -917,10 +1088,21 @@ static bool readFile(const unsigned id)
  */
 bool resources_load()
 {
-    bool success = true;
+    bool success;
     unsigned id;
 
-    for (id = Resource_FILELIST; (id < Resource_MAX_COUNT) && success; ++id)
+    /* note: loading order is important: file list first, then sounds, then the rest */
+
+    success = readFile(Resource_FILELIST);
+
+#ifdef ENABLE_SOUND
+    for (id = Resource_SOUNDBOMBSHHT; (id <= Resource_SOUNDWALK) && success; ++id)
+    {
+        success = loadSound(id);
+    }
+#endif /* ENABLE_SOUND */
+
+    for (id = Resource_PALETTE; (id <= Resource_SCREENCONGRATS) && success; ++id)
     {
         success = readFile(id);
     }
@@ -935,11 +1117,10 @@ void resources_unload()
     int id;
     void * vp;
 
-    for (id = Resource_MAX_COUNT - 1; id >= Resource_FILELIST; --id)
+    for (id = Resource_SCREENCONGRATS; id >= Resource_PALETTE; --id)
     {
         switch (id)
         {
-            case Resource_FILELIST: unloadResourceFilelist(); break;
             case Resource_PALETTE: 
             {
                 vp = game_colors; 
@@ -1034,6 +1215,15 @@ void resources_unload()
             default: break;
         }
     }
+
+#ifdef ENABLE_SOUND
+    for (id = Resource_SOUNDWALK; id >= Resource_SOUNDBOMBSHHT; --id)
+    {
+        unloadSound(id);
+    }
+#endif /* ENABLE_SOUND */
+
+    unloadResourceFilelist();
 }
 
 /* eof */

@@ -46,7 +46,7 @@ screen_introMain(void)
         game_period = 50;
         game_rects = &draw_SCREENRECT;
 #ifdef ENABLE_SOUND
-        game_setmusic("sounds/tune5.wav", -1);
+        game_setmusic(soundTune5, -1);
 #endif
     }
 

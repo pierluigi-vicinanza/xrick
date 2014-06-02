@@ -34,7 +34,7 @@ e_bonus_action(U8 e)
     if (e_rick_boxtest(e)) {
       game_score += 500;
 #ifdef ENABLE_SOUND
-      syssnd_play(WAV_BONUS, 1);
+      syssnd_play(soundBonus, 1);
 #endif
       map_marks[ent_ents[e].mark].ent |= MAP_MARK_NACT;
       ent_ents[e].seq = 1;

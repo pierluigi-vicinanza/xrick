@@ -70,24 +70,6 @@ bool game_cheat1 = false;
 bool game_cheat2 = false;
 bool game_cheat3 = false;
 
-#ifdef ENABLE_SOUND
-sound_t *WAV_GAMEOVER;
-sound_t *WAV_SBONUS2;
-sound_t *WAV_BULLET;
-sound_t *WAV_BOMBSHHT;
-sound_t *WAV_EXPLODE;
-sound_t *WAV_STICK;
-sound_t *WAV_WALK;
-sound_t *WAV_CRAWL;
-sound_t *WAV_JUMP;
-sound_t *WAV_PAD;
-sound_t *WAV_BOX;
-sound_t *WAV_BONUS;
-sound_t *WAV_SBONUS1;
-sound_t *WAV_DIE;
-sound_t *WAV_ENTITY[10];
-#endif
-
 
 /*
  * local vars
@@ -95,7 +77,7 @@ sound_t *WAV_ENTITY[10];
 static U8 isave_frow;
 static game_state_t game_state;
 #ifdef ENABLE_SOUND
-static sound_t *music_snd;
+static sound_t *currentMusic = NULL;
 #endif
 
 
@@ -161,27 +143,33 @@ game_toggleCheat(cheat_t cheat)
  * Music
  */
 void
-game_setmusic(char *name, U8 loop)
+game_setmusic(sound_t * newMusic, U8 loop)
 {
 	U8 channel;
 
-	if (music_snd)
+	if (currentMusic)
+    {
 		game_stopmusic();
-	music_snd = syssnd_load(name);
-	if (music_snd)
+    }
+
+    syssnd_load(newMusic);
+
+	if (newMusic)
 	{
-		music_snd->dispose = true; /* music is always "fire and forget" */
-		channel = syssnd_play(music_snd, loop);
+		newMusic->dispose = true; /* music is always "fire and forget" */
+		channel = syssnd_play(newMusic, loop);
 	}
+
+    currentMusic = newMusic;
 }
 
 void
 game_stopmusic(void)
 {
-	syssnd_stopsound(music_snd);
-	music_snd = NULL;
+	syssnd_stopsound(currentMusic);
+	currentMusic = NULL;
 }
-#endif
+#endif /*ENABLE_SOUND */
 
 /*
  * Main loop
@@ -231,8 +219,8 @@ game_run(void)
             sysevt_poll();  /* process events (non-blocking) */
     }
 
-    resources_unload();
     freedata(); /* free cached data */
+    resources_unload();
 }
 
 /*
@@ -717,29 +705,29 @@ loaddata()
 	 *
 	 * tune[0-5].wav not cached
 	 */
-	WAV_GAMEOVER = syssnd_load("sounds/gameover.wav");
-	WAV_SBONUS2 = syssnd_load("sounds/sbonus2.wav");
-	WAV_BULLET = syssnd_load("sounds/bullet.wav");
-	WAV_BOMBSHHT = syssnd_load("sounds/bombshht.wav");
-	WAV_EXPLODE = syssnd_load("sounds/explode.wav");
-	WAV_STICK = syssnd_load("sounds/stick.wav");
-	WAV_WALK = syssnd_load("sounds/walk.wav");
-	WAV_CRAWL = syssnd_load("sounds/crawl.wav");
-	WAV_JUMP = syssnd_load("sounds/jump.wav");
-	WAV_PAD = syssnd_load("sounds/pad.wav");
-	WAV_BOX = syssnd_load("sounds/box.wav");
-	WAV_BONUS = syssnd_load("sounds/bonus.wav");
-	WAV_SBONUS1 = syssnd_load("sounds/sbonus1.wav");
-	WAV_DIE = syssnd_load("sounds/die.wav");
-	WAV_ENTITY[0] = syssnd_load("sounds/ent0.wav");
-	WAV_ENTITY[1] = syssnd_load("sounds/ent1.wav");
-	WAV_ENTITY[2] = syssnd_load("sounds/ent2.wav");
-	WAV_ENTITY[3] = syssnd_load("sounds/ent3.wav");
-	WAV_ENTITY[4] = syssnd_load("sounds/ent4.wav");
-	WAV_ENTITY[5] = syssnd_load("sounds/ent5.wav");
-	WAV_ENTITY[6] = syssnd_load("sounds/ent6.wav");
-	WAV_ENTITY[7] = syssnd_load("sounds/ent7.wav");
-	WAV_ENTITY[8] = syssnd_load("sounds/ent8.wav");
+	syssnd_load(soundGameover);
+	syssnd_load(soundSbonus2);
+	syssnd_load(soundBullet);
+	syssnd_load(soundBombshht);
+	syssnd_load(soundExplode);
+	syssnd_load(soundStick);
+	syssnd_load(soundWalk);
+	syssnd_load(soundCrawl);
+	syssnd_load(soundJump);
+	syssnd_load(soundPad);
+	syssnd_load(soundBox);
+	syssnd_load(soundBonus);
+	syssnd_load(soundSbonus1);
+	syssnd_load(soundDie);
+	syssnd_load(soundEntity[0]);
+	syssnd_load(soundEntity[1]);
+	syssnd_load(soundEntity[2]);
+	syssnd_load(soundEntity[3]);
+	syssnd_load(soundEntity[4]);
+	syssnd_load(soundEntity[5]);
+	syssnd_load(soundEntity[6]);
+	syssnd_load(soundEntity[7]);
+	syssnd_load(soundEntity[8]);
 #endif
 }
 
@@ -751,29 +739,29 @@ freedata()
 {
 #ifdef ENABLE_SOUND
 	syssnd_stopall();
-	syssnd_free(WAV_GAMEOVER);
-	syssnd_free(WAV_SBONUS2);
-	syssnd_free(WAV_BULLET);
-	syssnd_free(WAV_BOMBSHHT);
-	syssnd_free(WAV_EXPLODE);
-	syssnd_free(WAV_STICK);
-	syssnd_free(WAV_WALK);
-	syssnd_free(WAV_CRAWL);
-	syssnd_free(WAV_JUMP);
-	syssnd_free(WAV_PAD);
-	syssnd_free(WAV_BOX);
-	syssnd_free(WAV_BONUS);
-	syssnd_free(WAV_SBONUS1);
-	syssnd_free(WAV_DIE);
-	syssnd_free(WAV_ENTITY[0]);
-	syssnd_free(WAV_ENTITY[1]);
-	syssnd_free(WAV_ENTITY[2]);
-	syssnd_free(WAV_ENTITY[3]);
-	syssnd_free(WAV_ENTITY[4]);
-	syssnd_free(WAV_ENTITY[5]);
-	syssnd_free(WAV_ENTITY[6]);
-	syssnd_free(WAV_ENTITY[7]);
-	syssnd_free(WAV_ENTITY[8]);
+    syssnd_free(soundGameover);
+	syssnd_free(soundSbonus2);
+	syssnd_free(soundBullet);
+	syssnd_free(soundBombshht);
+	syssnd_free(soundExplode);
+	syssnd_free(soundStick);
+	syssnd_free(soundWalk);
+	syssnd_free(soundCrawl);
+	syssnd_free(soundJump);
+	syssnd_free(soundPad);
+	syssnd_free(soundBox);
+	syssnd_free(soundBonus);
+	syssnd_free(soundSbonus1);
+	syssnd_free(soundDie);
+	syssnd_free(soundEntity[0]);
+	syssnd_free(soundEntity[1]);
+	syssnd_free(soundEntity[2]);
+	syssnd_free(soundEntity[3]);
+	syssnd_free(soundEntity[4]);
+	syssnd_free(soundEntity[5]);
+	syssnd_free(soundEntity[6]);
+	syssnd_free(soundEntity[7]);
+	syssnd_free(soundEntity[8]);
 #endif
 }
 

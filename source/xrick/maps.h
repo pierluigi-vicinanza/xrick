@@ -15,6 +15,10 @@
 #define _MAPS_H
 
 #include "system/basic_types.h"
+#include "system/system.h"
+#ifdef ENABLE_SOUND
+#include "data/sounds.h"
+#endif
 
 #include <stddef.h> /* size_t */
 
@@ -39,7 +43,9 @@ typedef struct {
   U16 x, y;		/* initial position for rick */
   U16 row;		/* initial map_map top row within the submap */
   U16 submap;	/* initial submap */
-  char *tune;	/* map tune */
+#ifdef ENABLE_SOUND
+  sound_t * tune; /* map tune */
+#endif
 } map_t;
 
 extern size_t map_nbr_maps;

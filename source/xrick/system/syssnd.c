@@ -131,9 +131,9 @@ syssnd_init(void)
     return true; /* shall we treat this as an error? */
   }
 
-  desired.freq = SYSSND_FREQ;
+  desired.freq = Wave_SAMPLE_RATE;
   desired.format = AUDIO_U8;
-  desired.channels = SYSSND_CHANNELS;
+  desired.channels = Wave_CHANNEL_COUNT;
   desired.samples = SYSSND_MIXSAMPLES;
   desired.callback = syssnd_callback;
   desired.userdata = NULL;
@@ -353,12 +353,17 @@ syssnd_stopall(void)
 /*
  * Load a sound.
  */
-sound_t *
-syssnd_load(char *name)
+void
+syssnd_load(sound_t *sound)
 {
-	sound_t *s;
 	SDL_RWops *context;
 	SDL_AudioSpec audiospec;
+    bool success;
+
+    if (!sound) 
+    {
+        return;
+    }
 
 	/* alloc context */
 	context = malloc(sizeof(SDL_RWops));
@@ -367,48 +372,52 @@ syssnd_load(char *name)
 	context->write = sdlRWops_write;
 	context->close = sdlRWops_close;
 
-	/* open */
-	if (sdlRWops_open(context, name) == -1)
-		return NULL;
+    success = false;
+    for (;;)
+    {
+        /* open */
+        if (sdlRWops_open(context, sound->name) == -1)
+        {
+            break;
+        }
 
-	/* alloc sound */
-	s = malloc(sizeof(sound_t));
-#ifdef DEBUG
-	s->name = malloc(strlen(name) + 1);
-	strncpy(s->name, name, strlen(name) + 1);
-#endif
+        /* read */
+        /* second param == 1 -> close source once read */
+        if (!SDL_LoadWAV_RW(context, 1, &audiospec, &(sound->buf), &(sound->len)))
+        {
+            break;
+        }
 
-	/* read */
-	/* second param == 1 -> close source once read */
-	if (!SDL_LoadWAV_RW(context, 1, &audiospec, &(s->buf), &(s->len)))
-	{
-#ifdef DEBUG
-	    free(s->name);
-#endif
-		free(s);
-		return NULL;
-	}
+        success = true;
+        break;
+    }
 
-	s->dispose = false;
+    if (!success)
+    {
+        sound->buf = NULL;
+        sound->len = 0;
+    }
 
-	return s;
+    sound->dispose = false;
 }
 
 /*
  *
  */
 void
-syssnd_free(sound_t *s)
-{
-	if (!s) return;
-	if (s->buf) SDL_FreeWAV(s->buf);
-	s->buf = NULL;
-	s->len = 0;
-#ifdef DEBUG
-	free(s->name);
-    s->name = NULL;
-#endif
-    free(s);
+syssnd_free(sound_t *sound)
+{  
+    if (!sound) 
+    {
+        return;
+    }
+
+	if (sound->buf) 
+    {
+        SDL_FreeWAV(sound->buf);
+    }
+	sound->buf = NULL;
+	sound->len = 0;
 }
 
 /*

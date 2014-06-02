@@ -16,6 +16,10 @@
 #include "game.h"
 #include "ents.h"
 #include "e_rick.h"
+#include "system/system.h"
+#ifdef ENABLE_SOUND
+#include "data/sounds.h"
+#endif
 
 /*
  * public vars (for performance reasons)
@@ -97,7 +101,7 @@ e_bomb_action(UNUSED(U8 e))
 		 */
 #ifdef ENABLE_SOUND
 		if ((e_bomb_ticker & 0x03) == 0x02)
-			syssnd_play(WAV_BOMBSHHT, 1);
+			syssnd_play(soundBombshht, 1);
 #endif
 #ifdef GFXST
 		/* ST bomb sprites sequence is longer */
@@ -113,7 +117,7 @@ e_bomb_action(UNUSED(U8 e))
 		 * explode
 		 */
 #ifdef ENABLE_SOUND
-		syssnd_play(WAV_EXPLODE, 1);
+		syssnd_play(soundExplode, 1);
 #endif
 #ifdef GFXPC
 		E_BOMB_ENT.sprite = 0x24 + 4 - (e_bomb_ticker >> 1);

@@ -20,9 +20,6 @@
 
 #include "basic_types.h"
 
-/* 8-bit mono at 22050Hz */
-#define SYSSND_FREQ 22050
-#define SYSSND_CHANNELS 1
 #define SYSSND_MAXVOL 10
 #define SYSSND_MIXCHANNELS 8
 /* MIXSAMPLES: 256 is too low on Windows. 512 means ~20 mix per second at 11025Hz */

@@ -16,7 +16,9 @@
 
 #include "config.h"
 #include "rects.h"
-#include "system/system.h"
+#ifdef ENABLE_SOUND
+#include "data/sounds.h"
+#endif
 
 #include <stddef.h> /* NULL */
 
@@ -46,9 +48,10 @@ extern U8 game_period;     /* time between each frame, in millisecond */
 extern const rect_t *game_rects; /* rectangles to redraw at each frame */
 
 extern void game_run(void);
-extern void game_setmusic(char *name, U8 loop);
+#ifdef ENABLE_SOUND
+extern void game_setmusic(sound_t * sound, U8 loop);
 extern void game_stopmusic(void);
-
+#endif /* ENABLE_SOUND */
 
 #ifdef ENABLE_CHEATS
 typedef enum 
@@ -61,25 +64,7 @@ extern bool game_cheat1;     /* infinite lives, bombs and bullets */
 extern bool game_cheat2;     /* never die */
 extern bool game_cheat3;     /* highlight sprites */
 extern void game_toggleCheat(cheat_t);
-#endif
-
-#ifdef ENABLE_SOUND
-extern sound_t *WAV_GAMEOVER;
-extern sound_t *WAV_SBONUS2;
-extern sound_t *WAV_BULLET;
-extern sound_t *WAV_BOMBSHHT;
-extern sound_t *WAV_EXPLODE;
-extern sound_t *WAV_STICK;
-extern sound_t *WAV_WALK;
-extern sound_t *WAV_CRAWL;
-extern sound_t *WAV_JUMP;
-extern sound_t *WAV_PAD;
-extern sound_t *WAV_BOX;
-extern sound_t *WAV_BONUS;
-extern sound_t *WAV_SBONUS1;
-extern sound_t *WAV_DIE;
-extern sound_t *WAV_ENTITY[];
-#endif
+#endif /* ENABLE_CHEATS */
 
 #endif
 

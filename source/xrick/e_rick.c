@@ -92,7 +92,7 @@ e_rick_gozombie(void)
 	if E_RICK_STTST(E_RICK_STZOMBIE) return;
 
 #ifdef ENABLE_SOUND
-	syssnd_play(WAV_DIE, 1);
+	syssnd_play(soundDie, 1);
 #endif
 
 	E_RICK_STSET(E_RICK_STZOMBIE);
@@ -260,7 +260,7 @@ e_rick_action2(void)
   if ((env1 & MAP_EFLG_SPAD) && offsy >= 0X0200) {
     offsy = (control_status & CONTROL_UP) ? 0xf800 : 0x00fe - offsy;
 #ifdef ENABLE_SOUND
-	syssnd_play(WAV_PAD, 1);
+	syssnd_play(soundPad, 1);
 #endif
     goto horiz;
   }
@@ -349,7 +349,7 @@ e_rick_action2(void)
     offsy = -0x0580;  /* jump */
     ylow = 0;
 #ifdef ENABLE_SOUND
-    syssnd_play(WAV_JUMP, 1);
+    syssnd_play(soundJump, 1);
 #endif
     goto horiz;
   }
@@ -402,7 +402,7 @@ e_rick_action2(void)
 					offsy = (control_status & CONTROL_UP) ? -0x0300 : 0x0100;
 #ifdef ENABLE_SOUND
 					if (control_status & CONTROL_UP)
-						syssnd_play(WAV_JUMP, 1);
+						syssnd_play(soundJump, 1);
 #endif
 					E_RICK_STRST(E_RICK_STCLIMB);
 					return;
@@ -470,7 +470,7 @@ void e_rick_action(UNUSED(U8 e))
 #ifdef ENABLE_SOUND
 		if (!stopped)
 		{
-			syssnd_play(WAV_STICK, 1);
+			syssnd_play(soundStick, 1);
 			stopped = true;
 		}
 #endif
@@ -488,7 +488,7 @@ void e_rick_action(UNUSED(U8 e))
 		E_RICK_ENT.sprite = (((E_RICK_ENT.x ^ E_RICK_ENT.y) & 0x04) ? 0x18 : 0x0c);
 #ifdef ENABLE_SOUND
 		seq = (seq + 1) & 0x03;
-		if (seq == 0) syssnd_play(WAV_WALK, 1);
+		if (seq == 0) syssnd_play(soundWalk, 1);
 #endif
 		return;
 	}
@@ -499,7 +499,7 @@ void e_rick_action(UNUSED(U8 e))
 		if (E_RICK_ENT.x & 0x04) E_RICK_ENT.sprite++;
 #ifdef ENABLE_SOUND
 		seq = (seq + 1) & 0x03;
-		if (seq == 0) syssnd_play(WAV_CRAWL, 1);
+		if (seq == 0) syssnd_play(soundCrawl, 1);
 #endif
 		return;
 	}
@@ -515,14 +515,14 @@ void e_rick_action(UNUSED(U8 e))
 	if (seq >= 0x14)
 	{
 #ifdef ENABLE_SOUND
-		syssnd_play(WAV_WALK, 1);
+		syssnd_play(soundWalk, 1);
 #endif
 		seq = 0x04;
 	}
 #ifdef ENABLE_SOUND
   else
   if (seq == 0x0C)
-    syssnd_play(WAV_WALK, 1);
+    syssnd_play(soundWalk, 1);
 #endif
 
   E_RICK_ENT.sprite = (seq >> 2) + 1 + (game_dir ? 0x0c : 0x00);

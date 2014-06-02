@@ -17,6 +17,7 @@
 
 #include "draw.h"
 #include "control.h"
+#include "system/system.h"
 
 /*
  * Display the game over screen
@@ -31,18 +32,13 @@ screen_gameover(void)
 #ifdef GFXST
 	static U32 tm = 0;
 #endif
-#ifdef ENABLE_SOUND
-	static sound_t *snd;
-	static U8 chan;
-#endif
-
 	if (seq == 0) {
 		draw_tilesBank = 0;
 		seq = 1;
 		period = game_period; /* save period, */
 		game_period = 50;     /* and use our own */
 #ifdef ENABLE_SOUND
-		game_setmusic("sounds/gameover.wav", 1);
+		game_setmusic(soundGameover, 1);
 #endif
 	}
 

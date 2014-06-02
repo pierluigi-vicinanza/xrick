@@ -73,7 +73,7 @@ e_them_gozombie(U8 e)
   ent_ents[e].front = true;
   ent_ents[e].offsy = -0x0400;
 #ifdef ENABLE_SOUND
-  syssnd_play(WAV_DIE, 1);
+  syssnd_play(soundDie, 1);
 #endif
   game_score += 50;
   if (ent_ents[e].flags & ENT_FLG_ONCE) {
@@ -696,12 +696,12 @@ e_them_t3_action2(U8 e)
                  or wrong data in sumbmap 47 (when making the switch explode)
                  and submap 13 (when touching jewel) */
         wav_index = (ent_ents[e].trigsnd & 0x1F) - 0x14;
-        if(0 <= wav_index && wav_index <= 8)
+        if((0 <= wav_index) && (wav_index < SOUNDS_NBR_ENTITIES - 1))
         {
-            syssnd_play(WAV_ENTITY[wav_index], 1);
+            syssnd_play(soundEntity[wav_index], 1);
         }
 		/*syssnd_play(WAV_ENTITY[0], 1);*/
-#endif
+#endif /* ENABLE_SOUND */
       ent_ents[e].n &= ~ENT_LETHAL;
       if (ent_ents[e].flags & ENT_FLG_LETHALI)
 	ent_ents[e].n |= ENT_LETHAL;

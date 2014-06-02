@@ -16,8 +16,8 @@
 #include "game.h"
 #include "draw.h"
 #include "control.h"
-
 #include "data/pics.h"
+#include "system/system.h"
 
 /*
  * local vars

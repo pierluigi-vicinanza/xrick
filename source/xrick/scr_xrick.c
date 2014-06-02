@@ -71,7 +71,7 @@ screen_xrick(void)
 	case 1:  /* wait */
 		if (wait++ > 0x2) {
 #ifdef ENABLE_SOUND
-			game_setmusic("sounds/bullet.wav", 1);
+			game_setmusic(soundBullet, 1);
 #endif
 			seq = 2;
 			wait = 0;

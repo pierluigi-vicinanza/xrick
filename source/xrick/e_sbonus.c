@@ -45,7 +45,7 @@ e_sbonus_start(U8 e)
 		e_sbonus_counter = 0x1e;  /* 6DDB */
 		e_sbonus_bonus = 2000;    /* 291A-291D */
 #ifdef ENABLE_SOUND
-		syssnd_play(WAV_SBONUS1, 1);
+		syssnd_play(soundSbonus1, 1);
 #endif
 	}
 }
@@ -70,7 +70,7 @@ e_sbonus_stop(U8 e)
 		ent_ents[e].n = 0;  /* deactivate entity */
 		game_score += e_sbonus_bonus;  /* add bonus to score */
 #ifdef ENABLE_SOUND
-		syssnd_play(WAV_SBONUS2, 1);
+		syssnd_play(soundSbonus2, 1);
 #endif
 		/* make sure the entity won't be activated again */
 		map_marks[ent_ents[e].mark].ent |= MAP_MARK_NACT;
