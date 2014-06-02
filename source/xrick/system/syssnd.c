@@ -263,7 +263,7 @@ syssnd_play(sound_t *sound, S8 loop)
  * clear: true to cleanup all sounds and make sure we start from scratch
  */
 void
-syssnd_pause(bool pause, bool clear)
+syssnd_pauseAll(bool pause, bool clear)
 {
   U8 c;
 
@@ -286,7 +286,7 @@ syssnd_pause(bool pause, bool clear)
  * Stop a sound
  */
 void
-syssnd_stopsound(sound_t *sound)
+syssnd_stop(sound_t *sound)
 {
 	U8 i;
 
@@ -302,7 +302,7 @@ syssnd_stopsound(sound_t *sound)
  * Stops all channels.
  */
 void
-syssnd_stopall(void)
+syssnd_stopAll(void)
 {
 	U8 i;
 

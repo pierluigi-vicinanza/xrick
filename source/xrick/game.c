@@ -166,7 +166,7 @@ game_setmusic(sound_t * newMusic, U8 loop)
 void
 game_stopmusic(void)
 {
-	syssnd_stopsound(currentMusic);
+	syssnd_stop(currentMusic);
 	currentMusic = NULL;
 }
 #endif /*ENABLE_SOUND */
@@ -355,7 +355,7 @@ frame(void)
 				game_waitevt = false;
 				screen_pause(false);
 #ifdef ENABLE_SOUND
-				syssnd_pause(false, false);
+				syssnd_pauseAll(false, false);
 #endif
 				game_state = PLAY2;
 			}
@@ -372,14 +372,14 @@ frame(void)
 		case PLAY1:
 			if (control_status & CONTROL_PAUSE) {
 #ifdef ENABLE_SOUND
-				syssnd_pause(true, false);
+				syssnd_pauseAll(true, false);
 #endif
 				game_waitevt = true;
 				game_state = PAUSE_PRESSED1;
 			}
 			else if (!control_active) {
 #ifdef ENABLE_SOUND
-				syssnd_pause(true, false);
+				syssnd_pauseAll(true, false);
 #endif
 				game_waitevt = true;
 				screen_pause(true);
@@ -738,7 +738,7 @@ static void
 freedata()
 {
 #ifdef ENABLE_SOUND
-	syssnd_stopall();
+	syssnd_stopAll();
     syssnd_free(soundGameover);
 	syssnd_free(soundSbonus2);
 	syssnd_free(soundBullet);

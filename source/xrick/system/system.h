@@ -140,9 +140,9 @@ extern void syssnd_shutdown(void);
 extern void syssnd_vol(S8);
 extern void syssnd_toggleMute(void);
 extern void syssnd_play(sound_t *, S8);
-extern void syssnd_pause(bool, bool);
-extern void syssnd_stopsound(sound_t *);
-extern void syssnd_stopall(void);
+extern void syssnd_pauseAll(bool, bool);
+extern void syssnd_stop(sound_t *);
+extern void syssnd_stopAll(void);
 extern void syssnd_load(sound_t *);
 extern void syssnd_free(sound_t *);
 #endif /* ENABLE_ SOUND */
