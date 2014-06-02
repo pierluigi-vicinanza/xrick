@@ -30,7 +30,7 @@ IFDEBUG_MEMORY( static size_t maxUsedMemory = 0; );
 /*
  * Initialise memory stack
  */
-bool sysmem_init()
+bool sysmem_init(void)
 {
     stackTop = stackBuffer;
     stackSize = 0;
@@ -40,7 +40,7 @@ bool sysmem_init()
 /*
  * Cleanup memory stack
  */
-void sysmem_shutdown()
+void sysmem_shutdown(void)
 {
     if (stackTop != stackBuffer || stackSize != 0)
     {
