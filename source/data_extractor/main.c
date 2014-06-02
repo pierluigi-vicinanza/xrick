@@ -86,8 +86,37 @@ static const char * resourceFiles[Resource_MAX_COUNT] =
     NULL, 
     NULL, 
     NULL, 
-    NULL
+    NULL,
 #endif /* GFXPC */
+    "sounds/bombshht.wav",
+    "sounds/bonus.wav",
+    "sounds/box.wav",
+    "sounds/bullet.wav",
+    "sounds/crawl.wav",
+    "sounds/die.wav",
+    "sounds/ent0.wav",
+    "sounds/ent1.wav",
+    "sounds/ent2.wav",
+    "sounds/ent3.wav",
+    "sounds/ent4.wav",
+    "sounds/ent5.wav",
+    "sounds/ent6.wav",
+    "sounds/ent7.wav",
+    "sounds/ent8.wav",
+    "sounds/explode.wav",
+    "sounds/gameover.wav",
+    "sounds/jump.wav",
+    "sounds/pad.wav",
+    "sounds/sbonus1.wav",
+    "sounds/sbonus2.wav",
+    "sounds/stick.wav",
+    "sounds/tune0.wav",
+    "sounds/tune1.wav",
+    "sounds/tune2.wav",
+    "sounds/tune3.wav",
+    "sounds/tune4.wav",
+    "sounds/tune5.wav",
+    "sounds/walk.wav"
 };
 
 /*-------------------------------------------------------*/
@@ -265,13 +294,11 @@ static bool writeResourceMaps(FILE * fp)
         memcpy(dataTemp.row, &u16Temp, sizeof(U16));
         u16Temp = htole16(MAP_MAPS[i].submap);
         memcpy(dataTemp.submap, &u16Temp, sizeof(U16));
+        u16Temp = htole16(Resource_SOUNDTUNE0 + i);
+        memcpy(dataTemp.tuneId, &u16Temp, sizeof(U16));
         if (fwrite(&dataTemp, sizeof(dataTemp), 1, fp) != 1)
         {
             perror("fwrite()");
-            return false;
-        }
-        if (!writeString(fp, MAP_MAPS[i].tune, 0x00))
-        {
             return false;
         }
     }     
@@ -626,12 +653,13 @@ int main(int argc, char *argv[])
     bool success = true;
     unsigned id;
 
-    for (id = Resource_FILELIST; (id < Resource_MAX_COUNT) && success; ++id)
+    /* note: at the moment we store sounds as plain WAVE files (e.g. no custom header/crc) */ 
+    for (id = Resource_FILELIST; (id <= Resource_SCREENCONGRATS) && success; ++id)
     {
         if (resourceFiles[id])
         {
             success = writeFile(id);
         }
     }
-    return !success;
+    return (success? 0 : 1);
 }

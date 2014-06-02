@@ -14,11 +14,51 @@
 #include "dat_maps.h"
 
 map_t MAP_MAPS[MAP_NBR_MAPS] = {
-  {0x0008, 0x008b, 0x0008, 000000, "sounds/tune0.wav"},
-  {0x0008, 0x008b, 0x0068, 0x0009, "sounds/tune1.wav"},
-  {0x0010, 0x008b, 0x0010, 0x0014, "sounds/tune2.wav"},
-  {0x0010, 0x008b, 0x0010, 0x0026, "sounds/tune3.wav"},
-  {0x0074, 0x00c8, 0x0008, 0x0026, "sounds/tune4.wav"},
+  {
+      0x0008,
+      0x008b,
+      0x0008,
+      000000
+#ifdef ENABLE_SOUND
+      ,NULL /*soundTune0*/
+#endif
+  },
+  {
+      0x0008, 
+      0x008b, 
+      0x0068, 
+      0x0009 
+#ifdef ENABLE_SOUND
+      ,NULL /*soundTune1*/
+#endif
+  },
+  {
+      0x0010, 
+      0x008b, 
+      0x0010, 
+      0x0014
+#ifdef ENABLE_SOUND
+      ,NULL /*soundTune2*/
+#endif
+  },
+  {
+      0x0010,
+      0x008b, 
+      0x0010, 
+      0x0026
+#ifdef ENABLE_SOUND
+      ,NULL /*soundTune3*/
+#endif
+  },
+  {
+      0x0074, 
+      0x00c8, 
+      0x0008, 
+      0x0026 
+#ifdef ENABLE_SOUND
+      ,NULL /*soundTune4*/
+#endif
+   },
 };
 
 submap_t MAP_SUBMAPS[MAP_NBR_SUBMAPS] = {

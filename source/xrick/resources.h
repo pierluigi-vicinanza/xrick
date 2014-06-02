@@ -45,6 +45,7 @@ typedef struct
     U8 y[2];
     U8 row[2];
     U8 submap[2];
+    U8 tuneId[2];
 } resource_map_t;
 
 typedef struct 
@@ -85,9 +86,12 @@ extern const U8 resource_magic[4];
 
 enum
 {
-    DATA_VERSION = 1,
+    DATA_VERSION = 2,
 
+    /* "bootstrap" file */
     Resource_FILELIST = 0,
+
+    /* graphics, misc, texts */
     Resource_PALETTE,
     Resource_ENTDATA,
     Resource_SPRSEQ,
@@ -115,6 +119,37 @@ enum
     Resource_IMAINRDT, /* PC version only */
     Resource_IMAINCDC, /* PC version only */
     Resource_SCREENCONGRATS, /* PC version only */
+
+    /* sounds */
+    Resource_SOUNDBOMBSHHT,
+    Resource_SOUNDBONUS,
+    Resource_SOUNDBOX,
+    Resource_SOUNDBULLET,
+    Resource_SOUNDCRAWL,
+    Resource_SOUNDDIE,
+    Resource_SOUNDENTITY0,
+    Resource_SOUNDENTITY1,
+    Resource_SOUNDENTITY2,
+    Resource_SOUNDENTITY3,
+    Resource_SOUNDENTITY4,
+    Resource_SOUNDENTITY5,
+    Resource_SOUNDENTITY6,
+    Resource_SOUNDENTITY7,
+    Resource_SOUNDENTITY8,
+    Resource_SOUNDEXPLODE,
+    Resource_SOUNDGAMEOVER,
+    Resource_SOUNDJUMP,
+    Resource_SOUNDPAD,
+    Resource_SOUNDSBONUS1,
+    Resource_SOUNDSBONUS2,
+    Resource_SOUNDSTICK,
+    Resource_SOUNDTUNE0,
+    Resource_SOUNDTUNE1,
+    Resource_SOUNDTUNE2,
+    Resource_SOUNDTUNE3,
+    Resource_SOUNDTUNE4,
+    Resource_SOUNDTUNE5,
+    Resource_SOUNDWALK,
 
     Resource_MAX_COUNT,
 };
