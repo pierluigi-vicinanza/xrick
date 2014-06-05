@@ -353,11 +353,12 @@ void syssnd_load(sound_t *sound)
         /* open */
         if (sdlRWops_open(context, sound->name) == -1)
         {
+            free(context);
             break;
         }
 
         /* read */
-        /* second param == 1 -> close source once read */
+        /* second param == 1 -> close source once read (context will be freed on close)*/
         if (!SDL_LoadWAV_RW(context, 1, &audiospec, &(sound->buf), &(sound->len)))
         {
             break;
@@ -428,11 +429,7 @@ sdlRWops_write(SDL_RWops *context, const void *ptr, int size, int num)
 static int
 sdlRWops_close(SDL_RWops *context)
 {
-	if (context)
-	{
-		sysfile_close((file_t)(context->hidden.unknown.data1));
-		free(context);
-	}
+    sysfile_close((file_t)(context->hidden.unknown.data1));
 	return 0;
 }
 
