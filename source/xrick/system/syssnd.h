@@ -18,13 +18,16 @@
 
 #ifdef ENABLE_SOUND
 
-#include "basic_types.h"
+#include "data/sounds.h"
 
-#define SYSSND_MAXVOL 10
-#define SYSSND_MIXCHANNELS 8
-/* MIXSAMPLES: 256 is too low on Windows. 512 means ~20 mix per second at 11025Hz */
-/* MIXSAMPLES: ?? at 22050Hz */
-#define SYSSND_MIXSAMPLES 1024
+enum
+{
+    SYSSND_MAXVOL = 10,
+    SYSSND_MIXCHANNELS = 8,
+    /* MIXSAMPLES: 256 is too low on Windows. 512 means ~20 mix per second at 11025Hz */
+    /* MIXSAMPLES: ?? at 22050Hz */
+    SYSSND_MIXSAMPLES = 1024
+};
 
 typedef struct {
 	sound_t *snd;
@@ -32,6 +35,9 @@ typedef struct {
 	U32 len;
 	S8 loop;
 } channel_t;
+
+extern void syssnd_load(sound_t *);
+extern void syssnd_free(sound_t *);
 
 #endif /* ENABLE_SOUND */
 

@@ -239,18 +239,33 @@ void syssnd_play(sound_t *sound, S8 loop)
         return;
     }
 
-    SDL_mutexP(sndlock);
-    
-    c = 0;
-    while (channel[c].snd != sound &&
-           channel[c].loop != 0 &&
-           c < SYSSND_MIXCHANNELS)
     {
-        c++;
+        SDL_mutexP(sndlock);
+        
+        c = 0;
+        while (channel[c].snd != sound &&
+            channel[c].loop != 0 &&
+            c < SYSSND_MIXCHANNELS)
+        {
+            c++;
+        }
+
+        SDL_mutexV(sndlock);
     }
 
-    if (c < SYSSND_MIXCHANNELS) 
+    if (c >= SYSSND_MIXCHANNELS)
     {
+        return;
+    }
+
+    if (!sound->buf)
+    {
+        syssnd_load(sound);
+    }
+
+    {
+        SDL_mutexP(sndlock);
+
         IFDEBUG_AUDIO(
             if (channel[c].snd == sound)
             {
@@ -267,9 +282,9 @@ void syssnd_play(sound_t *sound, S8 loop)
         channel[c].snd = sound;
         channel[c].buf = sound->buf;
         channel[c].len = sound->len;
-    }
 
-    SDL_mutexV(sndlock);
+        SDL_mutexV(sndlock);
+    }
 }
 
 /*

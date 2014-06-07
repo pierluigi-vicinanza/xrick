@@ -21,6 +21,10 @@
 #include <signal.h>
 
 #include "system.h"
+#include "config.h"
+#ifdef ENABLE_SOUND
+#include "syssnd.h"
+#endif
 
 /*
  * Panic
@@ -162,6 +166,74 @@ sys_shutdown(void)
 #endif
 	sysvid_shutdown();
     sysmem_shutdown();
+}
+
+/*
+ * Preload data before entering main loop
+ */
+bool
+sys_cacheData(void)
+{
+#ifdef ENABLE_SOUND
+	/*  tune[0-5].wav not cached */
+	syssnd_load(soundGameover);
+	syssnd_load(soundSbonus2);
+	syssnd_load(soundBullet);
+	syssnd_load(soundBombshht);
+	syssnd_load(soundExplode);
+	syssnd_load(soundStick);
+	syssnd_load(soundWalk);
+	syssnd_load(soundCrawl);
+	syssnd_load(soundJump);
+	syssnd_load(soundPad);
+	syssnd_load(soundBox);
+	syssnd_load(soundBonus);
+	syssnd_load(soundSbonus1);
+	syssnd_load(soundDie);
+	syssnd_load(soundEntity[0]);
+	syssnd_load(soundEntity[1]);
+	syssnd_load(soundEntity[2]);
+	syssnd_load(soundEntity[3]);
+	syssnd_load(soundEntity[4]);
+	syssnd_load(soundEntity[5]);
+	syssnd_load(soundEntity[6]);
+	syssnd_load(soundEntity[7]);
+	syssnd_load(soundEntity[8]);
+#endif
+    return true;
+}
+
+/*
+ * Clear preloaded data before shutdown
+ */
+void
+sys_uncacheData(void)
+{
+#ifdef ENABLE_SOUND
+    syssnd_free(soundGameover);
+	syssnd_free(soundSbonus2);
+	syssnd_free(soundBullet);
+	syssnd_free(soundBombshht);
+	syssnd_free(soundExplode);
+	syssnd_free(soundStick);
+	syssnd_free(soundWalk);
+	syssnd_free(soundCrawl);
+	syssnd_free(soundJump);
+	syssnd_free(soundPad);
+	syssnd_free(soundBox);
+	syssnd_free(soundBonus);
+	syssnd_free(soundSbonus1);
+	syssnd_free(soundDie);
+	syssnd_free(soundEntity[0]);
+	syssnd_free(soundEntity[1]);
+	syssnd_free(soundEntity[2]);
+	syssnd_free(soundEntity[3]);
+	syssnd_free(soundEntity[4]);
+	syssnd_free(soundEntity[5]);
+	syssnd_free(soundEntity[6]);
+	syssnd_free(soundEntity[7]);
+	syssnd_free(soundEntity[8]);
+#endif
 }
 
 /* eof */

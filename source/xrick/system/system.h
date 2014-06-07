@@ -68,6 +68,8 @@ extern void sys_snprintf(char *, size_t, const char *, ...);
 extern size_t sys_strlen(const char *);
 extern U32 sys_gettime(void);
 extern void sys_sleep(U32);
+extern bool sys_cacheData(void);
+extern void sys_uncacheData(void);
 
 /*
  * memory section
@@ -143,8 +145,6 @@ extern void syssnd_play(sound_t *, S8);
 extern void syssnd_pauseAll(bool);
 extern void syssnd_stop(sound_t *);
 extern void syssnd_stopAll(void);
-extern void syssnd_load(sound_t *);
-extern void syssnd_free(sound_t *);
 #endif /* ENABLE_ SOUND */
 
 /*

@@ -91,8 +91,6 @@ static void play3(void);
 static void restart(void);
 static void isave(void);
 static void irestore(void);
-static void loaddata(void);
-static void freedata(void);
 
 
 /*
@@ -155,8 +153,6 @@ game_setmusic(sound_t * newMusic, U8 loop)
 		game_stopmusic();
     }
 
-    syssnd_load(newMusic);
-
     newMusic->dispose = true; /* music is always "fire and forget" */
     syssnd_play(newMusic, loop);
 
@@ -184,7 +180,12 @@ game_run(void)
         resources_unload();
         return;
     }
-    loaddata(); /* load cached data */
+    
+    if (!sys_cacheData())
+    {
+        sys_uncacheData();
+        return;
+    }
 
     game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
     tm = sys_gettime();
@@ -218,8 +219,12 @@ game_run(void)
         else
             sysevt_poll();  /* process events (non-blocking) */
     }
+#ifdef ENABLE_SOUND
+    syssnd_stopAll();
+#endif
 
-    freedata(); /* free cached data */
+    sys_uncacheData();
+
     resources_unload();
 }
 
@@ -692,78 +697,5 @@ irestore(void)
   e_rick_restore();
   map_frow = isave_frow;
 }
-
-/*
- *
- */
-static void
-loaddata()
-{
-#ifdef ENABLE_SOUND
-	/*
-	 * Cache sounds
-	 *
-	 * tune[0-5].wav not cached
-	 */
-	syssnd_load(soundGameover);
-	syssnd_load(soundSbonus2);
-	syssnd_load(soundBullet);
-	syssnd_load(soundBombshht);
-	syssnd_load(soundExplode);
-	syssnd_load(soundStick);
-	syssnd_load(soundWalk);
-	syssnd_load(soundCrawl);
-	syssnd_load(soundJump);
-	syssnd_load(soundPad);
-	syssnd_load(soundBox);
-	syssnd_load(soundBonus);
-	syssnd_load(soundSbonus1);
-	syssnd_load(soundDie);
-	syssnd_load(soundEntity[0]);
-	syssnd_load(soundEntity[1]);
-	syssnd_load(soundEntity[2]);
-	syssnd_load(soundEntity[3]);
-	syssnd_load(soundEntity[4]);
-	syssnd_load(soundEntity[5]);
-	syssnd_load(soundEntity[6]);
-	syssnd_load(soundEntity[7]);
-	syssnd_load(soundEntity[8]);
-#endif
-}
-
-/*
- *
- */
-static void
-freedata()
-{
-#ifdef ENABLE_SOUND
-	syssnd_stopAll();
-    syssnd_free(soundGameover);
-	syssnd_free(soundSbonus2);
-	syssnd_free(soundBullet);
-	syssnd_free(soundBombshht);
-	syssnd_free(soundExplode);
-	syssnd_free(soundStick);
-	syssnd_free(soundWalk);
-	syssnd_free(soundCrawl);
-	syssnd_free(soundJump);
-	syssnd_free(soundPad);
-	syssnd_free(soundBox);
-	syssnd_free(soundBonus);
-	syssnd_free(soundSbonus1);
-	syssnd_free(soundDie);
-	syssnd_free(soundEntity[0]);
-	syssnd_free(soundEntity[1]);
-	syssnd_free(soundEntity[2]);
-	syssnd_free(soundEntity[3]);
-	syssnd_free(soundEntity[4]);
-	syssnd_free(soundEntity[5]);
-	syssnd_free(soundEntity[6]);
-	syssnd_free(soundEntity[7]);
-	syssnd_free(soundEntity[8]);
-#endif
-}
-
 
 /* eof */
