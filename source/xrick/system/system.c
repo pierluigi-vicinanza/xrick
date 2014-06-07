@@ -176,6 +176,29 @@ sys_cacheData(void)
 {
 #ifdef ENABLE_SOUND
 	/*  tune[0-5].wav not cached */
+    soundGameover->dispose = false;
+	soundSbonus2->dispose = false;
+	soundBullet->dispose = false;
+	soundBombshht->dispose = false;
+	soundExplode->dispose = false;
+	soundStick->dispose = false;
+	soundWalk->dispose = false;
+	soundCrawl->dispose = false;
+	soundJump->dispose = false;
+	soundPad->dispose = false;
+	soundBox->dispose = false;
+	soundBonus->dispose = false;
+	soundSbonus1->dispose = false;
+	soundDie->dispose = false;
+	soundEntity[0]->dispose = false;
+	soundEntity[1]->dispose = false;
+	soundEntity[2]->dispose = false;
+	soundEntity[3]->dispose = false;
+	soundEntity[4]->dispose = false;
+	soundEntity[5]->dispose = false;
+	soundEntity[6]->dispose = false;
+	soundEntity[7]->dispose = false;
+	soundEntity[8]->dispose = false;
 	syssnd_load(soundGameover);
 	syssnd_load(soundSbonus2);
 	syssnd_load(soundBullet);

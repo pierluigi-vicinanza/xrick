@@ -388,8 +388,6 @@ void syssnd_load(sound_t *sound)
         sound->buf = NULL;
         sound->len = 0;
     }
-
-    sound->dispose = false;
 }
 
 /*

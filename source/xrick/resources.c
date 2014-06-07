@@ -753,7 +753,7 @@ static bool loadSound(const unsigned id)
     }
 
     (*sound)->buf = NULL;
-    (*sound)->dispose = false;
+    (*sound)->dispose = true; /* sounds are "fire and forget" by default */
 
     (*sound)->name = u_strdup(resourceFiles[id]);
     if (!(*sound)->name)

@@ -153,7 +153,6 @@ game_setmusic(sound_t * newMusic, U8 loop)
 		game_stopmusic();
     }
 
-    newMusic->dispose = true; /* music is always "fire and forget" */
     syssnd_play(newMusic, loop);
 
     currentMusic = newMusic;
