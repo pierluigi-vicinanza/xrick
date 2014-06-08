@@ -14,7 +14,7 @@
 #ifndef _IMG_H
 #define _IMG_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 typedef struct {
   U8 r, g, b, nothing;

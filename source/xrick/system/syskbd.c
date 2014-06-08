@@ -13,7 +13,7 @@
 
 #include <SDL.h>
 
-#include "system.h"
+#include "xrick/system/system.h"
 
 U8 syskbd_up = SDLK_o;
 U8 syskbd_down = SDLK_k;

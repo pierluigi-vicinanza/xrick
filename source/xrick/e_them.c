@@ -11,16 +11,16 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "e_them.h"
+#include "xrick/e_them.h"
 
-#include "game.h"
-#include "ents.h"
+#include "xrick/game.h"
+#include "xrick/ents.h"
 
-#include "e_rick.h"
-#include "e_bomb.h"
-#include "e_bullet.h"
-#include "maps.h"
-#include "util.h"
+#include "xrick/e_rick.h"
+#include "xrick/e_bomb.h"
+#include "xrick/e_bullet.h"
+#include "xrick/maps.h"
+#include "xrick/util.h"
 
 #define TYPE_1A (0x00)
 #define TYPE_1B (0xff)

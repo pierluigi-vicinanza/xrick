@@ -12,8 +12,8 @@
 #ifndef _BASIC_FUNCS_H
 #define _BASIC_FUNCS_H
 
-#include "basic_types.h"
-#include "system.h"
+#include "xrick/system/basic_types.h"
+#include "xrick/system/system.h"
 
 #ifdef __WIN32__
 /* Windows is little endian only */

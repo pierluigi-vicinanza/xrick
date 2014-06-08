@@ -14,10 +14,10 @@
 #ifndef _MAPS_H
 #define _MAPS_H
 
-#include "system/basic_types.h"
-#include "system/system.h"
+#include "xrick/system/basic_types.h"
+#include "xrick/system/system.h"
 #ifdef ENABLE_SOUND
-#include "data/sounds.h"
+#include "xrick/data/sounds.h"
 #endif
 
 #include <stddef.h> /* size_t */

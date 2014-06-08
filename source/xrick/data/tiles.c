@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "tiles.h"
+#include "xrick/data/tiles.h"
 
 /*
  * globals

@@ -14,9 +14,9 @@
 #ifndef _RESOURCES_H
 #define _RESOURCES_H
 
-#include "config.h"
-#include "screens.h"
-#include "system/basic_types.h"
+#include "xrick/config.h"
+#include "xrick/screens.h"
+#include "xrick/system/basic_types.h"
 
 /*
  * All data is assumed to be Little Endian

@@ -18,13 +18,13 @@
 
 #include <SDL.h>
 
-#include "system.h"
-#include "config.h"
-#include "game.h"
-#include "debug.h"
+#include "xrick/system/system.h"
+#include "xrick/config.h"
+#include "xrick/game.h"
+#include "xrick/debug.h"
 
-#include "control.h"
-#include "draw.h"
+#include "xrick/control.h"
+#include "xrick/draw.h"
 
 #define SYSJOY_RANGE 3280
 

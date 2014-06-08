@@ -28,9 +28,9 @@
 #ifndef _SPRITES_H_
 #define _SPRITES_H_
 
-#include "config.h"
+#include "xrick/config.h"
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 #include <stddef.h> /* size_t */
 

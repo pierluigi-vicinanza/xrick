@@ -11,16 +11,16 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "e_box.h"
+#include "xrick/e_box.h"
 
-#include "game.h"
-#include "ents.h"
+#include "xrick/game.h"
+#include "xrick/ents.h"
 
-#include "e_bullet.h"
-#include "e_bomb.h"
-#include "e_rick.h"
-#include "maps.h"
-#include "util.h"
+#include "xrick/e_bullet.h"
+#include "xrick/e_bomb.h"
+#include "xrick/e_rick.h"
+#include "xrick/maps.h"
+#include "xrick/util.h"
 
 /*
  * FIXME this is because the same structure is used

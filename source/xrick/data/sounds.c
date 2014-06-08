@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "sounds.h"
+#include "xrick/data/sounds.h"
 
 #ifdef ENABLE_SOUND
 

@@ -11,11 +11,11 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "draw.h"
-#include "game.h"
-#include "img.h"
-#include "debug.h"
-#include "system/system.h"
+#include "xrick/draw.h"
+#include "xrick/game.h"
+#include "xrick/img.h"
+#include "xrick/debug.h"
+#include "xrick/system/system.h"
 
 #include <string.h> /* memset */
 #include <stdlib.h> /* malloc */
@@ -31,7 +31,7 @@ static U8 zoom = SYSVID_ZOOM; /* actual zoom level */
 static U8 szoom = 0;  /* saved zoom level */
 static U8 fszoom = 0;  /* fullscreen zoom level */
 
-#include "data/img_icon.e"
+#include "xrick/data/img_icon.e"
 
 /*
  * Initialize screen

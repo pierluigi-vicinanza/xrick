@@ -11,14 +11,14 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "screens.h"
+#include "xrick/screens.h"
 
-#include "game.h"
+#include "xrick/game.h"
 
-#include "rects.h"
-#include "draw.h"
-#include "control.h"
-#include "maps.h"
+#include "xrick/rects.h"
+#include "xrick/draw.h"
+#include "xrick/control.h"
+#include "xrick/maps.h"
 
 /*
  * local vars

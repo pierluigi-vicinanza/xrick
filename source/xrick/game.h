@@ -14,10 +14,10 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "config.h"
-#include "rects.h"
+#include "xrick/config.h"
+#include "xrick/rects.h"
 #ifdef ENABLE_SOUND
-#include "data/sounds.h"
+#include "xrick/data/sounds.h"
 #endif
 
 #include <stddef.h> /* NULL */

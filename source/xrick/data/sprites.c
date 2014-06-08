@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "sprites.h"
+#include "xrick/data/sprites.h"
 
 /*
  * globals

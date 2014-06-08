@@ -11,13 +11,13 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "e_bonus.h"
+#include "xrick/e_bonus.h"
 
-#include "game.h"
-#include "ents.h"
+#include "xrick/game.h"
+#include "xrick/ents.h"
 
-#include "e_rick.h"
-#include "maps.h"
+#include "xrick/e_rick.h"
+#include "xrick/maps.h"
 
 
 /*

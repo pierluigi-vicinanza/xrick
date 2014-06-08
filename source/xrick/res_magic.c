@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "resources.h"
+#include "xrick/resources.h"
 
 const U8 resource_magic[4] = { 0x52, 0x49, 0x43, 0x4B }; /* 'R','I','C','K' */
 

@@ -11,17 +11,17 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system/system.h"
-#include "config.h"
-#include "game.h"
-#include "ents.h"
-#include "e_rick.h"
+#include "xrick/system/system.h"
+#include "xrick/config.h"
+#include "xrick/game.h"
+#include "xrick/ents.h"
+#include "xrick/e_rick.h"
 
-#include "e_bullet.h"
-#include "e_bomb.h"
-#include "control.h"
-#include "maps.h"
-#include "util.h"
+#include "xrick/e_bullet.h"
+#include "xrick/e_bomb.h"
+#include "xrick/control.h"
+#include "xrick/maps.h"
+#include "xrick/util.h"
 
 /*
  * public vars

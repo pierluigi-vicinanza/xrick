@@ -11,22 +11,22 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "game.h"
+#include "xrick/game.h"
 
-#include "draw.h"
-#include "maps.h"
-#include "ents.h"
-#include "e_rick.h"
-#include "e_sbonus.h"
-#include "e_them.h"
-#include "screens.h"
-#include "rects.h"
-#include "scroller.h"
-#include "control.h"
-#include "resources.h"
+#include "xrick/draw.h"
+#include "xrick/maps.h"
+#include "xrick/ents.h"
+#include "xrick/e_rick.h"
+#include "xrick/e_sbonus.h"
+#include "xrick/e_them.h"
+#include "xrick/screens.h"
+#include "xrick/rects.h"
+#include "xrick/scroller.h"
+#include "xrick/control.h"
+#include "xrick/resources.h"
 
 #ifdef ENABLE_DEVTOOLS
-#include "devtools.h"
+#include "xrick/devtools.h"
 #endif
 
 

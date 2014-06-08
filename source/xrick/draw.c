@@ -43,17 +43,17 @@
  * of rows of 0x20 tiles of 0x08 by 0x08 pixels.
  */
 
-#include "system/system.h"
+#include "xrick/system/system.h"
 
-#include "game.h"
-#include "draw.h"
+#include "xrick/game.h"
+#include "xrick/draw.h"
 
-#include "data/sprites.h"
-#include "data/tiles.h"
+#include "xrick/data/sprites.h"
+#include "xrick/data/tiles.h"
 
-#include "maps.h"
-#include "rects.h"
-#include "img.h"
+#include "xrick/maps.h"
+#include "xrick/rects.h"
+#include "xrick/img.h"
 
 
 /*

@@ -11,8 +11,8 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system.h"
-#include "debug.h"
+#include "xrick/system/system.h"
+#include "xrick/debug.h"
 
 /*
  * local vars

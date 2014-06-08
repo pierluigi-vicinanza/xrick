@@ -11,15 +11,15 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "screens.h"
+#include "xrick/screens.h"
 
-#include "game.h"
-#include "draw.h"
-#include "control.h"
-#include "img.h"
-#include "system/system.h"
+#include "xrick/game.h"
+#include "xrick/draw.h"
+#include "xrick/control.h"
+#include "xrick/img.h"
+#include "xrick/system/system.h"
 
-#include "data/img_splash.e"
+#include "xrick/data/img_splash.e"
 
 /*
  * global vars

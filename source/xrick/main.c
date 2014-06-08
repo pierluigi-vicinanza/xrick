@@ -11,8 +11,8 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system/system.h"
-#include "game.h"
+#include "xrick/system/system.h"
+#include "xrick/game.h"
 
 #include <SDL.h>
 

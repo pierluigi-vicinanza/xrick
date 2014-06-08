@@ -11,12 +11,12 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "system/system.h"
+#include "xrick/system/system.h"
 
 #ifdef ENABLE_ZIP
 #include "zlib/unzip.h"
 #endif
-#include "util.h"
+#include "xrick/util.h"
 
 #include <stdio.h>  /* sprintf */
 #include <sys/stat.h> /* fstat */

@@ -11,16 +11,16 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "resources.h"
+#include "xrick/resources.h"
 
-#include "draw.h"
-#include "ents.h"
-#include "maps.h"
-#include "util.h"
-#include "data/sprites.h"
-#include "data/tiles.h"
-#include "data/pics.h"
-#include "system/basic_funcs.h"
+#include "xrick/draw.h"
+#include "xrick/ents.h"
+#include "xrick/maps.h"
+#include "xrick/util.h"
+#include "xrick/data/sprites.h"
+#include "xrick/data/tiles.h"
+#include "xrick/data/pics.h"
+#include "xrick/system/basic_funcs.h"
 
 /*
  * miniz used only for crc32 calculation

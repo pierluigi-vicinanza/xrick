@@ -14,7 +14,7 @@
 #ifndef _E_BOMB_H
 #define _E_BOMB_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 #define E_BOMB_NO 3
 #define E_BOMB_ENT ent_ents[E_BOMB_NO]

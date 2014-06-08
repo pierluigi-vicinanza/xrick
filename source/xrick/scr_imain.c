@@ -11,15 +11,15 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "screens.h"
+#include "xrick/screens.h"
 
-#include "game.h"
-#include "draw.h"
-#include "control.h"
+#include "xrick/game.h"
+#include "xrick/draw.h"
+#include "xrick/control.h"
 #ifdef GFXST
-#include "data/pics.h"
+#include "xrick/data/pics.h"
 #endif
-#include "system/system.h"
+#include "xrick/system/system.h"
 
 /*
  * Main introduction

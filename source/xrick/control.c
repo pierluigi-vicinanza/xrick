@@ -11,8 +11,8 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "control.h"
-#include "game.h"
+#include "xrick/control.h"
+#include "xrick/game.h"
 
 U8 control_status = 0;
 bool control_active = true;

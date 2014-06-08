@@ -14,7 +14,7 @@
 #ifndef _E_BONUS_H
 #define _E_BONUS_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 extern void e_bonus_action(U8);
 

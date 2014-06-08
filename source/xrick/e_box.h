@@ -14,7 +14,7 @@
 #ifndef _E_BOX_H
 #define _E_BOX_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 extern void e_box_action(U8);
 

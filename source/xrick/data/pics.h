@@ -14,11 +14,11 @@
 #ifndef _PICS_H
 #define _PICS_H
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef GFXST
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 typedef struct {
   U16 width;

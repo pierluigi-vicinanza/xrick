@@ -20,10 +20,10 @@
 #include <string.h>   /* strlen */
 #include <signal.h>
 
-#include "system.h"
-#include "config.h"
+#include "xrick/system/system.h"
+#include "xrick/config.h"
 #ifdef ENABLE_SOUND
-#include "syssnd.h"
+#include "xrick/system/syssnd.h"
 #endif
 
 /*

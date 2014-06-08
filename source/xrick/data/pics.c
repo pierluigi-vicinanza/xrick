@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "pics.h"
+#include "xrick/data/pics.h"
 
 #ifdef GFXST
 

@@ -47,11 +47,11 @@
 #define __WIN32__
 #endif
 
-#include "config.h"
-#include "rects.h"
-#include "img.h"
+#include "xrick/config.h"
+#include "xrick/rects.h"
+#include "xrick/img.h"
 #ifdef ENABLE_SOUND
-#include "data/sounds.h"
+#include "xrick/data/sounds.h"
 #endif
 
 #include <stddef.h> /* size_t */

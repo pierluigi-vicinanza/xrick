@@ -14,7 +14,7 @@
 #ifndef _UTIL_H
 #define _UTIL_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 extern void u_envtest(S16, S16, bool, U8 *, U8 *);
 extern bool u_boxtest(U8, U8);

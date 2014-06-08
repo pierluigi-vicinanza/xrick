@@ -15,14 +15,14 @@
 #include <stdlib.h>
 #include <memory.h>
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef ENABLE_SOUND
 
-#include "system.h"
-#include "game.h"
-#include "syssnd.h"
-#include "debug.h"
+#include "xrick/system/system.h"
+#include "xrick/game.h"
+#include "xrick/system/syssnd.h"
+#include "xrick/debug.h"
 
 #define ADJVOL(S) (((S)*sndVol)/SDL_MIX_MAXVOLUME)
 

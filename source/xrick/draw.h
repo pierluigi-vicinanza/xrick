@@ -14,10 +14,10 @@
 #ifndef _DRAW_H
 #define _DRAW_H
 
-#include "rects.h"
-#include "img.h"
+#include "xrick/rects.h"
+#include "xrick/img.h"
 #ifdef GFXST
-#include "data/pics.h"
+#include "xrick/data/pics.h"
 #endif
 
 #include <stddef.h> /* size_t */

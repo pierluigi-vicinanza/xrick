@@ -14,11 +14,11 @@
 #ifndef _SOUNDS_H
 #define _SOUNDS_H
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef ENABLE_SOUND
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 typedef struct {
   char *name;

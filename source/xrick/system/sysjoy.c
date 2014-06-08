@@ -13,12 +13,12 @@
 
 #include <SDL.h>
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef ENABLE_JOYSTICK
 
-#include "system.h"
-#include "debug.h"
+#include "xrick/system/system.h"
+#include "xrick/debug.h"
 
 static SDL_Joystick *j = NULL;
 

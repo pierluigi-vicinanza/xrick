@@ -11,20 +11,20 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef ENABLE_DEVTOOLS
 
-#include "devtools.h"
+#include "xrick/devtools.h"
 
-#include "game.h"
+#include "xrick/game.h"
 
-#include "control.h"
-#include "screens.h"
-#include "draw.h"
-#include "data/sprites.h"
-#include "maps.h"
-#include "system/system.h"
+#include "xrick/control.h"
+#include "xrick/screens.h"
+#include "xrick/draw.h"
+#include "xrick/data/sprites.h"
+#include "xrick/maps.h"
+#include "xrick/system/system.h"
 
 /*
  * DevTools

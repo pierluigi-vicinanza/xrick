@@ -11,14 +11,14 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "scroller.h"
+#include "xrick/scroller.h"
 
-#include "game.h"
-#include "debug.h"
+#include "xrick/game.h"
+#include "xrick/debug.h"
 
-#include "draw.h"
-#include "maps.h"
-#include "ents.h"
+#include "xrick/draw.h"
+#include "xrick/maps.h"
+#include "xrick/ents.h"
 
 static U8 period;
 

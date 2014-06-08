@@ -14,7 +14,7 @@
 #ifndef _E_RICK_H
 #define _E_RICK_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 #define E_RICK_NO 1
 #define E_RICK_ENT ent_ents[E_RICK_NO]

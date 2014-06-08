@@ -14,11 +14,11 @@
 #ifndef _SYSSND_H
 #define _SYSSND_H
 
-#include "config.h"
+#include "xrick/config.h"
 
 #ifdef ENABLE_SOUND
 
-#include "data/sounds.h"
+#include "xrick/data/sounds.h"
 
 enum
 {

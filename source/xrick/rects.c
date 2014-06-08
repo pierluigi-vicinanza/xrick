@@ -11,8 +11,8 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "rects.h"
-#include "system/system.h"
+#include "xrick/rects.h"
+#include "xrick/system/system.h"
 
 /*
  * Free a list of rectangles and set the pointer to NULL.

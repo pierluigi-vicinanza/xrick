@@ -14,7 +14,7 @@
 #ifndef _CONTROL_H
 #define _CONTROL_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
 #define CONTROL_UP 0x08
 #define CONTROL_DOWN 0x04

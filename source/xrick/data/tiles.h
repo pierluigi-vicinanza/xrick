@@ -29,9 +29,9 @@
 #ifndef _TILES_H
 #define _TILES_H
 
-#include "system/basic_types.h"
+#include "xrick/system/basic_types.h"
 
-#include "config.h"
+#include "xrick/config.h"
 
 #include <stddef.h> /* size_t */
 

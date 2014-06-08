@@ -14,7 +14,7 @@
 #ifndef _ENTS_H
 #define _ENTS_H
 
-#include "rects.h"
+#include "xrick/rects.h"
 
 #include <stddef.h> /* size_t */
 

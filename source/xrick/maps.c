@@ -28,15 +28,15 @@
  * to map_map.
  */
 
-#include "maps.h"
+#include "xrick/maps.h"
 
-#include "game.h"
-#include "debug.h"
+#include "xrick/game.h"
+#include "xrick/debug.h"
 
-#include "ents.h"
-#include "draw.h"
-#include "screens.h"
-#include "e_sbonus.h"
+#include "xrick/ents.h"
+#include "xrick/draw.h"
+#include "xrick/screens.h"
+#include "xrick/e_sbonus.h"
 
 /*
  * global vars

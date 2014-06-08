@@ -11,22 +11,22 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "ents.h"
+#include "xrick/ents.h"
 
-#include "config.h"
-#include "game.h"
-#include "debug.h"
+#include "xrick/config.h"
+#include "xrick/game.h"
+#include "xrick/debug.h"
 
-#include "e_bullet.h"
-#include "e_bomb.h"
-#include "e_rick.h"
-#include "e_them.h"
-#include "e_bonus.h"
-#include "e_box.h"
-#include "e_sbonus.h"
-#include "rects.h"
-#include "maps.h"
-#include "draw.h"
+#include "xrick/e_bullet.h"
+#include "xrick/e_bomb.h"
+#include "xrick/e_rick.h"
+#include "xrick/e_them.h"
+#include "xrick/e_bonus.h"
+#include "xrick/e_box.h"
+#include "xrick/e_sbonus.h"
+#include "xrick/rects.h"
+#include "xrick/maps.h"
+#include "xrick/draw.h"
 
 #include <stdlib.h> /* abs */
 

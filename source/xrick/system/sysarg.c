@@ -20,12 +20,12 @@
 
 #include <SDL.h>
 
-#include "system.h"
-#include "config.h"
-#include "game.h"
+#include "xrick/system/system.h"
+#include "xrick/config.h"
+#include "xrick/game.h"
 
-#include "maps.h"
-#include "syssnd.h"
+#include "xrick/maps.h"
+#include "xrick/system/syssnd.h"
 
 /* handle Microsoft Visual C */
 #ifdef _MSC_VER

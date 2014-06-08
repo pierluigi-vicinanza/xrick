@@ -11,14 +11,14 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "e_bomb.h"
+#include "xrick/e_bomb.h"
 
-#include "game.h"
-#include "ents.h"
-#include "e_rick.h"
-#include "system/system.h"
+#include "xrick/game.h"
+#include "xrick/ents.h"
+#include "xrick/e_rick.h"
+#include "xrick/system/system.h"
 #ifdef ENABLE_SOUND
-#include "data/sounds.h"
+#include "xrick/data/sounds.h"
 #endif
 
 /*
