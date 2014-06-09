@@ -38,7 +38,7 @@ typedef struct {
 } sdlcodes_t;
 
 static sdlcodes_t sdlcodes[SDLK_LAST] = {
-#include "sdlcodes.e"
+#include "xrick/system/sdlcodes.e"
 };
 
 int sysarg_args_period = 0;
