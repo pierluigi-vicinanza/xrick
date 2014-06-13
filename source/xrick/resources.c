@@ -279,7 +279,7 @@ static bool loadResourceMaps(file_t fp)
         map_maps[i].submap = letoh16(u16Temp);
 #ifdef ENABLE_SOUND
         memcpy(&u16Temp, dataTemp.tuneId, sizeof(U16));
-        if (!fromResourceIdToSound(u16Temp, &soundTemp))
+        if (!fromResourceIdToSound(letoh16(u16Temp), &soundTemp))
         {
             return false;
         }
