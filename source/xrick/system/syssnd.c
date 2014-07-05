@@ -261,6 +261,11 @@ void syssnd_play(sound_t *sound, S8 loop)
     if (!sound->buf)
     {
         syssnd_load(sound);
+        if (!sound->buf)
+        {
+            IFDEBUG_AUDIO(sys_printf("xrick/audio: can not load %s\n", sound->name););
+            return;
+        }
     }
 
     {
