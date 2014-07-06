@@ -103,12 +103,13 @@ sys_gettime(void)
 }
 
 /*
- * Sleep a number of milliseconds
+ * Yield execution to another thread 
  */
 void
-sys_sleep(U32 ms)
+sys_yield(void)
 {
-    SDL_Delay(ms);
+    /* Be nice to the OS by sleeping for 1 ms. */   
+    SDL_Delay(1);
 }
 
 /*

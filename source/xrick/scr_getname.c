@@ -155,8 +155,6 @@ screen_getname(void)
                 }
                 seq = 7;
             }
-            if (seq == 2)
-                sys_sleep(50);
             break;
         }
         case 3:  /* wait for FIRE released */
@@ -191,8 +189,6 @@ screen_getname(void)
                     seq = 2;
                 }
             }
-            else
-                sys_sleep(50);
             break;
         }
         case 4:  /* wait for UP released */
@@ -200,8 +196,6 @@ screen_getname(void)
             if (!(control_status & CONTROL_UP) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
-            else
-                sys_sleep(50);
             break;
         }
         case 5:  /* wait for DOWN released */
@@ -209,8 +203,6 @@ screen_getname(void)
             if (!(control_status & CONTROL_DOWN) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
-            else
-                sys_sleep(50);
             break;
         }
         case 6:  /* wait for LEFT released */
@@ -218,8 +210,6 @@ screen_getname(void)
             if (!(control_status & CONTROL_LEFT) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
-            else
-                sys_sleep(50);
             break;
         }
         case 7:  /* wait for RIGHT released */
@@ -227,8 +217,6 @@ screen_getname(void)
             if (!(control_status & CONTROL_RIGHT) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
-            else
-                sys_sleep(50);
             break;
         }
     }

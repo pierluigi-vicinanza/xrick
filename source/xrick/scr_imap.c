@@ -120,8 +120,6 @@ screen_introMap(void)
   case 4:  /* wait for key release */
     if (!(control_status & CONTROL_FIRE))
       seq = 5;
-    else
-      sys_sleep(50); /* .5s */
     break;
   }
 

@@ -67,7 +67,7 @@ extern void sys_printf(const char *, ...);
 extern void sys_snprintf(char *, size_t, const char *, ...);
 extern size_t sys_strlen(const char *);
 extern U32 sys_gettime(void);
-extern void sys_sleep(U32);
+extern void sys_yield(void);
 extern bool sys_cacheData(void);
 extern void sys_uncacheData(void);
 

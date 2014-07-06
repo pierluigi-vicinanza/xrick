@@ -172,7 +172,7 @@ game_stopmusic(void)
 void
 game_run(void)
 {
-    U32 tm, tmx;
+    U32 currentTime, lastTime;
 
     if (!resources_load())
     {
@@ -187,37 +187,47 @@ game_run(void)
     }
 
     game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
-    tm = sys_gettime();
+    currentTime = 0;
     game_state = XRICK;
 
     /* main loop */
     while (game_state != EXIT) 
     {
-        /* timer */
-        tmx = tm; tm = sys_gettime(); tmx = tm - tmx;
-        if (tmx < game_period) sys_sleep(game_period - tmx);
+        currentTime = sys_gettime();
 
-        /* frame */
-        frame();
+        if (currentTime - lastTime >= game_period) 
+        {
+            /* frame */
+            frame();
 
-        /* video */
-        /*DEBUG*//*game_rects=&draw_SCREENRECT;*//*DEBUG*/
-        sysvid_update(game_rects);
+            /* video */
+            /*DEBUG*//*game_rects=&draw_SCREENRECT;*//*DEBUG*/
+            sysvid_update(game_rects);
 
-        /* reset rectangles list */
-        rects_free(ent_rects);
-        ent_rects = NULL;
-        draw_STATUSRECT.next = NULL;  /* FIXME freerects should handle this */
+            /* reset rectangles list */
+            rects_free(ent_rects);
+            ent_rects = NULL;
+            draw_STATUSRECT.next = NULL;  /* FIXME freerects should handle this */
 
-        /* sound */
-        /*snd_mix();*/
+            /* sound */
+            /*snd_mix();*/
 
-        /* events */
-        if (game_waitevt)
-            sysevt_wait();  /* wait for an event */
-        else
-            sysevt_poll();  /* process events (non-blocking) */
+            /* events */
+            if (game_waitevt)
+            {
+                sysevt_wait();  /* wait for an event */
+            }
+            else
+            {
+                sysevt_poll();  /* process events (non-blocking) */
+            }
+
+            lastTime = currentTime; 
+        }
+        
+        sys_yield();        
     }
+
 #ifdef ENABLE_SOUND
     syssnd_stopAll();
 #endif

@@ -67,15 +67,11 @@ screen_gameover(void)
 		else if (sys_gettime() - tm > SCREEN_TIMEOUT)
 			seq = 4;
 #endif
-		else
-			sys_sleep(50);
 		break;
 
 	case 3:  /* wait for key released */
 		if (!(control_status & CONTROL_FIRE))
 			seq = 4;
-		else
-			sys_sleep(50);
 		break;
 	}
 
