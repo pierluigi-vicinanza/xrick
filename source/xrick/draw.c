@@ -538,20 +538,23 @@ draw_spriteBackground(U16 x, U16 y)
 void
 draw_map(void)
 {
-  U8 i, j;
+    U8 i, j;
 
-  draw_tilesBank = map_tilesBank;
+    draw_tilesBank = map_tilesBank;
 
-  for (i = 0; i < 0x18; i++) {  /* 0x18 rows */
+    for (i = 0; i < 0x18; i++) /* 0x18 rows */
+    {  
 #ifdef GFXPC
-    draw_setfb(0x20, (i * 8));
+        draw_setfb(-DRAW_XYMAP_SCRLEFT, (i * 8));
 #endif
 #ifdef GFXST
-    draw_setfb(0x20, 8 + (i * 8));
+        draw_setfb(-DRAW_XYMAP_SCRLEFT, 8 + (i * 8));
 #endif
-    for (j = 0; j < 0x20; j++)  /* 0x20 tiles per row */
-      draw_tile(map_map[i + 8][j]);
-  }
+        for (j = 0; j < 0x20; j++)  /* 0x20 tiles per row */
+        {
+            draw_tile(map_map[i + 8][j]);
+        }
+    }
 }
 
 
