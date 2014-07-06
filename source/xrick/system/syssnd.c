@@ -24,6 +24,8 @@
 #include "xrick/system/syssnd.h"
 #include "xrick/debug.h"
 
+const U8 syssnd_period = 0xff; /* not needed under current SDL implementation of xrick */
+
 #define ADJVOL(S) (((S)*sndVol)/SDL_MIX_MAXVOLUME)
 
 static bool isAudioActive = false;
@@ -408,6 +410,15 @@ void syssnd_free(sound_t *sound)
     SDL_FreeWAV(sound->buf);
 	sound->buf = NULL;
 	sound->len = 0;
+}
+
+/*
+ * Mix audio samples and fill playback buffer
+ * 
+ * Note: all work is currently done in "sdl_callback(...)". This might change in future.
+ */
+void syssnd_update(void)
+{
 }
 
 /*

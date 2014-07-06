@@ -137,8 +137,11 @@ extern U8 syskbd_fire;
  * sound section
  */
 #ifdef ENABLE_SOUND
+extern const U8 syssnd_period; /* time between each sound update, in millisecond */
+
 extern bool syssnd_init(void);
 extern void syssnd_shutdown(void);
+extern void syssnd_update(void);
 extern void syssnd_vol(S8);
 extern void syssnd_toggleMute(void);
 extern void syssnd_play(sound_t *, S8);

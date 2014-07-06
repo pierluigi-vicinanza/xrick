@@ -172,7 +172,7 @@ game_stopmusic(void)
 void
 game_run(void)
 {
-    U32 currentTime, lastTime;
+    U32 currentTime, lastFrameTime, lastSoundTime;
 
     if (!resources_load())
     {
@@ -187,7 +187,6 @@ game_run(void)
     }
 
     game_period = sysarg_args_period ? sysarg_args_period : GAME_PERIOD;
-    currentTime = 0;
     game_state = XRICK;
 
     /* main loop */
@@ -195,7 +194,7 @@ game_run(void)
     {
         currentTime = sys_gettime();
 
-        if (currentTime - lastTime >= game_period) 
+        if (currentTime - lastFrameTime >= game_period) 
         {
             /* frame */
             frame();
@@ -209,9 +208,6 @@ game_run(void)
             ent_rects = NULL;
             draw_STATUSRECT.next = NULL;  /* FIXME freerects should handle this */
 
-            /* sound */
-            /*snd_mix();*/
-
             /* events */
             if (game_waitevt)
             {
@@ -222,10 +218,20 @@ game_run(void)
                 sysevt_poll();  /* process events (non-blocking) */
             }
 
-            lastTime = currentTime; 
+            lastFrameTime = currentTime; 
         }
-        
-        sys_yield();        
+
+#ifdef ENABLE_SOUND
+        if (currentTime - lastSoundTime >= syssnd_period)
+        {
+            /* sound */
+            syssnd_update();
+
+            lastSoundTime = currentTime; 
+        }
+#endif /* ENABLE_SOUND */
+
+        sys_yield();
     }
 
 #ifdef ENABLE_SOUND
