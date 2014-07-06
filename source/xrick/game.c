@@ -172,7 +172,11 @@ game_stopmusic(void)
 void
 game_run(void)
 {
-    U32 currentTime, lastFrameTime, lastSoundTime;
+    U32 currentTime,
+#ifdef ENABLE_SOUND
+        lastSoundTime = 0,
+#endif
+        lastFrameTime = 0;
 
     if (!resources_load())
     {
