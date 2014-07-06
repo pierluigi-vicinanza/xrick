@@ -20,6 +20,8 @@
 #include "xrick/maps.h"
 #include "xrick/system/system.h"
 
+#include <string.h> /* memcpy */
+
 /*
  * Full box test.
  *
