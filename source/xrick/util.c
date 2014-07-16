@@ -216,6 +216,10 @@ u_strdup(const char *sourceStr)
 
 	length = sys_strlen(sourceStr) + 1;
 	destStr = sysmem_push(length);
+    if (!destStr)
+    {
+        return NULL;
+    }
 	memcpy(destStr, sourceStr, length);
 	return destStr;
 }

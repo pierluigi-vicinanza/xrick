@@ -14,9 +14,9 @@
 #include "xrick/ents.h"
 
 #include "xrick/config.h"
+#include "xrick/control.h"
 #include "xrick/game.h"
 #include "xrick/debug.h"
-
 #include "xrick/e_bullet.h"
 #include "xrick/e_bomb.h"
 #include "xrick/e_rick.h"
@@ -298,37 +298,44 @@ ent_actvis(U8 frow, U8 lrow)
 static void
 ent_addrect(S16 x, S16 y, U16 width, U16 height)
 {
-  S16 x0, y0;
-  U16 w0, h0;
+    S16 x0, y0;
+    U16 w0, h0;
+    rect_t *r; 
 
-  /*sys_printf("rect %#04x,%#04x %#04x %#04x ", x, y, width, height);*/
+    /*sys_printf("rect %#04x,%#04x %#04x %#04x ", x, y, width, height);*/
 
-  /* align to tiles */
-  x0 = x & 0xfff8;
-  y0 = y & 0xfff8;
-  w0 = width;
-  h0 = height;
-  if (x - x0) w0 = (w0 + (x - x0)) | 0x0007;
-  if (y - y0) h0 = (h0 + (y - y0)) | 0x0007;
+    /* align to tiles */
+    x0 = x & 0xfff8;
+    y0 = y & 0xfff8;
+    w0 = width;
+    h0 = height;
+    if (x - x0) w0 = (w0 + (x - x0)) | 0x0007;
+    if (y - y0) h0 = (h0 + (y - y0)) | 0x0007;
 
-  /* clip */
-  if (draw_clipms(&x0, &y0, &w0, &h0)) {  /* do not add if fully clipped */
-    /*sys_printf("-> [clipped]\n");*/
-    return;
-  }
+    /* clip */
+    if (draw_clipms(&x0, &y0, &w0, &h0)) {  /* do not add if fully clipped */
+        /*sys_printf("-> [clipped]\n");*/
+        return;
+    }
 
-  /*sys_printf("-> %#04x,%#04x %#04x %#04x\n", x0, y0, w0, h0);*/
+    /*sys_printf("-> %#04x,%#04x %#04x %#04x\n", x0, y0, w0, h0);*/
 
 #ifdef GFXST
-  y0 += 8;
+    y0 += 8;
 #endif
 
-  /* get to screen */
-  x0 -= DRAW_XYMAP_SCRLEFT;
-  y0 -= DRAW_XYMAP_SCRTOP;
+    /* get to screen */
+    x0 -= DRAW_XYMAP_SCRLEFT;
+    y0 -= DRAW_XYMAP_SCRTOP;
 
-  /* add rectangle to the list */
-  ent_rects = rects_new(x0, y0, w0, h0, ent_rects);
+    /* add rectangle to the list */
+    r = rects_new(x0, y0, w0, h0, ent_rects);
+    if (!r)
+    {
+        control_set(Control_EXIT);
+        return;
+    }
+    ent_rects = r;
 }
 
 

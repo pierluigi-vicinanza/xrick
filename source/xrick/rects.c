@@ -40,6 +40,10 @@ rects_new(U16 x, U16 y, U16 width, U16 height, rect_t *next)
     rect_t *r;
 
     r = sysmem_push(sizeof(*r));
+    if (!r)
+    {
+        return NULL;
+    }
     r->x = x;
     r->y = y;
     r->width = width;

@@ -13,8 +13,8 @@
 
 #include <SDL.h>
 
-#include <stdarg.h>   /* args for sys_panic */
-#include <fcntl.h>    /* fcntl in sys_panic */
+#include <stdarg.h>   /* args */
+#include <fcntl.h>    /* fcntl */
 #include <stdio.h>    /* printf */
 #include <stdlib.h>
 #include <string.h>   /* strlen */
@@ -27,48 +27,47 @@
 #endif
 
 /*
- * Panic
+ * Error
  */
 void
-sys_panic(const char *err, ...)
+sys_error(const char *err, ...)
 {
-  va_list argptr;
-  char s[1024];
+    va_list argptr;
+    char s[1024];
 
-  /* change stdin to non blocking */
-  /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
-  /* NOTE HPUX: use ... is it OK on Linux ? */
-  /* fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~O_NDELAY); */
+    /* change stdin to non blocking */
+    /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
+    /* NOTE HPUX: use ... is it OK on Linux ? */
+    /* fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~O_NDELAY); */
 
-  /* prepare message */
-  va_start(argptr, err);
-  vsprintf(s, err, argptr);
-  va_end(argptr);
+    /* prepare message */
+    va_start(argptr, err);
+    vsprintf(s, err, argptr);
+    va_end(argptr);
 
-  /* print message and die */
-  printf("%s\npanic!\n", s);
-  exit(1);
+    /* print error message */
+    fprintf(stderr, "%s\nError!\n", s);
 }
 
 /*
- * Print a message to standard output
- */
+* Print a message to standard output
+*/
 void
 sys_printf(const char *msg, ...)
 {
-  va_list argptr;
-  char s[1024];
+    va_list argptr;
+    char s[1024];
 
-  /* change stdin to non blocking */
-  /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
-  /* NOTE HPUX: use ... is it OK on Linux ? */
-  /* fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~O_NDELAY); */
+    /* change stdin to non blocking */
+    /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
+    /* NOTE HPUX: use ... is it OK on Linux ? */
+    /* fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~O_NDELAY); */
 
-  /* prepare message */
-  va_start(argptr, msg);
-  vsprintf(s, msg, argptr);
-  va_end(argptr);
-  printf(s);
+    /* prepare message */
+    va_start(argptr, msg);
+    vsprintf(s, msg, argptr);
+    va_end(argptr);
+    printf(s);
 }
 
 /*

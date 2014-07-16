@@ -66,15 +66,20 @@ static char *str_toNativeSeparators(char *);
 bool
 sysfile_setRootPath(const char *name)
 {
-    rootPath.name = str_toNativeSeparators(u_strdup(name));
+    char *path = u_strdup(name);
+    if (!path)
+    {
+        return false;
+    }
+
+    rootPath.name = str_toNativeSeparators(path);
 #ifdef ENABLE_ZIP
 	if (str_hasZipExtension(rootPath.name)) 
     {
         rootPath.zip = unzOpen(rootPath.name);
         if (!rootPath.zip) 
         {
-            sysmem_pop(rootPath.name);
-            sys_panic("(data) can not open data");
+            sys_error("(sysfile) can not open zip file");
             return false;
         } 
 	} 
@@ -117,7 +122,7 @@ sysfile_open(const char *name)
         if (unzLocateFile(zh, name, 0) != UNZ_OK ||
             unzOpenCurrentFile(zh) != UNZ_OK) 
         {
-                zh = NULL;
+                return NULL;
         }
         return (file_t)zh;
     }
@@ -126,6 +131,10 @@ sysfile_open(const char *name)
     {
         FILE *fh;
         char *fullPath = sysmem_push(strlen(rootPath.name) + strlen(name) + 2);
+        if (!fullPath)
+        {
+            return NULL;
+        }
         sprintf(fullPath, "%s/%s", rootPath.name, name);
         str_toNativeSeparators(fullPath);
         fh = fopen(fullPath, "rb");

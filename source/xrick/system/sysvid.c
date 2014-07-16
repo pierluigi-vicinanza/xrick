@@ -11,6 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
+#include "xrick/control.h"
 #include "xrick/draw.h"
 #include "xrick/game.h"
 #include "xrick/img.h"
@@ -81,7 +82,7 @@ static bool sysvid_chkvm(void)
 
   if (modes == (SDL_Rect **)0)
   {
-    sys_panic("xrick/video: SDL can not find an appropriate video mode\n");
+    sys_error("(video) SDL can not find an appropriate video mode\n");
     return false;
   }
 
@@ -131,7 +132,7 @@ sysvid_init(void)
   /* SDL */
   if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) < 0)
   {
-    sys_panic("xrick/video: could not init SDL\n");
+    sys_error("(video) could not init SDL");
     return false;
   }
 
@@ -199,7 +200,7 @@ sysvid_init(void)
   sysvid_fb = malloc(SYSVID_WIDTH * SYSVID_HEIGHT);
   if (!sysvid_fb)
   {
-    sys_panic("xrick/video: sysvid_fb malloc failed\n");
+    sys_error("(video) sysvid_fb malloc failed");
     return false;
   }
 
@@ -235,7 +236,8 @@ sysvid_update(const rect_t *rects)
 
   if (SDL_LockSurface(screen) == -1)
   {
-    sys_panic("xrick/panic: SDL_LockSurface failed\n");
+    sys_error("(video): SDL_LockSurface failed");
+    control_set(Control_EXIT);
     return;
   }
 

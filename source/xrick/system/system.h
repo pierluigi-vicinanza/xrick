@@ -62,7 +62,7 @@
  */
 extern bool sys_init(int, const char **);
 extern void sys_shutdown(void);
-extern void sys_panic(const char *, ...);
+extern void sys_error(const char *, ...);
 extern void sys_printf(const char *, ...);
 extern void sys_snprintf(char *, size_t, const char *, ...);
 extern size_t sys_strlen(const char *);
