@@ -186,8 +186,8 @@ e_rick_action2(void)
 	E_RICK_ENT.y = y;
 	ylow = i;
 	/* climb? */
-	if ((env1 & MAP_EFLG_CLIMB) &&
-			(control_status & (CONTROL_UP|CONTROL_DOWN))) {
+	if ((env1 & MAP_EFLG_CLIMB) && (control_test(Control_UP | Control_DOWN))) 
+    {
 		offsy = 0x0100;
 		E_RICK_STSET(E_RICK_STCLIMB);
 		return;
@@ -204,11 +204,11 @@ e_rick_action2(void)
 	*/
 	horiz:
 	/* should move? */
-	if (!(control_status & (CONTROL_LEFT|CONTROL_RIGHT))) {
+	if (!(control_test(Control_LEFT | Control_RIGHT))) {
 		seq = 2; /* no: reset seq and return */
 		return;
 	}
-	if (control_status & CONTROL_LEFT) {  /* move left */
+	if (control_test(Control_LEFT)) {  /* move left */
 		x = E_RICK_ENT.x - 2;
 		game_dir = LEFT;
 		if (x < 0) {  /* prev submap */
@@ -258,7 +258,7 @@ e_rick_action2(void)
 
   /* standing on a super pad? */
   if ((env1 & MAP_EFLG_SPAD) && offsy >= 0X0200) {
-    offsy = (control_status & CONTROL_UP) ? 0xf800 : 0x00fe - offsy;
+    offsy = (control_test(Control_UP)) ? 0xf800 : 0x00fe - offsy;
 #ifdef ENABLE_SOUND
 	syssnd_play(soundPad, 1);
 #endif
@@ -268,14 +268,14 @@ e_rick_action2(void)
   offsy = 0x0100;  /* reset*/
 
   /* standing. firing ? */
-  if (scrawl || !(control_status & CONTROL_FIRE))
+  if (scrawl || !(control_test(Control_FIRE)))
     goto firing_not;
 
   /*
    * FIRING
    */
-	if (control_status & (CONTROL_LEFT|CONTROL_RIGHT)) {  /* stop */
-		if (control_status & CONTROL_RIGHT)
+	if (control_test(Control_LEFT | Control_RIGHT)) {  /* stop */
+		if (control_test(Control_RIGHT))
 		{
 			game_dir = RIGHT;
 			e_rick_stop_x = E_RICK_ENT.x + 0x17;
@@ -288,7 +288,7 @@ e_rick_action2(void)
 		return;
 	}
 
-  if (control_status == (CONTROL_FIRE|CONTROL_UP)) {  /* bullet */
+  if (control_test(Control_UP)) {  /* bullet */
     E_RICK_STSET(E_RICK_STSHOOT);
     /* not an automatic gun: shoot once only */
     if (trigger)
@@ -316,7 +316,7 @@ e_rick_action2(void)
   trigger = false; /* not shooting means trigger is released */
   seq = 0; /* reset */
 
-  if (control_status == (CONTROL_FIRE|CONTROL_DOWN)) {  /* bomb */
+  if (control_test(Control_DOWN)) {  /* bomb */
     /* already a bomb ticking ... that's enough */
     if (E_BOMB_ENT.n)
       return;
@@ -341,7 +341,7 @@ e_rick_action2(void)
    * NOT FIRING
    */
  firing_not:
-  if (control_status & CONTROL_UP) {  /* jump or climb */
+  if (control_test(Control_UP)) {  /* jump or climb */
     if (env1 & MAP_EFLG_CLIMB) {  /* climb */
       E_RICK_STSET(E_RICK_STCLIMB);
       return;
@@ -353,9 +353,9 @@ e_rick_action2(void)
 #endif
     goto horiz;
   }
-  if (control_status & CONTROL_DOWN) {  /* crawl or climb */
+  if (control_test(Control_DOWN)) {  /* crawl or climb */
     if ((env1 & MAP_EFLG_VERT) &&  /* can go down */
-	!(control_status & (CONTROL_LEFT|CONTROL_RIGHT)) &&  /* + not moving horizontaly */
+	!(control_test(Control_LEFT | Control_RIGHT)) &&  /* + not moving horizontaly */
 	(E_RICK_ENT.x & 0x1f) < 0x0a) {  /* + aligned -> climb */
       E_RICK_ENT.x &= 0xf0;
       E_RICK_ENT.x |= 0x04;
@@ -374,17 +374,17 @@ e_rick_action2(void)
 	*/
 	climbing:
 		/* should move? */
-		if (!(control_status & (CONTROL_UP|CONTROL_DOWN|CONTROL_LEFT|CONTROL_RIGHT))) {
+		if (!(control_test(Control_UP | Control_DOWN | Control_LEFT | Control_RIGHT))) {
 			seq = 0; /* no: reset seq and return */
 			return;
 		}
 
-		if (control_status & (CONTROL_UP|CONTROL_DOWN)) {
+		if (control_test(Control_UP | Control_DOWN)) {
 			/* up-down: calc new y and test environment */
-			y = E_RICK_ENT.y + ((control_status & CONTROL_UP) ? -0x02 : 0x02);
+			y = E_RICK_ENT.y + ((control_test(Control_UP)) ? -0x02 : 0x02);
 			u_envtest(E_RICK_ENT.x, y, E_RICK_STTST(E_RICK_STCRAWL), &env0, &env1);
 			if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP) &&
-					!(control_status & CONTROL_UP)) {
+					!(control_test(Control_UP))) {
 				/* FIXME what? */
 				E_RICK_STRST(E_RICK_STCLIMB);
 				return;
@@ -399,9 +399,9 @@ e_rick_action2(void)
 				}
 				if (!(env1 & (MAP_EFLG_VERT|MAP_EFLG_CLIMB))) {
 					/* reached end of climb zone */
-					offsy = (control_status & CONTROL_UP) ? -0x0300 : 0x0100;
+					offsy = (control_test(Control_UP)) ? -0x0300 : 0x0100;
 #ifdef ENABLE_SOUND
-					if (control_status & CONTROL_UP)
+					if (control_test(Control_UP))
 						syssnd_play(soundJump, 1);
 #endif
 					E_RICK_STRST(E_RICK_STCLIMB);
@@ -409,9 +409,9 @@ e_rick_action2(void)
 				}
 			}
 		}
-  if (control_status & (CONTROL_LEFT|CONTROL_RIGHT)) {
+  if (control_test(Control_LEFT | Control_RIGHT)) {
     /* left-right: calc new x and test environment */
-    if (control_status & CONTROL_LEFT) {
+    if (control_test(Control_LEFT)) {
       x = E_RICK_ENT.x - 0x02;
       if (x < 0) {  /* (i.e. negative) prev submap */
 	game_chsm = true;
@@ -439,7 +439,7 @@ e_rick_action2(void)
 
     if (env1 & (MAP_EFLG_VERT|MAP_EFLG_CLIMB)) return;
     E_RICK_STRST(E_RICK_STCLIMB);
-    if (control_status & CONTROL_UP)
+    if (control_test(Control_UP))
       offsy = -0x0300;
   }
 }

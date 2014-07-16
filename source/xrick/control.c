@@ -12,9 +12,11 @@
  */
 
 #include "xrick/control.h"
-#include "xrick/game.h"
 
-U8 control_status = 0;
+unsigned control_status = 0;
+extern inline bool control_test(control_t c);
+extern inline void control_set(control_t c);
+extern inline void control_clear(control_t c);
 bool control_active = true;
 
 /* eof */

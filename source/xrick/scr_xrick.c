@@ -85,7 +85,7 @@ screen_xrick(void)
 		}
 	}
 
-	if (control_status & CONTROL_EXIT)  /* check for exit request */
+	if (control_test(Control_EXIT))  /* check for exit request */
 		return SCREEN_EXIT;
 
 	if (seq == 99) {  /* we're done */

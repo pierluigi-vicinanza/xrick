@@ -118,16 +118,16 @@ screen_introMap(void)
     seq = 1;
     break;
   case 4:  /* wait for key release */
-    if (!(control_status & CONTROL_FIRE))
+    if (!(control_test(Control_FIRE)))
       seq = 5;
     break;
   }
 
-  if (control_status & CONTROL_FIRE) {  /* end as soon as key pressed */
+  if (control_test(Control_FIRE)) {  /* end as soon as key pressed */
     seq = 4;
   }
 
-  if (control_status & CONTROL_EXIT)  /* check for exit request */
+  if (control_test(Control_EXIT))  /* check for exit request */
     return SCREEN_EXIT;
 
   if (seq == 5) {  /* end as soon as key pressed */

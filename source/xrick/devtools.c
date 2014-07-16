@@ -71,29 +71,29 @@ devtools_run(void)
     seq = 10;
     break;
   case 10:  /* wait for key pressed */
-    if (control_status & CONTROL_FIRE)
+    if (control_test(Control_FIRE))
       seq = 98;
-    if (control_status & CONTROL_UP)
+    if (control_test(Control_UP))
       seq = 12;
-    if (control_status & CONTROL_DOWN)
+    if (control_test(Control_DOWN))
       seq = 13;
-    if (control_status & CONTROL_RIGHT)
+    if (control_test(Control_RIGHT))
       seq = 11;
     break;
   case 11:  /* wait for key released */
-    if (!(control_status & CONTROL_RIGHT)) {
+    if (!(control_test(Control_RIGHT))) {
       pos = 0;
       seq = 21;
     }
     break;
   case 12:  /* wait for key released */
-    if (!(control_status & CONTROL_UP)) {
+    if (!(control_test(Control_UP))) {
       if (pos < 4) pos++;
       seq = 1;
     }
     break;
   case 13:  /* wait for key released */
-    if (!(control_status & CONTROL_DOWN)) {
+    if (!(control_test(Control_DOWN))) {
       if (pos > 0) pos--;
       seq = 1;
     }
@@ -128,31 +128,31 @@ devtools_run(void)
     seq = 30;
     break;
   case 30:  /* wait for key pressed */
-    if (control_status & CONTROL_FIRE)
+    if (control_test(Control_FIRE))
       seq = 98;
-    if (control_status & CONTROL_UP)
+    if (control_test(Control_UP))
       seq = 32;
-    if (control_status & CONTROL_DOWN)
+    if (control_test(Control_DOWN))
       seq = 33;
-    if (control_status & CONTROL_LEFT)
+    if (control_test(Control_LEFT))
       seq = 31;
-    if (control_status & CONTROL_RIGHT)
+    if (control_test(Control_RIGHT))
       seq = 40;
     break;
   case 31:  /* wait for key released */
-    if (!(control_status & CONTROL_LEFT)) {
+    if (!(control_test(Control_LEFT))) {
       pos = 0;
       seq = 1;
     }
     break;
   case 32:  /* wait for key released */
-    if (!(control_status & CONTROL_UP)) {
+    if (!(control_test(Control_UP))) {
       if (pos < sprites_nbr_sprites - 32) pos += 32;
       seq = 21;
     }
     break;
   case 33:  /* wait for key released */
-    if (!(control_status & CONTROL_DOWN)) {
+    if (!(control_test(Control_DOWN))) {
       if (pos > 0) pos -= 32;
       seq = 21;
     }
@@ -181,38 +181,38 @@ devtools_run(void)
     seq = 41;
     break;
   case 41:
-    if (control_status & CONTROL_FIRE)
+    if (control_test(Control_FIRE))
       seq = 98;
-    if (control_status & CONTROL_UP)
+    if (control_test(Control_UP))
       seq = 42;
-    if (control_status & CONTROL_DOWN)
+    if (control_test(Control_DOWN))
       seq = 43;
-    if (control_status & CONTROL_LEFT)
+    if (control_test(Control_LEFT))
       seq = 44;
-    if (control_status & CONTROL_PAUSE)
+    if (control_test(Control_PAUSE))
       seq = 45;
     break;
   case 42:
-    if (!(control_status & CONTROL_UP)) {
+    if (!(control_test(Control_UP))) {
       if (pos < map_nbr_blocks - 8*4) pos += 8 * 4;
       seq = 40;
     }
     break;
   case 43:
-    if (!(control_status & CONTROL_DOWN)) {
+    if (!(control_test(Control_DOWN))) {
       if (pos > 0) pos -= 8 * 4;
       seq = 40;
     }
     break;
   case 44:
-    if (!(control_status & CONTROL_LEFT)) {
+    if (!(control_test(Control_LEFT))) {
       pos = 0;
       pos2 = 0;
       seq = 21;
     }
     break;
   case 45:
-    if (!(control_status & CONTROL_PAUSE)) {
+    if (!(control_test(Control_PAUSE))) {
 #ifdef GFXPC
       if (pos2 == 2) pos2 = 3;
       else pos2 = 2;
@@ -225,12 +225,12 @@ devtools_run(void)
     }
     break;
   case 98:  /* wait for key released */
-    if (!(control_status & CONTROL_FIRE))
+    if (!(control_test(Control_FIRE)))
       seq = 99;
     break;
   }
 
-  if (control_status & CONTROL_EXIT)  /* check for exit request */
+  if (control_test(Control_EXIT))  /* check for exit request */
     return SCREEN_EXIT;
 
   if (seq == 99) {  /* we're done */

@@ -28,9 +28,6 @@
 
 #define SYSJOY_RANGE 3280
 
-#define SETBIT(x,b) x |= (b)
-#define CLRBIT(x,b) x &= ~(b)
-
 static SDL_Event event;
 
 /*
@@ -48,28 +45,28 @@ processEvent()
   case SDL_KEYDOWN:
     key = event.key.keysym.sym;
     if (key == syskbd_up || key == SDLK_UP) {
-      SETBIT(control_status, CONTROL_UP);
+      control_set(Control_UP);
     }
     else if (key == syskbd_down || key == SDLK_DOWN) {
-      SETBIT(control_status, CONTROL_DOWN);
+      control_set(Control_DOWN);
     }
     else if (key == syskbd_left || key == SDLK_LEFT) {
-      SETBIT(control_status, CONTROL_LEFT);
+      control_set(Control_LEFT);
     }
     else if (key == syskbd_right || key == SDLK_RIGHT) {
-      SETBIT(control_status, CONTROL_RIGHT);
+      control_set(Control_RIGHT);
     }
     else if (key == syskbd_pause) {
-      SETBIT(control_status, CONTROL_PAUSE);
+      control_set(Control_PAUSE);
     }
     else if (key == syskbd_end) {
-      SETBIT(control_status, CONTROL_END);
+      control_set(Control_END);
     }
     else if (key == syskbd_xtra) {
-      SETBIT(control_status, CONTROL_EXIT);
+      control_set(Control_EXIT);
     }
     else if (key == syskbd_fire) {
-      SETBIT(control_status, CONTROL_FIRE);
+      control_set(Control_FIRE);
     }
     else if (key == SDLK_F1) {
       sysvid_toggleFullscreen();
@@ -106,33 +103,33 @@ processEvent()
   case SDL_KEYUP:
     key = event.key.keysym.sym;
     if (key == syskbd_up || key == SDLK_UP) {
-      CLRBIT(control_status, CONTROL_UP);
+      control_clear(Control_UP);
     }
     else if (key == syskbd_down || key == SDLK_DOWN) {
-      CLRBIT(control_status, CONTROL_DOWN);
+      control_clear(Control_DOWN);
     }
     else if (key == syskbd_left || key == SDLK_LEFT) {
-      CLRBIT(control_status, CONTROL_LEFT);
+      control_clear(Control_LEFT);
     }
     else if (key == syskbd_right || key == SDLK_RIGHT) {
-      CLRBIT(control_status, CONTROL_RIGHT);
+      control_clear(Control_RIGHT);
     }
     else if (key == syskbd_pause) {
-      CLRBIT(control_status, CONTROL_PAUSE);
+      control_clear(Control_PAUSE);
     }
     else if (key == syskbd_end) {
-      CLRBIT(control_status, CONTROL_END);
+      control_clear(Control_END);
     }
     else if (key == syskbd_xtra) {
-      CLRBIT(control_status, CONTROL_EXIT);
+      control_clear(Control_EXIT);
     }
     else if (key == syskbd_fire) {
-      CLRBIT(control_status, CONTROL_FIRE);
+      control_clear(Control_FIRE);
     }
     break;
   case SDL_QUIT:
     /* player tries to close the window -- this is the same as pressing ESC */
-    SETBIT(control_status, CONTROL_EXIT);
+    control_set(Control_EXIT);
     break;
 #ifdef ENABLE_FOCUS
   case SDL_ACTIVEEVENT: {
@@ -152,38 +149,38 @@ processEvent()
     IFDEBUG_EVENTS(sys_printf("xrick/events: joystick\n"););
     if (event.jaxis.axis == 0) {  /* left-right */
       if (event.jaxis.value < -SYSJOY_RANGE) {  /* left */
-	SETBIT(control_status, CONTROL_LEFT);
-	CLRBIT(control_status, CONTROL_RIGHT);
+	control_set(Control_LEFT);
+	control_clear(Control_RIGHT);
       }
       else if (event.jaxis.value > SYSJOY_RANGE) {  /* right */
-	SETBIT(control_status, CONTROL_RIGHT);
-	CLRBIT(control_status, CONTROL_LEFT);
+	control_set(Control_RIGHT);
+	control_clear(Control_LEFT);
       }
       else {  /* center */
-	CLRBIT(control_status, CONTROL_RIGHT);
-	CLRBIT(control_status, CONTROL_LEFT);
+	control_clear(Control_RIGHT);
+	control_clear(Control_LEFT);
       }
     }
     if (event.jaxis.axis == 1) {  /* up-down */
       if (event.jaxis.value < -SYSJOY_RANGE) {  /* up */
-	SETBIT(control_status, CONTROL_UP);
-	CLRBIT(control_status, CONTROL_DOWN);
+	control_set(Control_UP);
+	control_clear(Control_DOWN);
       }
       else if (event.jaxis.value > SYSJOY_RANGE) {  /* down */
-	SETBIT(control_status, CONTROL_DOWN);
-	CLRBIT(control_status, CONTROL_UP);
+	control_set(Control_DOWN);
+	control_clear(Control_UP);
       }
       else {  /* center */
-	CLRBIT(control_status, CONTROL_DOWN);
-	CLRBIT(control_status, CONTROL_UP);
+	control_clear(Control_DOWN);
+	control_clear(Control_UP);
       }
     }
     break;
   case SDL_JOYBUTTONDOWN:
-    SETBIT(control_status, CONTROL_FIRE);
+    control_set(Control_FIRE);
     break;
   case SDL_JOYBUTTONUP:
-    CLRBIT(control_status, CONTROL_FIRE);
+    control_clear(Control_FIRE);
     break;
 #endif
   default:

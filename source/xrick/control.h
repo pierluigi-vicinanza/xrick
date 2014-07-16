@@ -16,16 +16,22 @@
 
 #include "xrick/system/basic_types.h"
 
-#define CONTROL_UP 0x08
-#define CONTROL_DOWN 0x04
-#define CONTROL_LEFT 0x02
-#define CONTROL_RIGHT 0x01
-#define CONTROL_PAUSE 0x80
-#define CONTROL_END 0x40
-#define CONTROL_EXIT 0x20
-#define CONTROL_FIRE 0x10
+typedef enum
+{
+    Control_UP = (1 << 0),
+    Control_DOWN = (1 << 1),
+    Control_LEFT = (1 << 2),
+    Control_RIGHT = (1 << 3),
+    Control_PAUSE = (1 << 4),
+    Control_END = (1 << 5),
+    Control_EXIT = (1 << 6),
+    Control_FIRE = (1 << 7)
+} control_t;
 
-extern U8 control_status;
+extern unsigned control_status;
+inline bool control_test(control_t c) { return control_status & c; }
+inline void control_set(control_t c) { control_status |= c; }
+inline void control_clear(control_t c) { control_status &= ~c; }
 extern bool control_active;
 
 #endif

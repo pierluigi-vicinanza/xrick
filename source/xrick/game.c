@@ -358,7 +358,7 @@ frame(void)
 
 
 		case PAUSE_PRESSED1B:
-			if (control_status & CONTROL_PAUSE)
+			if (control_test(Control_PAUSE))
 				return;
 			game_state = PAUSED;
 			break;
@@ -366,16 +366,16 @@ frame(void)
 
 
 		case PAUSED:
-			if (control_status & CONTROL_PAUSE)
+			if (control_test(Control_PAUSE))
 				game_state = PAUSE_PRESSED2;
-			if (control_status & CONTROL_EXIT)
+			if (control_test(Control_EXIT))
 				game_state = EXIT;
 			return;
 
 
 
 		case PAUSE_PRESSED2:
-			if (!(control_status & CONTROL_PAUSE)) {
+			if (!(control_test(Control_PAUSE))) {
 				game_waitevt = false;
 				screen_pause(false);
 #ifdef ENABLE_SOUND
@@ -394,7 +394,7 @@ frame(void)
 
 
 		case PLAY1:
-			if (control_status & CONTROL_PAUSE) {
+			if (control_test(Control_PAUSE)) {
 #ifdef ENABLE_SOUND
 				syssnd_pauseAll(true);
 #endif
@@ -623,12 +623,12 @@ init(void)
 static void
 play0(void)
 {
-    if (control_status & CONTROL_END) {  /* request to end the game */
+    if (control_test(Control_END)) {  /* request to end the game */
         game_state = GAMEOVER;
         return;
     }
 
-    if (control_status & CONTROL_EXIT) {  /* request to exit the game */
+    if (control_test(Control_EXIT)) {  /* request to exit the game */
         game_state = EXIT;
         return;
     }

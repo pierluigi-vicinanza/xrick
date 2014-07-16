@@ -117,9 +117,9 @@ screen_getname(void)
         }
         case 2:  /* wait for key pressed */
         {
-            if (control_status & CONTROL_FIRE)
+            if (control_test(Control_FIRE))
                 seq = 3;
-            if (control_status & CONTROL_UP) {
+            if (control_test(Control_UP)) {
                 if (y > 0) {
                     pointer_show(false);
                     y--;
@@ -128,7 +128,7 @@ screen_getname(void)
                 }
                 seq = 4;
             }
-            if (control_status & CONTROL_DOWN) {
+            if (control_test(Control_DOWN)) {
                 if (y < 4) {
                     pointer_show(false);
                     y++;
@@ -137,7 +137,7 @@ screen_getname(void)
                 }
                 seq = 5;
             }
-            if (control_status & CONTROL_LEFT) {
+            if (control_test(Control_LEFT)) {
                 if (x > 0) {
                     pointer_show(false);
                     x--;
@@ -146,7 +146,7 @@ screen_getname(void)
                 }
                 seq = 6;
             }
-            if (control_status & CONTROL_RIGHT) {
+            if (control_test(Control_RIGHT)) {
                 if (x < 5) {
                     pointer_show(false);
                     x++;
@@ -159,7 +159,7 @@ screen_getname(void)
         }
         case 3:  /* wait for FIRE released */
         {
-            if (!(control_status & CONTROL_FIRE)) 
+            if (!(control_test(Control_FIRE))) 
             {
                 if (x == 5 && y == 4) 
                 {  /* end */
@@ -193,35 +193,35 @@ screen_getname(void)
         }
         case 4:  /* wait for UP released */
         {
-            if (!(control_status & CONTROL_UP) ||
+            if (!(control_test(Control_UP)) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
             break;
         }
         case 5:  /* wait for DOWN released */
         {
-            if (!(control_status & CONTROL_DOWN) ||
+            if (!(control_test(Control_DOWN)) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
             break;
         }
         case 6:  /* wait for LEFT released */
         {
-            if (!(control_status & CONTROL_LEFT) ||
+            if (!(control_test(Control_LEFT)) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
             break;
         }
         case 7:  /* wait for RIGHT released */
         {
-            if (!(control_status & CONTROL_RIGHT) ||
+            if (!(control_test(Control_RIGHT)) ||
                 sys_gettime() - tm > AUTOREPEAT_TMOUT)
                 seq = 2;
             break;
         }
     }
 
-    if (control_status & CONTROL_EXIT)  /* check for exit request */
+    if (control_test(Control_EXIT))  /* check for exit request */
         return SCREEN_EXIT;
 
     if (seq == 99) {  /* seq 99, we're done */
