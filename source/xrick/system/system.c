@@ -145,7 +145,6 @@ sys_init(int argc, const char **argv)
     {
         return false;
     }
-	atexit(sys_shutdown);
 	signal(SIGINT, exit);
 	signal(SIGTERM, exit);
     return true;
