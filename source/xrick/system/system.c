@@ -11,18 +11,20 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <SDL.h>
+#include "xrick/system/system.h"
+#include "xrick/config.h"
+#ifdef ENABLE_SOUND
+#include "xrick/system/syssnd.h"
+#endif
 
+#include <SDL.h>
 #include <stdarg.h>   /* args */
 #include <fcntl.h>    /* fcntl */
 #include <stdio.h>    /* printf */
 #include <stdlib.h>
 #include <string.h>   /* strlen */
-
-#include "xrick/system/system.h"
-#include "xrick/config.h"
-#ifdef ENABLE_SOUND
-#include "xrick/system/syssnd.h"
+#ifdef _MSC_VER
+#include <windows.h>
 #endif
 
 /*
@@ -46,6 +48,9 @@ sys_error(const char *err, ...)
 
     /* print error message */
     fprintf(stderr, "%s\nError!\n", s);
+#ifdef _MSC_VER
+    OutputDebugStringA(s);
+#endif
 }
 
 /*
@@ -66,7 +71,12 @@ sys_printf(const char *msg, ...)
     va_start(argptr, msg);
     vsprintf(s, msg, argptr);
     va_end(argptr);
+
+    /* print message */
     printf(s);
+#ifdef _MSC_VER
+    OutputDebugStringA(s);
+#endif
 }
 
 /*
