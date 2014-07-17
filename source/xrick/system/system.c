@@ -18,7 +18,6 @@
 #include <stdio.h>    /* printf */
 #include <stdlib.h>
 #include <string.h>   /* strlen */
-#include <signal.h>
 
 #include "xrick/system/system.h"
 #include "xrick/config.h"
@@ -145,8 +144,6 @@ sys_init(int argc, const char **argv)
     {
         return false;
     }
-	signal(SIGINT, exit);
-	signal(SIGTERM, exit);
     return true;
 }
 
