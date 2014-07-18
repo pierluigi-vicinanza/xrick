@@ -19,7 +19,13 @@
 #include "xrick/util.h"
 
 #include <stdio.h>  /* sprintf */
+#include <string.h> /* strlen */
 #include <sys/stat.h> /* fstat */
+
+/* handle Microsoft Visual C */
+#ifdef _MSC_VER
+#define fileno _fileno
+#endif
 
 /*
  * Global variables

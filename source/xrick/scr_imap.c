@@ -27,7 +27,7 @@ static U16 step;              /* current step */
 static U16 count;             /* number of loops for current step */
 static U16 run;               /* 1 = run, 0 = no more step */
 static U8 flipflop;           /* flipflop for top, bottom, left, right */
-static U16 spnum;             /* sprite number */
+static U8 spnum;              /* sprite number */
 static U16 spx, spdx;         /* sprite x position and delta */
 static U16 spy, spdy;         /* sprite y position and delta */
 static U16 spbase, spoffs;    /* base, offset for sprite numbers table */
@@ -255,7 +255,7 @@ nextstep(void)
 static void
 anim(void)
 {
-  U16 i;
+  U8 i;
 
   if (run) {
     i = screen_imapsl[spbase + spoffs];

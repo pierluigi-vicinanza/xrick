@@ -124,8 +124,11 @@ bool
 sysvid_init(void)
 {
   SDL_Surface *s;
-  U8 *mask, tpix;
+  U8 tpix;
+  /*
+  U8 *mask;
   U32 len, i;
+  */
 
   IFDEBUG_VIDEO(printf("xrick/video: start\n"););
 

@@ -29,7 +29,7 @@
 
 /* handle Microsoft Visual C */
 #ifdef _MSC_VER
-#define strcasecmp stricmp
+#define strcasecmp _stricmp
 #endif
 
 typedef struct {
