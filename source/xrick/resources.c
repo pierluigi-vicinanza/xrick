@@ -722,7 +722,7 @@ static bool fromResourceIdToSound(const unsigned id, sound_t *** sound)
         case Resource_SOUNDWALK: *sound = &soundWalk; return true;
         default: 
         {
-            sys_printf("xrick/resources: no associated sound found for ID %d\n", id);             
+            sys_error("(resources) no associated sound found for ID %d", id);             
             return false;
         }
     }
@@ -764,7 +764,7 @@ static bool loadSound(const unsigned id)
     fp = sysfile_open(resourceFiles[id]);
     if (!fp)
     {
-        sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) unable to open \"%s\"", resourceFiles[id]);
         return false;
     }
 
@@ -772,7 +772,7 @@ static bool loadSound(const unsigned id)
     sysfile_close(fp);
     if (bytesRead != 1)
     {
-        sys_printf("xrick/resources: unable to read WAVE header from \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) unable to read WAVE header from \"%s\"", resourceFiles[id]);
         return false;
     }
 
@@ -817,7 +817,7 @@ static bool loadSound(const unsigned id)
     }
     if (!isHeaderValid)
     {
-        sys_printf("xrick/audio: incompatible WAVE header for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) incompatible WAVE header for \"%s\"", resourceFiles[id]);
         return false;
     }
     return true;
@@ -857,13 +857,13 @@ static bool readHeader(file_t fp, const unsigned id)
 
     if (sysfile_read(fp, &header, sizeof(header), 1) != 1)
     {
-        sys_printf("xrick/resources: unable to read header from \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) unable to read header from \"%s\"", resourceFiles[id]);
         return false;
     }
 
     if (memcmp(header.magic, resource_magic, sizeof(header.magic)) != 0)
     {
-        sys_printf("xrick/resources: wrong header for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) wrong header for \"%s\"", resourceFiles[id]);
         return false;
     }
 
@@ -871,7 +871,7 @@ static bool readHeader(file_t fp, const unsigned id)
     u16Temp = htole16(u16Temp);
     if (u16Temp != DATA_VERSION)
     {
-        sys_printf("xrick/resources: incompatible version for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) incompatible version for \"%s\"", resourceFiles[id]);
         return false;
     }
 
@@ -879,7 +879,7 @@ static bool readHeader(file_t fp, const unsigned id)
     u16Temp = htole16(u16Temp);
     if (u16Temp != id)
     {
-        sys_printf("xrick/resources: mismatching ID for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) mismatching ID for \"%s\"", resourceFiles[id]);
         return false;
     }
     return true;
@@ -897,14 +897,14 @@ static bool checkCrc32(const unsigned id)
     file_t fp = sysfile_open(resourceFiles[id]);
     if (fp == NULL)
     {
-        sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) unable to open \"%s\"", resourceFiles[id]);
         return false;
     }
 
     bytesRead = sysfile_read(fp, tempBuffer, sizeof(U32), 1); /* prepare beginning of buffer for the following loop */
     if (bytesRead != 1)
     {
-        sys_printf("xrick/resources: not enough data for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) not enough data for \"%s\"", resourceFiles[id]);
         sysfile_close(fp);
         return false;
     }
@@ -923,7 +923,7 @@ static bool checkCrc32(const unsigned id)
     expectedCrc32 = letoh32(expectedCrc32);
     if (expectedCrc32 != calculatedCrc32)
     {
-        sys_printf("xrick/resources: crc check failed for \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) crc check failed for \"%s\"", resourceFiles[id]);
         return false;
     }
     return true;
@@ -956,7 +956,7 @@ static bool readFile(const unsigned id)
 
     if (resourceFiles[id] == NULL)
     {
-        sys_printf("xrick/resources: resource ID %d not available\n", id);
+        sys_error("(resources) resource ID %d not available", id);
         return false;
     }
 
@@ -968,7 +968,7 @@ static bool readFile(const unsigned id)
     fp = sysfile_open(resourceFiles[id]);
     if (fp == NULL)
     {
-        sys_printf("xrick/resources: unable to open \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) unable to open \"%s\"", resourceFiles[id]);
         return false;
     }
 
@@ -1076,7 +1076,7 @@ static bool readFile(const unsigned id)
 
     if (!success)
     {
-        sys_printf("xrick/resources: error when parsing \"%s\"\n", resourceFiles[id]);
+        sys_error("(resources) error when parsing \"%s\"", resourceFiles[id]);
     }
 
     sysfile_close(fp);

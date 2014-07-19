@@ -44,7 +44,7 @@ void sysmem_shutdown(void)
 {
     if (stackTop != stackBuffer || stackSize != 0)
     {
-        sys_printf("(memory) improper deallocation detected");
+        sys_error("(memory) improper deallocation detected");
     }
 
     IFDEBUG_MEMORY(

@@ -135,9 +135,7 @@ bool syssnd_init(void)
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) 
     {
-        IFDEBUG_AUDIO(
-            sys_printf("xrick/audio: can not initialize audio subsystem\n");
-        );
+        sys_error("(audio) can not initialize audio subsystem");
         return true; /* shall we treat this as an error? */
     }
 
@@ -150,16 +148,14 @@ bool syssnd_init(void)
 
     if (SDL_OpenAudio(&desired, &obtained) < 0) 
     {
-        IFDEBUG_AUDIO(
-            sys_printf("xrick/audio: can not open audio (%s)\n", SDL_GetError());
-        );
+        sys_error("(audio) can not open audio (%s)", SDL_GetError());
         return true; /* shall we treat this as an error? */
     }
 
     sndlock = SDL_CreateMutex();
     if (sndlock == NULL) 
     {
-        IFDEBUG_AUDIO(sys_printf("xrick/audio: can not create lock\n"););
+        sys_error("(audio) can not create lock");
         SDL_CloseAudio();
         return true; /* shall we treat this as an error? */
     }
@@ -265,7 +261,7 @@ void syssnd_play(sound_t *sound, S8 loop)
         syssnd_load(sound);
         if (!sound->buf)
         {
-            IFDEBUG_AUDIO(sys_printf("xrick/audio: can not load %s\n", sound->name););
+            sys_error("(audio) can not load %s\n", sound->name);
             return;
         }
     }
