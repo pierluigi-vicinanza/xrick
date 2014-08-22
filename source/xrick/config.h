@@ -11,11 +11,11 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#ifndef _CONFIG_H
-#define _CONFIG_H
+#ifndef XRICK_CONFIG_H
+#define XRICK_CONFIG_H
 
 /* version */
-#define VERSION "021212"
+#define XRICK_VERSION_STR "021212"
 
 /* graphics (choose one) */
 #define GFXST
@@ -36,12 +36,23 @@
 
 /* development tools */
 #undef ENABLE_DEVTOOLS
-#undef DEBUG /* see include/debug.h */
+
+/* enable/disable subsystem debug */
+#undef DEBUG_MEMORY
+#undef DEBUG_ENTS
+#undef DEBUG_SCROLLER
+#undef DEBUG_MAPS
+#undef DEBUG_JOYSTICK
+#undef DEBUG_EVENTS
+#undef DEBUG_AUDIO
+#undef DEBUG_AUDIO2
+#undef DEBUG_VIDEO
+#undef DEBUG_VIDEO2
 
 /* compressed archive support*/
 #define ENABLE_ZIP
 
-#endif /* _CONFIG_H */
+#endif /* XRICK_CONFIG_H */
 
 /* eof */
 

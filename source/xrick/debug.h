@@ -14,23 +14,7 @@
 #ifndef _DEBUG_H
 #define _DEBUG_H
 
-/* enable/disable subsystem debug */
-#undef DEBUG_MEMORY
-#undef DEBUG_ENTS
-#undef DEBUG_SCROLLER
-#undef DEBUG_MAPS
-#undef DEBUG_JOYSTICK
-#undef DEBUG_EVENTS
-#undef DEBUG_AUDIO
-#undef DEBUG_AUDIO2
-#undef DEBUG_VIDEO
-#undef DEBUG_VIDEO2
-
-/* define global debug option */
-#ifdef DEBUG
-#define DEBUG_VIDEO
-#define DEBUG_VIDEO2
-#endif
+#include "xrick/config.h"
 
 /* define IFDEBUG macros */
 #ifdef DEBUG_MEMORY

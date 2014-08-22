@@ -56,7 +56,7 @@ const char *sysarg_args_data = NULL;
 static void sysarg_fail(char *msg)
 {
 #ifdef ENABLE_SOUND
-	printf("xrick [version #%s]: %s\n"
+	printf("xrick [version #"XRICK_VERSION_STR"]: %s\n"
            "usage: xrick [<options>]\n"
            "<option> =\n"
            "  -h, -help : Display this information.\n"
@@ -76,9 +76,9 @@ static void sysarg_fail(char *msg)
            "  -nosound : Disable sounds. The default is to play with sounds enabled.\n"
            "  -vol <vol> : Play sounds at volume <vol>. <vol> must be an integer\n"
            "    between 0 (silence) and %d (max). The default is to play sounds\n"
-           "    at maximal volume (%d).\n", VERSION, msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/, SYSSND_MAXVOL, SYSSND_MAXVOL);
+           "    at maximal volume (%d).\n", msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/, SYSSND_MAXVOL, SYSSND_MAXVOL);
 #else
-	printf("xrick [version #%s]: %s\n"
+	printf("xrick [version #"XRICK_VERSION_STR"]: %s\n"
            "usage: xrick [<options>]\n"
            "<option> =\n"
            "  -h, -help : Display this information.\n"
@@ -94,7 +94,7 @@ static void sysarg_fail(char *msg)
            "    between 1 and %d. The default is to start at submap number 1 or, if a map\n"
            "    was specified, at the first submap of that map.\n"
            "  -keys <left>-<right>-<up>-<down>-<fire> : Override the default key\n"
-           "    bindings (cf. KeyCodes)\n", VERSION, msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/);
+           "    bindings (cf. KeyCodes)\n", msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/);
 #endif
     /* TODO: remove hardcoded map/submap max counts because they are now loaded from resource files */
 }
