@@ -73,7 +73,7 @@ sys_printf(const char *msg, ...)
     va_end(argptr);
 
     /* print message */
-    printf(s);
+    printf("%s", s);
 #ifdef _MSC_VER
     OutputDebugStringA(s);
 #endif

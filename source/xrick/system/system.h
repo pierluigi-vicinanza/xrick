@@ -25,6 +25,7 @@
  */
 #ifdef __GNUC__
 #define UNUSED(x) x __attribute((unused))
+#define _POSIX_SOURCE
 #else
 #define UNUSED(x) x
 #endif
