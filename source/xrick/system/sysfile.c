@@ -18,7 +18,7 @@
 #endif
 #include "xrick/util.h"
 
-#include <stdio.h>  /* sprintf */
+#include <stdio.h>  /* sprintf fileno */
 #include <string.h> /* strlen */
 #include <sys/stat.h> /* fstat */
 
@@ -41,9 +41,9 @@ const char *sysfile_defaultPath = ".";
  */
 typedef struct 
 {
-	char *name;
+    char *name;
 #ifdef ENABLE_ZIP
-	unzFile zip;
+    unzFile zip;
 #endif
 } path_t;
 
@@ -80,7 +80,7 @@ sysfile_setRootPath(const char *name)
 
     rootPath.name = str_toNativeSeparators(path);
 #ifdef ENABLE_ZIP
-	if (str_hasZipExtension(rootPath.name)) 
+    if (str_hasZipExtension(rootPath.name)) 
     {
         rootPath.zip = unzOpen(rootPath.name);
         if (!rootPath.zip) 
@@ -88,11 +88,11 @@ sysfile_setRootPath(const char *name)
             sys_error("(sysfile) can not open zip file \"%s\"",rootPath.name);
             return false;
         } 
-	} 
+    } 
     else /* dealing with a directory */
     {
-		/* FIXME check that it is a valid directory */
-		rootPath.zip = NULL;
+        /* FIXME check that it is a valid directory */
+        rootPath.zip = NULL;
 	}
 #endif  /* ENABLE_ZIP */
     return true;
@@ -105,14 +105,14 @@ void
 sysfile_clearRootPath()
 {
 #ifdef ENABLE_ZIP
-	if (rootPath.zip) 
+    if (rootPath.zip) 
     {
         unzClose(rootPath.zip);
-		rootPath.zip = NULL;
-	}
+        rootPath.zip = NULL;
+    }
 #endif  /* ENABLE_ZIP */
-	sysmem_pop(rootPath.name);
-	rootPath.name = NULL;
+    sysmem_pop(rootPath.name);
+    rootPath.name = NULL;
 }
 
 /*
@@ -201,16 +201,16 @@ int
 sysfile_tell(file_t file)
 {
 #ifdef ENABLE_ZIP
-	if (rootPath.zip) 
+    if (rootPath.zip) 
     {
-		/* not implemented */
-		return -1;
-	} 
+        /* not implemented */
+        return -1;
+    } 
     else
 #endif /* ENABLE_ZIP */
     {
-		return ftell((FILE *)file);
-	}
+        return ftell((FILE *)file);
+    }
 }
 
 /*
@@ -220,15 +220,15 @@ int
 sysfile_read(file_t file, void *buf, size_t size, size_t count)
 {
 #ifdef ENABLE_ZIP
-	if (rootPath.zip) 
+    if (rootPath.zip) 
     {
-		return unzReadCurrentFile((unzFile)file, buf, size * count) / size;
-	} 
+        return unzReadCurrentFile((unzFile)file, buf, size * count) / size;
+    } 
     else
 #endif /* ENABLE_ZIP */
     {
-		return fread(buf, size, count, (FILE *)file);
-	}
+        return fread(buf, size, count, (FILE *)file);
+    }
 }
 
 /*
@@ -238,15 +238,15 @@ void
 sysfile_close(file_t file)
 {
 #ifdef ENABLE_ZIP
-	if (rootPath.zip) 
+    if (rootPath.zip) 
     {
         unzCloseCurrentFile((unzFile)file);
-	}
+    }
     else
 #endif /* ENABLE_ZIP */
     {
-		fclose((FILE *)file);
-	}
+        fclose((FILE *)file);
+    }
 }
 
 #ifdef ENABLE_ZIP
@@ -256,19 +256,19 @@ sysfile_close(file_t file)
 static int
 str_hasZipExtension(const char *name)
 {
-	int i;
+    int i;
 
-	i = strlen(name) - 1;
-	if (i < 0 || name[i] != 'p' && name[i] != 'P') return 0;
-	i--;
-	if (i < 0 || name[i] != 'i' && name[i] != 'I') return 0;
-	i--;
-	if (i < 0 || name[i] != 'z' && name[i] != 'Z') return 0;
-	i--;
-	if (i < 0 || name[i] != '.') return 0;
-	i--;
-	if (i < 0) return 0;
-	return 1;
+    i = strlen(name) - 1;
+    if (i < 0 || name[i] != 'p' && name[i] != 'P') return 0;
+    i--;
+    if (i < 0 || name[i] != 'i' && name[i] != 'I') return 0;
+    i--;
+    if (i < 0 || name[i] != 'z' && name[i] != 'Z') return 0;
+    i--;
+    if (i < 0 || name[i] != '.') return 0;
+    i--;
+    if (i < 0) return 0;
+    return 1;
 }
 #endif /* ENABLE_ZIP */
 
@@ -279,13 +279,15 @@ static char *
 str_toNativeSeparators(char *s)
 {
 #ifdef __WIN32__
-	int i, l;
+    int i, l;
 
-	l = strlen(s);
-	for (i = 0; i < l; i++)
-		if (s[i] == '/') s[i] = '\\';
+    l = strlen(s);
+    for (i = 0; i < l; i++)
+    {
+        if (s[i] == '/') s[i] = '\\';
+    }
 #endif
-	return s;
+    return s;
 }
 
 /* eof */
