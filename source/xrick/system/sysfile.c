@@ -85,7 +85,7 @@ sysfile_setRootPath(const char *name)
         rootPath.zip = unzOpen(rootPath.name);
         if (!rootPath.zip) 
         {
-            sys_error("(sysfile) can not open zip file");
+            sys_error("(sysfile) can not open zip file \"%s\"",rootPath.name);
             return false;
         } 
 	} 
