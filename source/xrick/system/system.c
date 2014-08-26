@@ -124,7 +124,7 @@ sys_yield(void)
  * Initialize system
  */
 bool
-sys_init(int argc, const char **argv)
+sys_init(int argc, char **argv)
 {
 	if (!sysarg_init(argc, argv))
     {
