@@ -416,7 +416,7 @@ frame(void)
 
 
 		case PLAY2:
-			if E_RICK_STTST(E_RICK_STDEAD) {  /* rick is dead */
+			if (e_rick_state_test(E_RICK_STDEAD)) {  /* rick is dead */
 				if (game_cheat1 || --game_lives) {
 					game_state = RESTART;
 				} else {
@@ -571,7 +571,7 @@ init(void)
 {
   U8 i;
 
-  E_RICK_STRST(0xff);
+  e_rick_state_clear(0xff);
 
   game_lives = 6;
   game_bombs = 6;
@@ -655,7 +655,7 @@ play3(void)
     game_rects = &draw_STATUSRECT; /* refresh status bar too */
     draw_STATUSRECT.next = ent_rects;  /* take care to cleanup draw_STATUSRECT->next later! */
 
-    if (!E_RICK_STTST(E_RICK_STZOMBIE)) {  /* need to scroll ? */
+    if (!e_rick_state_test(E_RICK_STZOMBIE)) {  /* need to scroll ? */
         if (ent_ents[1].y >= 0xCC) {
             game_state = SCROLL_UP;
             return;
@@ -677,7 +677,7 @@ play3(void)
 static void
 restart(void)
 {
-  E_RICK_STRST(E_RICK_STDEAD|E_RICK_STZOMBIE);
+  e_rick_state_clear(E_RICK_STDEAD|E_RICK_STZOMBIE);
 
   game_bullets = 6;
   game_bombs = 6;

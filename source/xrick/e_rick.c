@@ -28,7 +28,15 @@
  */
 S16 e_rick_stop_x = 0;
 S16 e_rick_stop_y = 0;
-U8 e_rick_state = 0;
+unsigned e_rick_state = 0;
+
+/*
+* public functions
+*/
+extern inline void e_rick_state_set(e_rick_state_t s);
+extern inline void e_rick_state_clear(e_rick_state_t s);
+extern inline bool e_rick_state_test(e_rick_state_t s);
+
 
 /*
  * local vars
@@ -67,7 +75,7 @@ e_rick_boxtest(U8 e)
 	if (E_RICK_ENT.x + 0x11 < ent_ents[e].x ||
 		E_RICK_ENT.x + 0x05 > ent_ents[e].x + ent_ents[e].w ||
 		E_RICK_ENT.y + 0x14 < ent_ents[e].y ||
-		E_RICK_ENT.y + (E_RICK_STTST(E_RICK_STCRAWL) ? 0x08 : 0x00) > ent_ents[e].y + ent_ents[e].h - 1)
+		E_RICK_ENT.y + (e_rick_state_test(E_RICK_STCRAWL) ? 0x08 : 0x00) > ent_ents[e].y + ent_ents[e].h - 1)
 		return false;
 	else
 		return true;
@@ -89,13 +97,13 @@ e_rick_gozombie(void)
 #endif
 
 	/* already zombie? */
-	if E_RICK_STTST(E_RICK_STZOMBIE) return;
+	if (e_rick_state_test(E_RICK_STZOMBIE)) return;
 
 #ifdef ENABLE_SOUND
 	syssnd_play(soundDie, 1);
 #endif
 
-	E_RICK_STSET(E_RICK_STZOMBIE);
+	e_rick_state_set(E_RICK_STZOMBIE);
 	offsy = -0x0300;
 	offsx = (E_RICK_ENT.x > 0x80 ? -3 : +3);
 	ylow = 0;
@@ -127,7 +135,9 @@ e_rick_z_action(void)
 
 	/* dead when out of screen */
 	if (E_RICK_ENT.y < 0 || E_RICK_ENT.y > 0x0140)
-		E_RICK_STSET(E_RICK_STDEAD);
+	{
+		e_rick_state_set(E_RICK_STDEAD);
+	}
 }
 
 
@@ -143,30 +153,34 @@ e_rick_action2(void)
 	S16 x, y;
 	U32 i;
 
-	E_RICK_STRST(E_RICK_STSTOP|E_RICK_STSHOOT);
+	e_rick_state_clear(E_RICK_STSTOP | E_RICK_STSHOOT);
 
 	/* if zombie, run dedicated function and return */
-	if E_RICK_STTST(E_RICK_STZOMBIE) {
+	if (e_rick_state_test(E_RICK_STZOMBIE))
+	{
 		e_rick_z_action();
 		return;
 	}
 
 	/* climbing? */
-	if E_RICK_STTST(E_RICK_STCLIMB)
+	if (e_rick_state_test(E_RICK_STCLIMB))
+	{
 		goto climbing;
-
+	}
 	/*
 	* NOT CLIMBING
 	*/
-	E_RICK_STRST(E_RICK_STJUMP);
+	e_rick_state_clear(E_RICK_STJUMP);
 	/* calc y */
 	i = (E_RICK_ENT.y << 8) + offsy + ylow;
 	y = i >> 8;
 	/* test environment */
-	u_envtest(E_RICK_ENT.x, y, E_RICK_STTST(E_RICK_STCRAWL), &env0, &env1);
+	u_envtest(E_RICK_ENT.x, y, e_rick_state_test(E_RICK_STCRAWL), &env0, &env1);
 	/* stand up, if possible */
-	if (E_RICK_STTST(E_RICK_STCRAWL) && !env0)
-		E_RICK_STRST(E_RICK_STCRAWL);
+	if (e_rick_state_test(E_RICK_STCRAWL) && !env0)
+	{
+		e_rick_state_clear(E_RICK_STCRAWL);
+	}
 	/* can move vertically? */
 	if (env1 & (offsy < 0 ?
 					MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD :
@@ -176,7 +190,7 @@ e_rick_action2(void)
 	/*
 	* VERTICAL MOVE
 	*/
-	E_RICK_STSET(E_RICK_STJUMP);
+	e_rick_state_set(E_RICK_STJUMP);
 	/* killed? */
 	if (env1 & MAP_EFLG_LETHAL) {
 		e_rick_gozombie();
@@ -189,7 +203,7 @@ e_rick_action2(void)
 	if ((env1 & MAP_EFLG_CLIMB) && (control_test(Control_UP | Control_DOWN))) 
     {
 		offsy = 0x0100;
-		E_RICK_STSET(E_RICK_STCLIMB);
+		e_rick_state_set(E_RICK_STCLIMB);
 		return;
 	}
 	/* fall */
@@ -227,7 +241,7 @@ e_rick_action2(void)
 	}
 
 	/* still within this map: test environment */
-	u_envtest(x, E_RICK_ENT.y, E_RICK_STTST(E_RICK_STCRAWL), &env0, &env1);
+	u_envtest(x, E_RICK_ENT.y, e_rick_state_test(E_RICK_STCRAWL), &env0, &env1);
 
 	/* save x-position if it is possible to move */
 	if (!(env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))) {
@@ -244,7 +258,7 @@ e_rick_action2(void)
  vert_not:
   if (offsy < 0) {
     /* not climbing + trying to go _up_ not possible -> hit the roof */
-    E_RICK_STSET(E_RICK_STJUMP);  /* fall back to the ground */
+    e_rick_state_set(E_RICK_STJUMP);  /* fall back to the ground */
     E_RICK_ENT.y &= 0xF8;
     offsy = 0;
     ylow = 0;
@@ -284,12 +298,12 @@ e_rick_action2(void)
 			e_rick_stop_x = E_RICK_ENT.x;
 		}
 		e_rick_stop_y = E_RICK_ENT.y + 0x000E;
-		E_RICK_STSET(E_RICK_STSTOP);
+		e_rick_state_set(E_RICK_STSTOP);
 		return;
 	}
 
   if (control_test(Control_UP)) {  /* bullet */
-    E_RICK_STSET(E_RICK_STSHOOT);
+    e_rick_state_set(E_RICK_STSHOOT);
     /* not an automatic gun: shoot once only */
     if (trigger)
       return;
@@ -343,7 +357,7 @@ e_rick_action2(void)
  firing_not:
   if (control_test(Control_UP)) {  /* jump or climb */
     if (env1 & MAP_EFLG_CLIMB) {  /* climb */
-      E_RICK_STSET(E_RICK_STCLIMB);
+      e_rick_state_set(E_RICK_STCLIMB);
       return;
     }
     offsy = -0x0580;  /* jump */
@@ -359,10 +373,10 @@ e_rick_action2(void)
 	(E_RICK_ENT.x & 0x1f) < 0x0a) {  /* + aligned -> climb */
       E_RICK_ENT.x &= 0xf0;
       E_RICK_ENT.x |= 0x04;
-      E_RICK_STSET(E_RICK_STCLIMB);
+      e_rick_state_set(E_RICK_STCLIMB);
     }
     else {  /* crawl */
-      E_RICK_STSET(E_RICK_STCRAWL);
+      e_rick_state_set(E_RICK_STCRAWL);
       goto horiz;
     }
 
@@ -382,11 +396,11 @@ e_rick_action2(void)
 		if (control_test(Control_UP | Control_DOWN)) {
 			/* up-down: calc new y and test environment */
 			y = E_RICK_ENT.y + ((control_test(Control_UP)) ? -0x02 : 0x02);
-			u_envtest(E_RICK_ENT.x, y, E_RICK_STTST(E_RICK_STCRAWL), &env0, &env1);
+			u_envtest(E_RICK_ENT.x, y, e_rick_state_test(E_RICK_STCRAWL), &env0, &env1);
 			if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP) &&
 					!(control_test(Control_UP))) {
 				/* FIXME what? */
-				E_RICK_STRST(E_RICK_STCLIMB);
+				e_rick_state_clear(E_RICK_STCLIMB);
 				return;
 			}
 			if (!(env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP)) ||
@@ -404,7 +418,7 @@ e_rick_action2(void)
 					if (control_test(Control_UP))
 						syssnd_play(soundJump, 1);
 #endif
-					E_RICK_STRST(E_RICK_STCLIMB);
+					e_rick_state_clear(E_RICK_STCLIMB);
 					return;
 				}
 			}
@@ -429,7 +443,7 @@ e_rick_action2(void)
 	return;
       }
     }
-    u_envtest(x, E_RICK_ENT.y, E_RICK_STTST(E_RICK_STCRAWL), &env0, &env1);
+    u_envtest(x, E_RICK_ENT.y, e_rick_state_test(E_RICK_STCRAWL), &env0, &env1);
     if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD)) return;
     E_RICK_ENT.x = x;
     if (env1 & MAP_EFLG_LETHAL) {
@@ -438,7 +452,7 @@ e_rick_action2(void)
     }
 
     if (env1 & (MAP_EFLG_VERT|MAP_EFLG_CLIMB)) return;
-    E_RICK_STRST(E_RICK_STCLIMB);
+    e_rick_state_clear(E_RICK_STCLIMB);
     if (control_test(Control_UP))
       offsy = -0x0300;
   }
@@ -456,16 +470,18 @@ void e_rick_action(UNUSED(U8 e))
 
 	e_rick_action2();
 
-	scrawl = E_RICK_STTST(E_RICK_STCRAWL);
+	scrawl = e_rick_state_test(E_RICK_STCRAWL);
 
-	if E_RICK_STTST(E_RICK_STZOMBIE)
+	if (e_rick_state_test(E_RICK_STZOMBIE))
+	{
 		return;
-
+	}
 	/*
 	 * set sprite
 	 */
 
-	if E_RICK_STTST(E_RICK_STSTOP) {
+	if (e_rick_state_test(E_RICK_STSTOP))
+	{
 		E_RICK_ENT.sprite = (game_dir ? 0x17 : 0x0B);
 #ifdef ENABLE_SOUND
 		if (!stopped)
@@ -479,12 +495,14 @@ void e_rick_action(UNUSED(U8 e))
 
 	stopped = false;
 
-	if E_RICK_STTST(E_RICK_STSHOOT) {
+	if (e_rick_state_test(E_RICK_STSHOOT)) 
+	{
 		E_RICK_ENT.sprite = (game_dir ? 0x16 : 0x0A);
 		return;
 	}
 
-	if E_RICK_STTST(E_RICK_STCLIMB) {
+	if (e_rick_state_test(E_RICK_STCLIMB)) 
+	{
 		E_RICK_ENT.sprite = (((E_RICK_ENT.x ^ E_RICK_ENT.y) & 0x04) ? 0x18 : 0x0c);
 #ifdef ENABLE_SOUND
 		seq = (seq + 1) & 0x03;
@@ -493,7 +511,7 @@ void e_rick_action(UNUSED(U8 e))
 		return;
 	}
 
-	if E_RICK_STTST(E_RICK_STCRAWL)
+	if (e_rick_state_test(E_RICK_STCRAWL))
 	{
 		E_RICK_ENT.sprite = (game_dir ? 0x13 : 0x07);
 		if (E_RICK_ENT.x & 0x04) E_RICK_ENT.sprite++;
@@ -504,7 +522,7 @@ void e_rick_action(UNUSED(U8 e))
 		return;
 	}
 
-	if E_RICK_STTST(E_RICK_STJUMP)
+	if (e_rick_state_test(E_RICK_STJUMP))
 	{
 		E_RICK_ENT.sprite = (game_dir ? 0x15 : 0x06);
 		return;
@@ -538,7 +556,7 @@ void e_rick_save(void)
 {
 	save_x = E_RICK_ENT.x;
 	save_y = E_RICK_ENT.y;
-	save_crawl = E_RICK_STTST(E_RICK_STCRAWL);
+	save_crawl = e_rick_state_test(E_RICK_STCRAWL);
     save_direction = game_dir;
 	/* FIXME
 	 * save_C0 = E_RICK_ENT.b0C;
@@ -557,13 +575,17 @@ void e_rick_restore(void)
 	E_RICK_ENT.x = save_x;
 	E_RICK_ENT.y = save_y;
     if (save_crawl)
-        E_RICK_STSET(E_RICK_STCRAWL);
+    {
+        e_rick_state_set(E_RICK_STCRAWL);
+    }
     else
-        E_RICK_STRST(E_RICK_STCRAWL);
+    {
+         e_rick_state_clear(E_RICK_STCRAWL);
+    }
     game_dir = save_direction;
 	
     E_RICK_ENT.front = false;
-	E_RICK_STRST(E_RICK_STCLIMB); /* should we clear other states? */
+	e_rick_state_clear(E_RICK_STCLIMB); /* should we clear other states? */
 	/* FIXME
 	 * E_RICK_ENT.b0C = save_C0;
 	 * plus some 6DBC stuff?

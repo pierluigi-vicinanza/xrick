@@ -19,20 +19,23 @@
 #define E_RICK_NO 1
 #define E_RICK_ENT ent_ents[E_RICK_NO]
 
-extern U8 e_rick_state;
+typedef enum
+{
+    E_RICK_STSTOP = (1 << 0),
+    E_RICK_STSHOOT = (1 << 1),
+    E_RICK_STCLIMB = (1 << 2),
+    E_RICK_STJUMP = (1 << 3),
+    E_RICK_STZOMBIE = (1 << 4),
+    E_RICK_STDEAD = (1 << 5),
+    E_RICK_STCRAWL = (1 << 6),
+} e_rick_state_t;
+
+extern unsigned e_rick_state;
+inline void e_rick_state_set(e_rick_state_t s) { e_rick_state |= s; }
+inline void e_rick_state_clear(e_rick_state_t s) { e_rick_state &= ~s; }
+inline bool e_rick_state_test(e_rick_state_t s) { return e_rick_state & s; }
+
 extern S16 e_rick_stop_x, e_rick_stop_y;
-
-#define E_RICK_STSTOP 0x01
-#define E_RICK_STSHOOT 0x02
-#define E_RICK_STCLIMB 0x04
-#define E_RICK_STJUMP 0x08
-#define E_RICK_STZOMBIE 0x10
-#define E_RICK_STDEAD 0x20
-#define E_RICK_STCRAWL 0x40
-
-#define E_RICK_STSET(X) e_rick_state |= (X)
-#define E_RICK_STRST(X) e_rick_state &= ~(X)
-#define E_RICK_STTST(X) (e_rick_state & (X))
 
 extern void e_rick_save(void);
 extern void e_rick_restore(void);

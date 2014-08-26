@@ -64,7 +64,7 @@ ent_reset(void)
 {
   U8 i;
 
-  E_RICK_STRST(E_RICK_STSTOP);
+  e_rick_state_clear(E_RICK_STSTOP);
   e_bomb_lethal = false;
 
   ent_ents[0].n = 0;
