@@ -40,6 +40,7 @@
 #elif defined(__linux__) /*|| defined (__BEOS__)*/
 /* Linux, BeOS */
 #  include <endian.h>
+#  define USE_DEFAULT_ENDIANNESS_FUNCTIONS
 
 #else
 /* shall we just '#include <endian.h>'? */
