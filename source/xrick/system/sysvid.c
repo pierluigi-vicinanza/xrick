@@ -130,7 +130,7 @@ sysvid_init(void)
   U32 len, i;
   */
 
-  IFDEBUG_VIDEO(printf("xrick/video: start\n"););
+  IFDEBUG_VIDEO(sys_printf("xrick/video: start\n"););
 
   /* SDL */
   if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) < 0)
@@ -207,7 +207,7 @@ sysvid_init(void)
     return false;
   }
 
-  IFDEBUG_VIDEO(printf("xrick/video: ready\n"););
+  IFDEBUG_VIDEO(sys_printf("xrick/video: ready\n"););
   return true;
 }
 
