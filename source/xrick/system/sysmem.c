@@ -25,6 +25,7 @@ enum
 static U8 stackBuffer[STACK_MAX_SIZE];
 static U8 * stackTop;
 static size_t stackSize;
+bool isMemoryInitialised = false;
 IFDEBUG_MEMORY( static size_t maxUsedMemory = 0; );
 
 /*
@@ -32,8 +33,14 @@ IFDEBUG_MEMORY( static size_t maxUsedMemory = 0; );
  */
 bool sysmem_init(void)
 {
+    if (isMemoryInitialised)
+    {
+        return true;
+    }
+
     stackTop = stackBuffer;
     stackSize = 0;
+    isMemoryInitialised = true;
     return true;
 }
 
@@ -42,6 +49,11 @@ bool sysmem_init(void)
  */
 void sysmem_shutdown(void)
 {
+    if (!isMemoryInitialised)
+    {
+        return;
+    }
+
     if (stackTop != stackBuffer || stackSize != 0)
     {
         sys_error("(memory) improper deallocation detected");
@@ -50,6 +62,8 @@ void sysmem_shutdown(void)
     IFDEBUG_MEMORY(
         sys_printf("xrick/memory: max memory usage was %u bytes\n", maxUsedMemory);
     );
+
+    isMemoryInitialised = false;
 }
 
 /*

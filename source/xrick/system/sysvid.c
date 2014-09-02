@@ -27,6 +27,7 @@ U8 *sysvid_fb; /* frame buffer */
 static SDL_Color palette[256];
 static SDL_Surface *screen;
 static U32 videoFlags;
+static bool isVideoInitialised = false;
 
 static U8 zoom = SYSVID_ZOOM; /* actual zoom level */
 static U8 szoom = 0;  /* saved zoom level */
@@ -123,92 +124,97 @@ static bool sysvid_chkvm(void)
 bool
 sysvid_init(void)
 {
-  SDL_Surface *s;
-  U8 tpix;
-  /*
-  U8 *mask;
-  U32 len, i;
-  */
+    SDL_Surface *s;
+    U8 tpix;
+    /*
+    U8 *mask;
+    U32 len, i;
+    */
 
-  IFDEBUG_VIDEO(sys_printf("xrick/video: start\n"););
+    if (isVideoInitialised)
+    {
+        return true;
+    }
 
-  /* SDL */
-  if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) < 0)
-  {
-    sys_error("(video) could not init SDL");
-    return false;
-  }
+    IFDEBUG_VIDEO(sys_printf("xrick/video: start\n"););
 
-  /* various WM stuff */
-  SDL_WM_SetCaption("xrick", "xrick");
-  SDL_ShowCursor(SDL_DISABLE);
-  s = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->w, IMG_ICON->h, 8, IMG_ICON->w, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
-  SDL_SetColors(s, (SDL_Color *)IMG_ICON->colors, 0, IMG_ICON->ncolors);
+    /* SDL */
+    if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_TIMER) < 0)
+    {
+        sys_error("(video) could not init SDL");
+        return false;
+    }
 
-  tpix = *(IMG_ICON->pixels);
-  IFDEBUG_VIDEO(
-    sys_printf("xrick/video: icon is %dx%d\n",
-	       IMG_ICON->w, IMG_ICON->h);
-    sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", tpix,
-	       IMG_ICON->colors[tpix].r,
-	       IMG_ICON->colors[tpix].g,
-	       IMG_ICON->colors[tpix].b);
+    /* various WM stuff */
+    SDL_WM_SetCaption("xrick", "xrick");
+    SDL_ShowCursor(SDL_DISABLE);
+    s = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->w, IMG_ICON->h, 8, IMG_ICON->w, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
+    SDL_SetColors(s, (SDL_Color *)IMG_ICON->colors, 0, IMG_ICON->ncolors);
+
+    tpix = *(IMG_ICON->pixels);
+    IFDEBUG_VIDEO(
+        sys_printf("xrick/video: icon is %dx%d\n", IMG_ICON->w, IMG_ICON->h);
+        sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", tpix,
+                   IMG_ICON->colors[tpix].r,
+                   IMG_ICON->colors[tpix].g,
+                   IMG_ICON->colors[tpix].b);
     );
-	/*
+    /*
 
-	* old dirty stuff to implement transparency. SetColorKey does it
-	* on Windows w/out problems. Linux? FIXME!
+    * old dirty stuff to implement transparency. SetColorKey does it
+    * on Windows w/out problems. Linux? FIXME!
 
-  len = IMG_ICON->w * IMG_ICON->h;
-  mask = (U8 *)malloc(len/8);
-  memset(mask, 0, len/8);
-  for (i = 0; i < len; i++)
+    len = IMG_ICON->w * IMG_ICON->h;
+    mask = (U8 *)malloc(len/8);
+    memset(mask, 0, len/8);
+    for (i = 0; i < len; i++)
     if (IMG_ICON->pixels[i] != tpix) mask[i/8] |= (0x80 >> (i%8));
-	*/
-  /*
-   * FIXME
-   * Setting a mask produces strange results depending on the
-   * Window Manager. On fvwm2 it is shifted to the right ...
-   */
-  /*SDL_WM_SetIcon(s, mask);*/
-	SDL_SetColorKey(s,
-                    SDL_SRCCOLORKEY,
-                    SDL_MapRGB(s->format,IMG_ICON->colors[tpix].r,IMG_ICON->colors[tpix].g,IMG_ICON->colors[tpix].b));
+    */
+    /*
+    * FIXME
+    * Setting a mask produces strange results depending on the
+    * Window Manager. On fvwm2 it is shifted to the right ...
+    */
+    /*SDL_WM_SetIcon(s, mask);*/
+    SDL_SetColorKey(s,
+        SDL_SRCCOLORKEY,
+        SDL_MapRGB(s->format,IMG_ICON->colors[tpix].r,IMG_ICON->colors[tpix].g,IMG_ICON->colors[tpix].b));
 
-  SDL_WM_SetIcon(s, NULL);
+    SDL_WM_SetIcon(s, NULL);
 
-  /* video modes and screen */
-  videoFlags = SDL_HWSURFACE|SDL_HWPALETTE;
-  if (!sysvid_chkvm()) /* check video modes */
-  {
-      return false;
-  }
-  if (sysarg_args_zoom)
-  {
-    zoom = sysarg_args_zoom;
-  }
-  if (sysarg_args_fullscreen) 
-  {
-    videoFlags |= SDL_FULLSCREEN;
-    szoom = zoom;
-    zoom = fszoom;
-  }
-  screen = initScreen(SYSVID_WIDTH * zoom,
-		      SYSVID_HEIGHT * zoom,
-		      8, videoFlags);
+    /* video modes and screen */
+    videoFlags = SDL_HWSURFACE|SDL_HWPALETTE;
+    if (!sysvid_chkvm()) /* check video modes */
+    {
+        SDL_Quit();
+        return false;
+    }
+    if (sysarg_args_zoom)
+    {
+        zoom = sysarg_args_zoom;
+    }
+    if (sysarg_args_fullscreen) 
+    {
+        videoFlags |= SDL_FULLSCREEN;
+        szoom = zoom;
+        zoom = fszoom;
+    }
+    screen = initScreen(SYSVID_WIDTH * zoom, SYSVID_HEIGHT * zoom, 8, videoFlags);
 
-  /*
-   * create v_ frame buffer
-   */
-  sysvid_fb = malloc(SYSVID_WIDTH * SYSVID_HEIGHT);
-  if (!sysvid_fb)
-  {
-    sys_error("(video) sysvid_fb malloc failed");
-    return false;
-  }
+    /*
+    * create v_ frame buffer
+    */
+    sysvid_fb = malloc(SYSVID_WIDTH * SYSVID_HEIGHT);
+    if (!sysvid_fb)
+    {
+        sys_error("(video) sysvid_fb malloc failed");
+        SDL_Quit();
+        return false;
+    }
 
-  IFDEBUG_VIDEO(sys_printf("xrick/video: ready\n"););
-  return true;
+    isVideoInitialised = true;
+    IFDEBUG_VIDEO(sys_printf("xrick/video: ready\n"););
+    return true;
 }
 
 /*
@@ -217,10 +223,15 @@ sysvid_init(void)
 void
 sysvid_shutdown(void)
 {
-  free(sysvid_fb);
-  sysvid_fb = NULL;
-
-  SDL_Quit();
+    if (!isVideoInitialised)
+    {
+        return;
+    }
+ 
+    free(sysvid_fb);
+    SDL_Quit();
+    isVideoInitialised = false;
+    IFDEBUG_VIDEO(sys_printf("xrick/video: stop\n"););
 }
 
 /*

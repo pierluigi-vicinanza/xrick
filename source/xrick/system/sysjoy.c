@@ -11,8 +11,6 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include <SDL.h>
-
 #include "xrick/config.h"
 
 #ifdef ENABLE_JOYSTICK
@@ -20,43 +18,71 @@
 #include "xrick/system/system.h"
 #include "xrick/debug.h"
 
-static SDL_Joystick *j = NULL;
+#include <SDL.h>
+
+static SDL_Joystick *joystick = NULL;
+static bool isJoystickInitialised = false;
 
 bool
 sysjoy_init(void)
 {
-  U8 i, jcount;
+    int deviceCount;
 
-  if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) {
-    IFDEBUG_JOYSTICK(
-      sys_printf("xrick/joystick: can not initialize joystick subsystem\n");
-      );
+    if (isJoystickInitialised)
+    {
+        return true;
+    }
+
+    IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: start\n"););
+
+    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
+    {
+        IFDEBUG_JOYSTICK(
+            sys_printf("xrick/joystick: can not initialize joystick subsystem\n");
+        );
+        return true; /* shall we treat this as an error? */
+    }
+
+    deviceCount = SDL_NumJoysticks();
+    if (deviceCount > 0)
+    {
+        /* use the first joystick that we can open */
+        int deviceIndex;
+        for (deviceIndex = 0; deviceIndex < deviceCount; deviceIndex++) 
+        {
+            joystick = SDL_JoystickOpen(deviceIndex);
+            if (joystick)
+            {
+                SDL_JoystickEventState(SDL_ENABLE); /* enable events */
+                break;
+            }
+        }
+    }
+    else /* no joystick on this system */
+    {
+        IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: no joystick available\n"););
+    }
+
+    isJoystickInitialised = true;
+    IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: ready\n"););
     return true;
-  }
-
-  jcount = SDL_NumJoysticks();
-  if (!jcount) {  /* no joystick on this system */
-    IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: no joystick available\n"););
-    return true;
-  }
-
-  /* use the first joystick that we can open */
-  for (i = 0; i < jcount; i++) {
-    j = SDL_JoystickOpen(i);
-    if (j)
-      break;
-  }
-
-  /* enable events */
-  SDL_JoystickEventState(SDL_ENABLE);
-  return true;
 }
 
 void
 sysjoy_shutdown(void)
 {
-  if (j)
-    SDL_JoystickClose(j);
+    if (!isJoystickInitialised)
+    {
+        return;
+    }
+
+    if (joystick)
+    {
+        SDL_JoystickClose(joystick);
+    }
+    SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+    isJoystickInitialised = false;
+    IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: stop\n"););
 }
 
 #endif /* ENABLE_JOYSTICK */
