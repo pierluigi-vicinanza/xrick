@@ -1,7 +1,9 @@
 /*
- * xrick/include/config.h
+ * xrick/config.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -15,45 +17,44 @@
 #define XRICK_CONFIG_H
 
 /* version */
-#define XRICK_VERSION_STR "021212"
+#define XRICK_VERSION_STR "${XRICK_VERSION_STR}"
 
 /* graphics (choose one) */
-#define GFXST
-#undef GFXPC
+#cmakedefine GFXST
+#cmakedefine GFXPC
 
 /* joystick support */
-#undef ENABLE_JOYSTICK
+#cmakedefine ENABLE_JOYSTICK
 
 /* sound support */
-#define ENABLE_SOUND
+#cmakedefine ENABLE_SOUND
 
 /* cheats support */
-#define ENABLE_CHEATS
+#cmakedefine ENABLE_CHEATS
 
 /* auto-defocus support */
 /* does seem to cause all sorts of problems on BeOS, Windows... */
-#undef ENABLE_FOCUS
+#cmakedefine ENABLE_FOCUS
 
 /* development tools */
-#undef ENABLE_DEVTOOLS
+#cmakedefine ENABLE_DEVTOOLS
 
 /* enable/disable subsystem debug */
-#undef DEBUG_MEMORY
-#undef DEBUG_ENTS
-#undef DEBUG_SCROLLER
-#undef DEBUG_MAPS
-#undef DEBUG_JOYSTICK
-#undef DEBUG_EVENTS
-#undef DEBUG_AUDIO
-#undef DEBUG_AUDIO2
-#undef DEBUG_VIDEO
-#undef DEBUG_VIDEO2
+#cmakedefine DEBUG_MEMORY
+#cmakedefine DEBUG_ENTS
+#cmakedefine DEBUG_SCROLLER
+#cmakedefine DEBUG_MAPS
+#cmakedefine DEBUG_JOYSTICK
+#cmakedefine DEBUG_EVENTS
+#cmakedefine DEBUG_AUDIO
+#cmakedefine DEBUG_AUDIO2
+#cmakedefine DEBUG_VIDEO
+#cmakedefine DEBUG_VIDEO2
 
 /* compressed archive support*/
-#define ENABLE_ZIP
+#cmakedefine ENABLE_ZIP
 
 #endif /* XRICK_CONFIG_H */
 
 /* eof */
-
 
