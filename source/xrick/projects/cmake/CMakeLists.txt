@@ -15,6 +15,8 @@ cmake_minimum_required(VERSION 2.8.5)
 
 project(xrick C)
 
+set(PROJECT_ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../..)
+
 set(XRICK_VERSION_YEAR 2014)
 set(XRICK_VERSION_MONTH "Sep")
 set(XRICK_VERSION_DAY 1)
@@ -100,88 +102,88 @@ option(DEBUG_VIDEO "Enable video debugging support" OFF)
 option(DEBUG_VIDEO2 "Enable extra video debugging support" OFF)
 option(ENABLE_ZIP "Enable compressed archive support" ON)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
-               ${CMAKE_CURRENT_SOURCE_DIR}/../../config.h)
+configure_file(${PROJECT_ROOT_DIR}/source/xrick/projects/cmake/config.h.in 
+               ${PROJECT_ROOT_DIR}/source/xrick/config.h)
 
 #-----------------------------------------------------------------------------
 # Source files
 #
 set(SOURCES
-    ../../config.h
-    ../../control.c
-    ../../control.h
-    ../../debug.h
-    ../../devtools.c
-    ../../devtools.h
-    ../../draw.c
-    ../../draw.h
-    ../../e_bomb.c
-    ../../e_bomb.h
-    ../../e_bonus.c
-    ../../e_bonus.h
-    ../../e_box.c
-    ../../e_box.h
-    ../../e_bullet.c
-    ../../e_bullet.h
-    ../../e_rick.c
-    ../../e_rick.h
-    ../../e_sbonus.c
-    ../../e_sbonus.h
-    ../../e_them.c
-    ../../e_them.h
-    ../../ents.c
-    ../../ents.h
-    ../../game.c
-    ../../game.h
-    ../../img.h
-    ../../main.c
-    ../../maps.c
-    ../../maps.h
-    ../../rects.c
-    ../../rects.h
-    ../../res_magic.c
-    ../../resources.c
-    ../../resources.h
-    ../../scr_gameover.c
-    ../../scr_getname.c
-    ../../scr_imain.c
-    ../../scr_imap.c
-    ../../scr_pause.c
-    ../../scr_xrick.c
-    ../../screens.h
-    ../../scroller.c
-    ../../scroller.h
-    ../../util.c
-    ../../util.h
-    ../../3rd_party/zlib/ioapi.c
-    ../../3rd_party/zlib/ioapi.h
-    ../../3rd_party/zlib/unzip.c
-    ../../3rd_party/zlib/unzip.h
-    ../../data/pics.c
-    ../../data/pics.h
-    ../../data/sounds.c
-    ../../data/sounds.h
-    ../../data/sprites.c
-    ../../data/sprites.h
-    ../../data/tiles.c
-    ../../data/tiles.h
-    ../../system/basic_funcs.h
-    ../../system/basic_types.h
-    ../../system/sysarg.c
-    ../../system/sysevt.c
-    ../../system/sysfile.c
-    ../../system/sysjoy.c
-    ../../system/syskbd.c
-    ../../system/sysmem.c
-    ../../system/syssnd.c
-    ../../system/syssnd.h
-    ../../system/system.c
-    ../../system/system.h
-    ../../system/sysvid.c
+    ${PROJECT_ROOT_DIR}/source/xrick/config.h
+    ${PROJECT_ROOT_DIR}/source/xrick/control.c
+    ${PROJECT_ROOT_DIR}/source/xrick/control.h
+    ${PROJECT_ROOT_DIR}/source/xrick/debug.h
+    ${PROJECT_ROOT_DIR}/source/xrick/devtools.c
+    ${PROJECT_ROOT_DIR}/source/xrick/devtools.h
+    ${PROJECT_ROOT_DIR}/source/xrick/draw.c
+    ${PROJECT_ROOT_DIR}/source/xrick/draw.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bomb.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bomb.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bonus.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bonus.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_box.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_box.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bullet.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_bullet.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_rick.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_rick.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_sbonus.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_sbonus.h
+    ${PROJECT_ROOT_DIR}/source/xrick/e_them.c
+    ${PROJECT_ROOT_DIR}/source/xrick/e_them.h
+    ${PROJECT_ROOT_DIR}/source/xrick/ents.c
+    ${PROJECT_ROOT_DIR}/source/xrick/ents.h
+    ${PROJECT_ROOT_DIR}/source/xrick/game.c
+    ${PROJECT_ROOT_DIR}/source/xrick/game.h
+    ${PROJECT_ROOT_DIR}/source/xrick/img.h
+    ${PROJECT_ROOT_DIR}/source/xrick/main.c
+    ${PROJECT_ROOT_DIR}/source/xrick/maps.c
+    ${PROJECT_ROOT_DIR}/source/xrick/maps.h
+    ${PROJECT_ROOT_DIR}/source/xrick/rects.c
+    ${PROJECT_ROOT_DIR}/source/xrick/rects.h
+    ${PROJECT_ROOT_DIR}/source/xrick/res_magic.c
+    ${PROJECT_ROOT_DIR}/source/xrick/resources.c
+    ${PROJECT_ROOT_DIR}/source/xrick/resources.h
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_gameover.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_getname.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_imain.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_imap.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_pause.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scr_xrick.c
+    ${PROJECT_ROOT_DIR}/source/xrick/screens.h
+    ${PROJECT_ROOT_DIR}/source/xrick/scroller.c
+    ${PROJECT_ROOT_DIR}/source/xrick/scroller.h
+    ${PROJECT_ROOT_DIR}/source/xrick/util.c
+    ${PROJECT_ROOT_DIR}/source/xrick/util.h
+    ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/ioapi.c
+    ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/ioapi.h
+    ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/unzip.c
+    ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/unzip.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/pics.c
+    ${PROJECT_ROOT_DIR}/source/xrick/data/pics.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/sounds.c
+    ${PROJECT_ROOT_DIR}/source/xrick/data/sounds.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/sprites.c
+    ${PROJECT_ROOT_DIR}/source/xrick/data/sprites.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/tiles.c
+    ${PROJECT_ROOT_DIR}/source/xrick/data/tiles.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysevt.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysfile.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysjoy.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syskbd.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysmem.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/system.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/system.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysvid.c
 )
 
 if(WIN32)
-    list(APPEND SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/../../../../xrick.rc)
+    list(APPEND SOURCES ${PROJECT_ROOT_DIR}/xrick.rc)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -189,8 +191,8 @@ endif()
 #
 add_executable(${PROJECT_NAME} WIN32 MACOSX_BUNDLE ${SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../../..
-                    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rd_party)
+                           ${PROJECT_ROOT_DIR}/source
+                           ${PROJECT_ROOT_DIR}/source/xrick/3rd_party)
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 if(CMAKE_COMPILER_IS_GNUCC)
@@ -209,8 +211,8 @@ set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}" CACHE PATH
 set(INSTALL_DATA_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}" CACHE PATH "Installation directory for game data")
 set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_MANDIR}/man6" CACHE PATH "Installation directory for manual pages")
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${INSTALL_BIN_DIR}")
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../../../data.zip DESTINATION "${INSTALL_DATA_DIR}")
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/../../../../xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
+install(FILES ${PROJECT_ROOT_DIR}/data.zip DESTINATION "${INSTALL_DATA_DIR}")
+install(FILES ${PROJECT_ROOT_DIR}/xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
 
 #-----------------------------------------------------------------------------
 # Create package
