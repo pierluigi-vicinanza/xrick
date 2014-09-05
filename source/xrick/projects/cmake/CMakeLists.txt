@@ -211,8 +211,8 @@ set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}" CACHE PATH
 set(INSTALL_DATA_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}" CACHE PATH "Installation directory for game data")
 set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_MANDIR}/man6" CACHE PATH "Installation directory for manual pages")
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${INSTALL_BIN_DIR}")
-install(FILES ${PROJECT_ROOT_DIR}/data.zip DESTINATION "${INSTALL_DATA_DIR}")
-install(FILES ${PROJECT_ROOT_DIR}/xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
+install(FILES ${PROJECT_ROOT_DIR}/assets/data.zip DESTINATION "${INSTALL_DATA_DIR}")
+install(FILES ${PROJECT_ROOT_DIR}/assets/docs/xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
 
 #-----------------------------------------------------------------------------
 # Create package
