@@ -10,14 +10,14 @@
 // You must not remove this notice, or any other, from this software.
 //
 
-#include "source/xrick/config.h"
+#include "xrick/config.h"
 
 #ifdef GFXST
-XRICK_ICON ICON DISCARDABLE "assets/images/xrickST.ico"
+XRICK_ICON ICON DISCARDABLE "../../../../assets/images/xrickST.ico"
 #endif
 
 #ifdef GFXPC
-XRICK_ICON ICON DISCARDABLE "assets/images/xrickPC.ico"
+XRICK_ICON ICON DISCARDABLE "../../../../assets/images/xrickPC.ico"
 #endif
 
 // eof

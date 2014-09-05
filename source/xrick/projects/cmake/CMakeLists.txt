@@ -183,7 +183,7 @@ set(SOURCES
 )
 
 if(WIN32)
-    list(APPEND SOURCES ${PROJECT_ROOT_DIR}/xrick.rc)
+    list(APPEND SOURCES ${PROJECT_ROOT_DIR}/source/xrick/projects/msvc/xrick.rc)
 endif()
 
 #-----------------------------------------------------------------------------
