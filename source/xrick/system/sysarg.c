@@ -15,17 +15,17 @@
  * 20021010 added test to prevent buffer overrun in -keys parsing.
  */
 
-#include <stdlib.h>  /* atoi */
-#include <string.h>  /* strcasecmp */
-
-#include <SDL.h>
-
 #include "xrick/system/system.h"
 #include "xrick/config.h"
 #include "xrick/game.h"
 
 #include "xrick/maps.h"
 #include "xrick/system/syssnd.h"
+
+#include <stdlib.h>  /* atoi */
+#include <string.h>  /* strcasecmp */
+
+#include <SDL.h>
 
 /* handle Microsoft Visual C */
 #ifdef _MSC_VER
@@ -51,52 +51,78 @@ int sysarg_args_vol = 0;
 const char *sysarg_args_data = NULL;
 
 /*
+ * Version info
+ */
+static void sysarg_version(void)
+{
+    printf(
+        "xrick version '%s'\n\n"
+        " Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).\n"
+        " Copyright (C) 2008-2014 Pierluigi Vicinanza.\n"
+        " All rights reserved.\n\n"
+        " The use and distribution terms for this software are contained in the file\n"
+        " named README, which can be found in the root of this distribution. By\n"
+        " using this software in any fashion, you are agreeing to be bound by the\n"
+        " terms of this license.\n\n", XRICK_VERSION_STR);
+}
+
+/*
+ * Help
+ */
+static void sysarg_help(void)
+{
+   printf(
+       "Usage: xrick [option(s)]\n"
+       " The options are:\n\n"
+       "  -h, --help         Display this information\n"
+       "  --fullscreen       Run in fullscreen mode.\n" 
+       "                     The default is to run in a window.\n"
+       "  --speed <speed>    Run at speed <speed>. <speed> must be \n"
+       "                     an integer between 1 (fast) and 100 (slow).\n"
+       "                     The default is %d.\n"
+       "  --zoom <zoom>      Display with zoom factor <zoom>.\n"
+       "                     <zoom> must be an integer between 1 (320x200)\n"
+       "                     and %d (%d times bigger). The default is %d.\n"
+       "  --map <map>        Start at map number <map>.\n"
+       "                     <map> must be an integer between 1 and %d.\n"
+       "                     The default is to start at map number 1.\n"
+       "  --submap <submap>  Start at submap <submap>.\n"
+       "                     <submap> must be an integer between 1 and %d.\n"
+       "                     The default is to start at submap number 1\n"
+       "                     or, if a map was specified,\n"
+       "                     at the first submap of that map.\n"
+       "  --keys <left>-<right>-<up>-<down>-<fire>\n"
+       "                     Override the default key bindings\n"
+       "                     (cf. KeyCodes).\n"
+       "  --data <archive>   Use data archive <archive>\n"
+       "                     <archive> must be either a zip file or\n"
+       "                     a directory. The default is to look for \"data.zip\"\n"
+       "                     in the directory where xrick is run from.\n"       
+#ifdef ENABLE_SOUND
+       "  --nosound          Disable sounds.\n"
+       "                     The default is to play with sounds enabled.\n"
+       "  --vol <vol>        Play sounds at volume <vol>.\n"
+       "                     <vol> must be an integer between 0 (silence)\n"
+       "                     and %d (max). The default is to play sounds\n"
+       "                     at maximum volume (%d).\n"
+#endif /* ENABLE_SOUND */
+       "  --version          Print version information.\n\n",
+       GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, SYSVID_ZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/
+#ifdef ENABLE_SOUND
+       , SYSSND_MAXVOL, SYSSND_MAXVOL
+#endif /* ENABLE_SOUND */
+       );
+   /* TODO: remove hardcoded map/submap max counts because they are now loaded from resource files */
+}
+
+/*
  * Fail
  */
 static void sysarg_fail(char *msg)
 {
-#ifdef ENABLE_SOUND
-	printf("xrick [version #"XRICK_VERSION_STR"]: %s\n"
-           "usage: xrick [<options>]\n"
-           "<option> =\n"
-           "  -h, -help : Display this information.\n"
-           "  -fullscreen : Run in fullscreen mode.\n"
-           "    The default is to run in a window.\n"
-           "  -speed <speed> : Run at speed <speed>. Speed must be an integer between 1\n"
-           "    (fast) and 100 (slow). The default is %d\n"
-           "  -zoom <zoom> : Display with zoom factor <zoom>. <zoom> must be an integer\n"
-           "    between 1 (320x200) and %d (%d times bigger). The default is 2.\n"
-           "  -map <map> : Start at map number <map>. <map> must be an integer between\n"
-           "    1 and %d. The default is to start at map number 1\n"
-           "  -submap <submap> : Start at submap <submap>. <submap> must be an integer\n"
-           "    between 1 and %d. The default is to start at submap number 1 or, if a map\n"
-           "    was specified, at the first submap of that map.\n"
-           "  -keys <left>-<right>-<up>-<down>-<fire> : Override the default key\n"
-           "    bindings (cf. KeyCodes)\n"
-           "  -nosound : Disable sounds. The default is to play with sounds enabled.\n"
-           "  -vol <vol> : Play sounds at volume <vol>. <vol> must be an integer\n"
-           "    between 0 (silence) and %d (max). The default is to play sounds\n"
-           "    at maximal volume (%d).\n", msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/, SYSSND_MAXVOL, SYSSND_MAXVOL);
-#else
-	printf("xrick [version #"XRICK_VERSION_STR"]: %s\n"
-           "usage: xrick [<options>]\n"
-           "<option> =\n"
-           "  -h, -help : Display this information.\n"
-           "  -fullscreen : Run in fullscreen mode.\n"
-           "    The default is to run in a window.\n"
-           "  -speed <speed> : Run at speed <speed>. Speed must be an integer between 1\n"
-           "    (fast) and 100 (slow). The default is %d\n"
-           "  -zoom <zoom> : Display with zoom factor <zoom>. <zoom> must be an integer\n"
-           "    between 1 (320x200) and %d (%d times bigger). The default is 2.\n"
-           "  -map <map> : Start at map number <map>. <map> must be an integer between\n"
-           "    1 and %d. The default is to start at map number 1\n"
-           "  -submap <submap> : Start at submap <submap>. <submap> must be an integer\n"
-           "    between 1 and %d. The default is to start at submap number 1 or, if a map\n"
-           "    was specified, at the first submap of that map.\n"
-           "  -keys <left>-<right>-<up>-<down>-<fire> : Override the default key\n"
-           "    bindings (cf. KeyCodes)\n", msg, GAME_PERIOD, SYSVID_MAXZOOM, SYSVID_MAXZOOM, 5/*MAP_NBR_MAPS*/-1, 47/*MAP_NBR_SUBMAPS*/);
-#endif
-    /* TODO: remove hardcoded map/submap max counts because they are now loaded from resource files */
+    printf(
+        "xrick: %s\n"
+        " Use `xrick --help' for a complete list of options.\n", msg);
 }
 
 /*
@@ -178,17 +204,17 @@ sysarg_init(int argc, char **argv)
 
     for (i = 1; i < argc; i++) 
     {
-        if (!strcmp(argv[i], "-fullscreen")) 
+        if (!strcmp(argv[i], "--fullscreen")) 
         {
             sysarg_args_fullscreen = 1;
         }
-        else if (!strcmp(argv[i], "-help") ||
+        else if (!strcmp(argv[i], "--help") ||
                  !strcmp(argv[i], "-h")) 
         {
-            sysarg_fail("help");
+            sysarg_help();
             return false;
         }
-        else if (!strcmp(argv[i], "-speed")) 
+        else if (!strcmp(argv[i], "--speed")) 
         {
             if (++i == argc) 
             {
@@ -202,7 +228,7 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "-keys")) 
+        else if (!strcmp(argv[i], "--keys")) 
         {
             if (++i == argc) 
             {
@@ -215,7 +241,7 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "-zoom")) 
+        else if (!strcmp(argv[i], "--zoom")) 
         {
             if (++i == argc) 
             {
@@ -229,7 +255,7 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "-map")) 
+        else if (!strcmp(argv[i], "--map")) 
         {
             if (++i == argc) 
             {
@@ -243,7 +269,7 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "-submap")) 
+        else if (!strcmp(argv[i], "--submap")) 
         {
             if (++i == argc) 
             {
@@ -258,7 +284,7 @@ sysarg_init(int argc, char **argv)
             }
         }
 #ifdef ENABLE_SOUND
-        else if (!strcmp(argv[i], "-vol")) 
+        else if (!strcmp(argv[i], "--vol")) 
         {
             if (++i == argc) 
             {
@@ -272,12 +298,12 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "-nosound")) 
+        else if (!strcmp(argv[i], "--nosound")) 
         {
             sysarg_args_nosound = true;
         }
 #endif /* ENABLE_SOUND */
-        else if (!strcmp(argv[i], "-data")) 
+        else if (!strcmp(argv[i], "--data")) 
         {
             if (++i == argc) 
             {
@@ -286,9 +312,16 @@ sysarg_init(int argc, char **argv)
             }
             sysarg_args_data = argv[i];
         }
+        else if (!strcmp(argv[i], "--version")) 
+        {
+            sysarg_version();
+            return false;
+        }
         else 
         {
-            sysarg_fail("invalid argument(s)");
+            char message[128];
+            sys_snprintf(message, sizeof(message), "unrecognized option `%s'", argv[i]);
+            sysarg_fail(message);
             return false;
         }
     }
