@@ -21,7 +21,7 @@
 #  define __BIG_ENDIAN    4321
 #  define __BYTE_ORDER    __LITTLE_ENDIAN
 #  define USE_DEFAULT_ENDIANNESS_FUNCTIONS
-#  include <stdlib.h> /* _byteswap_XXX */  
+#  include <stdlib.h> /* _byteswap_XXX */
 
 #elif (defined(__FreeBSD__) && __FreeBSD_version >= 470000) || defined(__OpenBSD__) || defined(__NetBSD__)
 /*  *BSD  */
@@ -33,9 +33,9 @@
 #elif (defined(BSD) && (BSD >= 199103)) || defined(__MacOSX__)
 /*  more BSD  */
 #  include <machine/endian.h>
-#  define __BIG_ENDIAN	BIG_ENDIAN
-#  define __LITTLE_ENDIAN	LITTLE_ENDIAN
-#  define __BYTE_ORDER	BYTE_ORDER
+#  define __BIG_ENDIAN    BIG_ENDIAN
+#  define __LITTLE_ENDIAN LITTLE_ENDIAN
+#  define __BYTE_ORDER    BYTE_ORDER
 
 #elif defined(__linux__) /*|| defined (__BEOS__)*/
 /* Linux, BeOS */
@@ -48,22 +48,22 @@
 
 #endif /* def __WIN32__ */
 
-/* define default endianness */
-#ifndef __LITTLE_ENDIAN
-#  define __LITTLE_ENDIAN 1234
-#endif
-
-#ifndef __BIG_ENDIAN
-#  define __BIG_ENDIAN 4321
-#endif
-
-#ifndef __BYTE_ORDER
-#  warning "Byte order not defined on your system, assuming little endian!"
-#  define __BYTE_ORDER __LITTLE_ENDIAN
-#endif
-
 /* provide default endianness functions */
 #ifdef USE_DEFAULT_ENDIANNESS_FUNCTIONS
+
+/* define default endianness */
+#  ifndef __LITTLE_ENDIAN
+#    define __LITTLE_ENDIAN 1234
+#  endif
+
+#  ifndef __BIG_ENDIAN
+#    define __BIG_ENDIAN 4321
+#  endif
+
+#  ifndef __BYTE_ORDER
+#    warning "Byte order not defined on your system, assuming little endian!"
+#    define __BYTE_ORDER __LITTLE_ENDIAN
+#  endif
 
 #  define GCC_VERSION (__GNUC__ * 10000 + __GNUC_MINOR__ * 100 + __GNUC_PATCHLEVEL__)
 
