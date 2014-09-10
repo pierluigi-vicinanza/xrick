@@ -25,7 +25,7 @@ enum
 static U8 stackBuffer[STACK_MAX_SIZE];
 static U8 * stackTop;
 static size_t stackSize;
-bool isMemoryInitialised = false;
+static bool isMemoryInitialised = false;
 IFDEBUG_MEMORY( static size_t maxUsedMemory = 0; );
 
 /*
