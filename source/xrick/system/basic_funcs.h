@@ -119,7 +119,6 @@ inline uint32_t letoh32(uint32_t little_endian) { return swap32(little_endian); 
 
 #  endif
 
-#undef USE_DEFAULT_ENDIANNESS_FUNCTIONS
 #endif /* USE_DEFAULT_ENDIANNESS_FUNCTIONS */
 
 #endif /* ndef _BASIC_FUNCS_H */

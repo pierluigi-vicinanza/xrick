@@ -167,6 +167,7 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/data/sprites.h
     ${PROJECT_ROOT_DIR}/source/xrick/data/tiles.c
     ${PROJECT_ROOT_DIR}/source/xrick/data/tiles.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg.c
