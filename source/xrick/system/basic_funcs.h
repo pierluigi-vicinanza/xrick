@@ -46,7 +46,7 @@
 /* shall we just '#include <endian.h>'? */
 #  define USE_DEFAULT_ENDIANNESS_FUNCTIONS
 
-#endif /* def __WIN32__ */
+#endif /* __WIN32__ */
 
 /* provide default endianness functions */
 #ifdef USE_DEFAULT_ENDIANNESS_FUNCTIONS
@@ -78,7 +78,7 @@ inline uint32_t swap32(uint32_t x)
           ((x >>  8) & 0x0000FF00) |
           ((x <<  8) & 0x00FF0000) |
            (x << 24);
-#  endif /* def _MSC_VER */
+#  endif /* _MSC_VER */
 }
 
 inline uint16_t swap16(uint16_t x)
@@ -89,7 +89,7 @@ inline uint16_t swap16(uint16_t x)
     return __builtin_bswap16(x);
 #  else
     return (x << 8)|(x >> 8);
-#  endif /* def _MSC_VER */
+#  endif /* _MSC_VER */
 }
 
 #  if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -120,7 +120,7 @@ inline uint32_t letoh32(uint32_t little_endian) { return swap32(little_endian); 
 #  endif
 
 #undef USE_DEFAULT_ENDIANNESS_FUNCTIONS
-#endif /* def USE_DEFAULT_ENDIANNESS_FUNCTIONS */
+#endif /* USE_DEFAULT_ENDIANNESS_FUNCTIONS */
 
 #endif /* ndef _BASIC_FUNCS_H */
 

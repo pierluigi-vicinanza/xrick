@@ -32,7 +32,7 @@ typedef          __int32 int32_t;
 #include <stdbool.h>
 #include <stdint.h>
 
-#endif /* def _MSC_VER */
+#endif /* _MSC_VER */
 
 typedef uint8_t U8;   /*  8 bits unsigned */
 typedef uint16_t U16; /* 16 bits unsigned */

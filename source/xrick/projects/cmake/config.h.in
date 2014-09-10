@@ -54,7 +54,7 @@
 /* compressed archive support*/
 #cmakedefine ENABLE_ZIP
 
-#endif /* XRICK_CONFIG_H */
+#endif /* ndef XRICK_CONFIG_H */
 
 /* eof */
 

@@ -64,7 +64,7 @@ typedef U32 sprite_t[SPRITES_NBR_DATA];
 extern size_t sprites_nbr_sprites;
 extern sprite_t *sprites_data;
 
-#endif /* def _SPRITES_H_ */
+#endif /* ndef _SPRITES_H_ */
 
 /* eof */
 
