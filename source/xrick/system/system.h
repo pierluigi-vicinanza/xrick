@@ -24,10 +24,12 @@
  * Darwin target here.
  */
 #ifdef __GNUC__
-#define UNUSED(x) x __attribute((unused))
-#define _POSIX_SOURCE
+#  define UNUSED(x) x __attribute((unused))
+#  ifndef _POSIX_SOURCE
+#    define _POSIX_SOURCE
+#  endif
 #else
-#define UNUSED(x) x
+#  define UNUSED(x) x
 #endif
 
 /*
