@@ -22,15 +22,7 @@
 #include "xrick/data/pics.h"
 #include "xrick/system/basic_funcs.h"
 
-/*
- * miniz used only for crc32 calculation
- */
-#define MINIZ_NO_STDIO
-#define MINIZ_NO_TIME
-#define MINIZ_NO_ARCHIVE_APIS
-#define MINIZ_NO_ARCHIVE_WRITING_APIS
-#define MINIZ_NO_ZLIB_APIS
-#define MINIZ_NO_MALLOC
+#include "xrick/system/miniz_config.h"
 #include "miniz/miniz.c"
 
 /*

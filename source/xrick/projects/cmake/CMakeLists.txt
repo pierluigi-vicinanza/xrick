@@ -170,6 +170,7 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/miniz_config.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysevt.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysfile.c
