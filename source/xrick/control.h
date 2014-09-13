@@ -1,7 +1,9 @@
 /*
- * xrick/include/control.h
+ * xrick/control.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -34,7 +36,7 @@ inline void control_set(control_t c) { control_status |= c; }
 inline void control_clear(control_t c) { control_status &= ~c; }
 extern bool control_active;
 
-#endif
+#endif /* ndef _CONTROL_H */
 
 /* eof */
 

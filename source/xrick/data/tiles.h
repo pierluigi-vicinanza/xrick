@@ -1,7 +1,9 @@
 /*
- * xrick/include/tiles.h
+ * xrick/data/tiles.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -63,6 +65,6 @@ enum { TILES_NBR_TILES = 0x100 };
 extern size_t tiles_nbr_banks;
 extern tile_t *tiles_data;
 
-#endif
+#endif /* ndef _TILES_H */
 
 /* eof */

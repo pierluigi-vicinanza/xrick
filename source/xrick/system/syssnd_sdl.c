@@ -1,7 +1,9 @@
 /*
- * xrick/src/syssnd.c
+ * xrick/system/syssnd_sdl.c
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -10,11 +12,7 @@
  *
  * You must not remove this notice, or any other, from this software.
  */
-
-#include <SDL.h>
-#include <stdlib.h>
-#include <memory.h>
-
+ 
 #include "xrick/config.h"
 
 #ifdef ENABLE_SOUND
@@ -24,10 +22,20 @@
 #include "xrick/system/syssnd_sdl.h"
 #include "xrick/debug.h"
 
+#include <SDL.h>
+#include <stdlib.h>
+#include <memory.h>
+
+/*
+ * Global variables
+ */
 const U8 syssnd_period = 0xff; /* not needed under current SDL implementation of xrick */
 
 #define ADJVOL(S) (((S)*sndVol)/SDL_MIX_MAXVOLUME)
 
+/*
+ * Local variables
+ */
 static bool isAudioInitialised = false;
 static channel_t channel[SYSSND_MIXCHANNELS];
 

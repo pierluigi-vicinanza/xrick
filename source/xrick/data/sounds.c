@@ -1,5 +1,5 @@
 /*
- * xrick/data/sounds.s
+ * xrick/data/sounds.c
  *
  * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *

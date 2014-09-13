@@ -1,5 +1,5 @@
 /*
- * xrick/system/sysmem.c
+ * xrick/system/sysmem_sdl.c
  *
  * Copyright (C) 2008-2013 Pierluigi Vicinanza. All rights reserved.
  *

@@ -1,7 +1,9 @@
 /*
- * xrick/include/screens.h
+ * xrick/screens.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -56,7 +58,7 @@ extern U8 *screen_imainhoft;  /* hall of fame title */
 extern U8 *screen_imainrdt;  /* rick dangerous title */
 extern U8 *screen_imaincdc;  /* core design copyright text */
 extern U8 *screen_congrats;  /* congratulations */
-#endif
+#endif /* GFXPC */
 extern U8 *screen_gameovertxt;  /* game over */
 extern U8 *screen_pausedtxt;  /* paused */
 
@@ -67,6 +69,6 @@ extern U8 screen_gameover(void);  /* gameover */
 extern U8 screen_getname(void);  /* enter you name */
 extern void screen_pause(bool);  /* pause indicator */
 
-#endif
+#endif /* ndef _SCREENS_H */
 
 /* eof */

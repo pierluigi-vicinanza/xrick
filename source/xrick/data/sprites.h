@@ -1,7 +1,9 @@
 /*
- * xrick/include/sprites.h
+ * xrick/data/sprites.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -23,7 +25,6 @@
  * and planes 1, 2 and 3 contain copies of plane 0 with all sprites shifted
  * 2, 4 and 6 pixels to the right.
  */
-
 
 #ifndef _SPRITES_H_
 #define _SPRITES_H_

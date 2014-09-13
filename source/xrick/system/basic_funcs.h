@@ -1,5 +1,7 @@
 /*
- * system/basic_funcs.h
+ * xrick/system/basic_funcs.h
+ *
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By

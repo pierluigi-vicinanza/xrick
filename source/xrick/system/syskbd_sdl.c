@@ -1,7 +1,9 @@
 /*
- * xrick/src/syskbd.c
+ * xrick/system/syskbd_sdl.c
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -15,6 +17,9 @@
 
 #include "xrick/system/system.h"
 
+/*
+ * Global variables
+ */
 U8 syskbd_up = SDLK_o;
 U8 syskbd_down = SDLK_k;
 U8 syskbd_left = SDLK_z;

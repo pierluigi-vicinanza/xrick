@@ -1,7 +1,9 @@
 /*
- * xrick/include/game.h
+ * xrick/game.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -66,7 +68,7 @@ extern bool game_cheat3;     /* highlight sprites */
 extern void game_toggleCheat(cheat_t);
 #endif /* ENABLE_CHEATS */
 
-#endif
+#endif /* ndef _GAME_H */
 
 /* eof */
 

@@ -1,7 +1,9 @@
 /*
- * xrick/include/e_bomb.h
+ * xrick/e_bomb.h
  *
- * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net). All rights reserved.
+ * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
+ * Copyright (C) 2008-2014 Pierluigi Vicinanza.
+ * All rights reserved.
  *
  * The use and distribution terms for this software are contained in the file
  * named README, which can be found in the root of this distribution. By
@@ -29,6 +31,6 @@ extern bool e_bomb_hit(U8);
 extern void e_bomb_init(U16, U16);
 extern void e_bomb_action(U8);
 
-#endif
+#endif /* ndef _E_BOMB_H */
 
 /* eof */

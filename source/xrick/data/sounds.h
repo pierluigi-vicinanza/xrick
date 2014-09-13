@@ -82,6 +82,6 @@ extern sound_t *soundWalk;
 
 #endif /* ENABLE_SOUND */
 
-#endif
+#endif /* ndef _SOUNDS_H */
 
 /* eof */
