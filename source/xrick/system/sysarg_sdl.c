@@ -20,7 +20,7 @@
 #include "xrick/game.h"
 
 #include "xrick/maps.h"
-#include "xrick/system/syssnd.h"
+#include "xrick/system/syssnd_sdl.h"
 
 #include <stdlib.h>  /* atoi */
 #include <string.h>  /* strcasecmp */

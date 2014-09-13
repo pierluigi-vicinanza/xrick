@@ -21,7 +21,7 @@
 
 #include "xrick/system/system.h"
 #include "xrick/game.h"
-#include "xrick/system/syssnd.h"
+#include "xrick/system/syssnd_sdl.h"
 #include "xrick/debug.h"
 
 const U8 syssnd_period = 0xff; /* not needed under current SDL implementation of xrick */

@@ -14,7 +14,7 @@
 #include "xrick/system/system.h"
 #include "xrick/config.h"
 #ifdef ENABLE_SOUND
-#include "xrick/system/syssnd.h"
+#include "xrick/system/syssnd_sdl.h"
 #endif
 
 #include <SDL.h>

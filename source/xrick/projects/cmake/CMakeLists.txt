@@ -169,19 +169,19 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
-    ${PROJECT_ROOT_DIR}/source/xrick/system/main.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/main_sdl.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/miniz_config.h
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysevt.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysfile.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysjoy.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/syskbd.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysmem.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd.c
-    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd.h
-    ${PROJECT_ROOT_DIR}/source/xrick/system/system.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysevt_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysfile_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysjoy_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syskbd_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysmem_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd_sdl.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/syssnd_sdl.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/system_sdl.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/system.h
-    ${PROJECT_ROOT_DIR}/source/xrick/system/sysvid.c
+    ${PROJECT_ROOT_DIR}/source/xrick/system/sysvid_sdl.c
 )
 
 if(WIN32)
