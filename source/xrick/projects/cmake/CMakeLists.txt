@@ -136,7 +136,6 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/game.c
     ${PROJECT_ROOT_DIR}/source/xrick/game.h
     ${PROJECT_ROOT_DIR}/source/xrick/img.h
-    ${PROJECT_ROOT_DIR}/source/xrick/main.c
     ${PROJECT_ROOT_DIR}/source/xrick/maps.c
     ${PROJECT_ROOT_DIR}/source/xrick/maps.h
     ${PROJECT_ROOT_DIR}/source/xrick/rects.c
@@ -170,6 +169,7 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
+    ${PROJECT_ROOT_DIR}/source/xrick/system/main.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/miniz_config.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysarg.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/sysevt.c
