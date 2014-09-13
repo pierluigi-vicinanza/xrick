@@ -39,7 +39,10 @@
 #elif defined(__linux__) /*|| defined (__BEOS__)*/
 /* Linux, BeOS */
 #  include <endian.h>
-#  define USE_DEFAULT_ENDIANNESS_FUNCTIONS
+#  define betoh16(x) be16toh(x)
+#  define letoh16(x) le16toh(x)
+#  define betoh32(x) be32toh(x)
+#  define letoh32(x) le32toh(x)
 
 #else
 /* shall we just '#include <endian.h>'? */
