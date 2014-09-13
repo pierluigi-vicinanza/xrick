@@ -15,6 +15,9 @@
 
 #ifdef USE_DEFAULT_ENDIANNESS_FUNCTIONS
 
+extern inline uint16_t swap16(uint16_t x);
+extern inline uint32_t swap32(uint32_t x);
+
 extern inline uint16_t htobe16(uint16_t host);
 extern inline uint16_t htole16(uint16_t host);
 extern inline uint16_t betoh16(uint16_t big_endian);
