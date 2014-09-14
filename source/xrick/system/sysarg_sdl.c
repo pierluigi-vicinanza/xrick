@@ -57,7 +57,7 @@ const char *sysarg_args_data = NULL;
  */
 static void sysarg_version(void)
 {
-    printf(
+    sys_printf(
         "xrick version '%s'\n\n"
         " Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).\n"
         " Copyright (C) 2008-2014 Pierluigi Vicinanza.\n"
@@ -73,7 +73,7 @@ static void sysarg_version(void)
  */
 static void sysarg_help(void)
 {
-   printf(
+   sys_printf(
        "Usage: xrick [option(s)]\n"
        " The options are:\n\n"
        "  -h, --help         Display this information\n"
@@ -122,7 +122,7 @@ static void sysarg_help(void)
  */
 static void sysarg_fail(char *msg)
 {
-    printf(
+    sys_printf(
         "xrick: %s\n"
         " Use `xrick --help' for a complete list of options.\n", msg);
 }
