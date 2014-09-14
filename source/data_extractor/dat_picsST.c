@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_pics.h"
+#include "data_extractor/dat_pics.h"
 
 #ifdef GFXST
 

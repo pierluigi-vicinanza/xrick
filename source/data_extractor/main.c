@@ -11,37 +11,27 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "config.h"
-#include "resources.h"
-#include "dat_ents.h"
-#include "dat_maps.h"
-#include "dat_screens.h"
-#include "dat_sprites.h"
-#include "dat_tiles.h"
-#include "dat_pics.h"
-#include "system/basic_funcs.h"
-#include "img.h"
+#include "xrick/config.h"
+#include "xrick/resources.h"
+#include "data_extractor/dat_ents.h"
+#include "data_extractor/dat_maps.h"
+#include "data_extractor/dat_screens.h"
+#include "data_extractor/dat_sprites.h"
+#include "data_extractor/dat_tiles.h"
+#include "data_extractor/dat_pics.h"
+#include "xrick/system/basic_funcs.h"
+#include "xrick/img.h"
 #ifdef GFXPC
-#include "dat_palettePC.e"
+#include "data_extractor/dat_palettePC.e"
 #endif
 #ifdef GFXST
-#include "dat_paletteST.e"
+#include "data_extractor/dat_paletteST.e"
 #endif
 
-#include <stdio.h>
-
-/*-------------------------------------------------------*/
-
-/*
- * miniz used only for crc32 calculation
- */
-#define MINIZ_NO_STDIO
-#define MINIZ_NO_TIME
-#define MINIZ_NO_ARCHIVE_APIS
-#define MINIZ_NO_ARCHIVE_WRITING_APIS
-#define MINIZ_NO_ZLIB_APIS
-#define MINIZ_NO_MALLOC
+#include "xrick/system/miniz_config.h"
 #include "miniz/miniz.c"
+
+#include <stdio.h>
 
 /*-------------------------------------------------------*/
 

@@ -14,7 +14,7 @@
 #ifndef _DAT_SCREENS_H
 #define _DAT_SCREENS_H
 
-#include "screens.h"
+#include "xrick/screens.h"
 
 enum { SCREEN_NBR_IMAPSL = 22 };
 extern U8 SCREEN_IMAPSL[SCREEN_NBR_IMAPSL];  /* sprite lists */

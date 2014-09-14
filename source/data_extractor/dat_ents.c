@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_ents.h"
+#include "data_extractor/dat_ents.h"
 
 entdata_t ENT_ENTDATA[ENT_NBR_ENTDATA] = {
   {0000, 0000, 000000, 000000, 0000, 0000, 0x00},

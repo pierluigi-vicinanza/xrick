@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_maps.h"
+#include "data_extractor/dat_maps.h"
 
 map_t MAP_MAPS[MAP_NBR_MAPS] = {
   {

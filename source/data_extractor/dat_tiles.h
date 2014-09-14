@@ -14,7 +14,7 @@
 #ifndef _DAT_TILES_H_
 #define _DAT_TILES_H_
 
-#include "data/tiles.h"
+#include "xrick/data/tiles.h"
 
 #ifdef GFXPC
 enum { TILES_NBR_BANKS = 4 };

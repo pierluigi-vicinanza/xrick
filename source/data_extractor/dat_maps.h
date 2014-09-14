@@ -14,7 +14,7 @@
 #ifndef _DAT_MAPS_H
 #define _DAT_MAPS_H
 
-#include "maps.h"
+#include "xrick/maps.h"
 
 enum { MAP_NBR_MAPS = 5 };
 extern map_t MAP_MAPS[MAP_NBR_MAPS];

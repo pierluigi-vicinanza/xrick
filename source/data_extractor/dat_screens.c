@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "dat_screens.h"
+#include "data_extractor/dat_screens.h"
 
 /*
  * map intro, sprites lists

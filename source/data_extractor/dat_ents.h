@@ -14,7 +14,7 @@
 #ifndef _DAT_ENTS_H
 #define _DAT_ENTS_H
 
-#include "ents.h"
+#include "xrick/ents.h"
 
 enum { ENT_NBR_ENTDATA = 74 };
 extern entdata_t ENT_ENTDATA[ENT_NBR_ENTDATA];

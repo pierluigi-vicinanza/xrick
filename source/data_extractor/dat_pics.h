@@ -14,7 +14,7 @@
 #ifndef _DAT_PICS_H
 #define _DAT_PICS_H
 
-#include "data/pics.h"
+#include "xrick/data/pics.h"
 
 #ifdef GFXST
 
