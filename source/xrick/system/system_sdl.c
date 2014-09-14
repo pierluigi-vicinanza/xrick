@@ -30,13 +30,17 @@
 #endif
 
 /*
+ * Local variables
+ */
+static char stringBuffer[2048];
+
+/*
  * Error
  */
 void
 sys_error(const char *err, ...)
 {
     va_list argptr;
-    char s[1024];
 
     /* change stdin to non blocking */
     /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
@@ -45,13 +49,13 @@ sys_error(const char *err, ...)
 
     /* prepare message */
     va_start(argptr, err);
-    vsprintf(s, err, argptr);
+    vsnprintf(stringBuffer, sizeof(stringBuffer), err, argptr);
     va_end(argptr);
 
     /* print error message */
-    fprintf(stderr, "%s\nError!\n", s);
+    fprintf(stderr, "%s\nError!\n", stringBuffer);
 #ifdef _MSC_VER
-    OutputDebugStringA(s);
+    OutputDebugStringA(stringBuffer);
 #endif
 }
 
@@ -62,7 +66,6 @@ void
 sys_printf(const char *msg, ...)
 {
     va_list argptr;
-    char s[1024];
 
     /* change stdin to non blocking */
     /*fcntl(0, F_SETFL, fcntl (0, F_GETFL, 0) & ~FNDELAY);*/
@@ -71,13 +74,13 @@ sys_printf(const char *msg, ...)
 
     /* prepare message */
     va_start(argptr, msg);
-    vsprintf(s, msg, argptr);
+    vsnprintf(stringBuffer, sizeof(stringBuffer), msg, argptr);
     va_end(argptr);
 
     /* print message */
-    printf("%s", s);
+    printf("%s", stringBuffer);
 #ifdef _MSC_VER
-    OutputDebugStringA(s);
+    OutputDebugStringA(stringBuffer);
 #endif
 }
 
