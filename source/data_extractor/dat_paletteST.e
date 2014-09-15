@@ -1,6 +1,6 @@
 enum { GAME_COLOR_COUNT = 32 };
 
-static img_color_t GAME_COLORS[] = {
+static img_color_t GAME_COLORS[GAME_COLOR_COUNT] = {
 {0,0,0,0},
 {216,0,0,0},
 {176,108,104,0},
