@@ -683,10 +683,7 @@ draw_img(img_t *image)
 
     draw_setfb(0, 0);
     
-    if (image->ncolors > 0)
-    {
-        sysvid_setPalette(image->colors, image->ncolors);
-    }
+    sysvid_setPalette(image->colors, image->ncolors);
 
     for (k = 0; k < SYSVID_WIDTH * SYSVID_HEIGHT; k++)
     {
