@@ -1,5 +1,5 @@
 /*
- * xrick/data/dat_maps.h
+ * data_extractor/dat_maps.h
  *
  * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
