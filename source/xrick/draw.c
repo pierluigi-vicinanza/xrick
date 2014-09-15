@@ -677,15 +677,21 @@ draw_pic(const pic_t * picture)
  * Draw a bitmap
  */
 void
-draw_img(img_t *i)
+draw_img(img_t *image)
 {
-  U16 k;
+    U16 k;
 
-  draw_setfb(0, 0);
-  if (i->ncolors > 0)
-    sysvid_setPalette(i->colors, i->ncolors);
-  for (k = 0; k < SYSVID_WIDTH * SYSVID_HEIGHT; k++)
-    fb[k] = i->pixels[k];
+    draw_setfb(0, 0);
+    
+    if (image->ncolors > 0)
+    {
+        sysvid_setPalette(image->colors, image->ncolors);
+    }
+
+    for (k = 0; k < SYSVID_WIDTH * SYSVID_HEIGHT; k++)
+    {
+        fb[k] = image->pixels[k];
+    }
 }
 
 

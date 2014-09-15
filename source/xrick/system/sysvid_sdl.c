@@ -46,35 +46,41 @@ static U8 fszoom = 0;  /* fullscreen zoom level */
 /*
  * Initialize screen
  */
-static
-SDL_Surface *initScreen(U16 w, U16 h, U8 bpp, U32 flags)
+static SDL_Surface *initScreen(U16 w, U16 h, U8 bpp, U32 flags)
 {
-  return SDL_SetVideoMode(w, h, bpp, flags);
+    return SDL_SetVideoMode(w, h, bpp, flags);
 }
 
-void
-sysvid_setPalette(img_color_t *pal, U16 n)
+/*
+ *
+ */
+static void sysvid_restorePalette()
 {
-  U16 i;
-
-  for (i = 0; i < n; i++) {
-    palette[i].r = pal[i].r;
-    palette[i].g = pal[i].g;
-    palette[i].b = pal[i].b;
-  }
-  SDL_SetColors(screen, (SDL_Color *)&palette, 0, n);
+    SDL_SetColors(screen, (SDL_Color *)&palette, 0, 256);
 }
 
-void
-sysvid_restorePalette()
+/*
+ *
+ */
+void sysvid_setPalette(img_color_t *pal, U16 n)
 {
-  SDL_SetColors(screen, (SDL_Color *)&palette, 0, 256);
+    U16 i;
+
+    for (i = 0; i < n; i++) 
+    {
+        palette[i].r = pal[i].r;
+        palette[i].g = pal[i].g;
+        palette[i].b = pal[i].b;
+    }
+    SDL_SetColors(screen, (SDL_Color *)&palette, 0, n);
 }
 
-void
-sysvid_setGamePalette()
+/*
+ *
+ */
+void sysvid_setGamePalette()
 {
-  sysvid_setPalette(game_colors, game_color_count);
+    sysvid_setPalette(game_colors, game_color_count);
 }
 
 /*
