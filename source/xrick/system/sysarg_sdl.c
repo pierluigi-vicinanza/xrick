@@ -124,7 +124,7 @@ static void sysarg_fail(char *msg)
 {
     sys_printf(
         "xrick: %s\n"
-        " Use `xrick --help' for a complete list of options.\n", msg);
+        " Use 'xrick --help' for a complete list of options.\n", msg);
 }
 
 /*
@@ -322,7 +322,7 @@ sysarg_init(int argc, char **argv)
         else 
         {
             char message[128];
-            sys_snprintf(message, sizeof(message), "unrecognized option `%s'", argv[i]);
+            sys_snprintf(message, sizeof(message), "unrecognized option '%s'", argv[i]);
             sysarg_fail(message);
             return false;
         }
