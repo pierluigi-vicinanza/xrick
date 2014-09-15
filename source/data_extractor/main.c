@@ -33,6 +33,10 @@
 
 #include <stdio.h>
 
+#ifdef _MSC_VER
+#  define snprintf _snprintf
+#endif
+
 /*-------------------------------------------------------*/
 
 static const char * resourceFiles[Resource_MAX_COUNT] = 
@@ -572,12 +576,15 @@ static bool writeCrc32(FILE * fp)
 
 /*-------------------------------------------------------*/
 
-static bool writeFile(const unsigned id)
+static bool writeFile(const unsigned id, char * rootPath)
 {
     bool success;
     FILE * fp;
+    char fullPath[512];
 
-    fp = fopen(resourceFiles[id], "wb+");
+    snprintf(fullPath, sizeof(fullPath), "%s/%s", rootPath, resourceFiles[id]);
+    printf("\"%s\"...", fullPath);
+    fp = fopen(fullPath, "wb+");
     if (fp == NULL)
     {
         perror("open()");
@@ -638,17 +645,71 @@ static bool writeFile(const unsigned id)
 
 /*-------------------------------------------------------*/
 
+static void printHelp(void)
+{
+   printf(
+       "Usage: data_extractor [option(s)]\n"
+       " The options are:\n\n"
+       "  -h, --help         Display this information\n"
+       "  --output <path>    Use output path <path>. <path> must be a directory.\n"
+       "                     The default is to generate data files in \".\".\n\n"
+       );
+}
+
+/*-------------------------------------------------------*/
+
+static void printFailure(char *msg)
+{
+    printf(
+        "data_extractor: %s\n"
+        " Use 'data_extractor --help' for a complete list of options.\n", msg);
+}
+
+/*-------------------------------------------------------*/
+
 int main(int argc, char *argv[])
 {
     bool success = true;
     unsigned id;
+    int argIdx;
+    char * rootPath = ".";
+
+    for (argIdx = 1; argIdx < argc; argIdx++) 
+    {
+        if (!strcmp(argv[argIdx], "--help") ||
+            !strcmp(argv[argIdx], "-h")) 
+        {
+            printHelp();
+            success = false;
+        }
+        else if (!strcmp(argv[argIdx], "--output")) 
+        {
+            if (++argIdx == argc) 
+            {
+                printFailure("missing output path");
+                success = false;
+            }
+            rootPath = argv[argIdx];
+        }
+        else 
+        {
+            char message[128];
+            snprintf(message, sizeof(message), "unrecognized option '%s'", argv[argIdx]);
+            printFailure(message);
+            success = false;
+        }
+    }
 
     /* note: at the moment we store sounds as plain WAVE files (e.g. no custom header/crc) */ 
     for (id = Resource_FILELIST; (id <= Resource_SCREENCONGRATS) && success; ++id)
     {
         if (resourceFiles[id])
         {
-            success = writeFile(id);
+            printf("Generating file ");
+			
+            success = writeFile(id, rootPath);
+            
+			printf(success? "done.\n" : "error!\n");
         }
     }
     return (success? 0 : 1);
