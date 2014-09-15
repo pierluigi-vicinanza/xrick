@@ -23,7 +23,10 @@ typedef struct {
 } img_color_t;
 
 typedef struct {
-  U16 w, h;
+  U16 width;
+  U16 height;
+  U16 xPos;
+  U16 yPos;
   U16 ncolors;
   img_color_t *colors;
   U8 *pixels;

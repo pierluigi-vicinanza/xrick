@@ -679,15 +679,22 @@ draw_pic(const pic_t * picture)
 void
 draw_img(img_t *image)
 {
-    U16 k;
-
-    draw_setfb(0, 0);
-    
+    U8 *f;
+    U16 i, j, pp;
+   
     sysvid_setPalette(image->colors, image->ncolors);
 
-    for (k = 0; k < SYSVID_WIDTH * SYSVID_HEIGHT; k++)
+    draw_setfb(image->xPos, image->yPos);
+    pp = 0;
+
+    for (i = 0; i < image->height; i++) /* rows */
     {
-        fb[k] = image->pixels[k];
+        f = fb;
+        for (j = 0; j < image->width; j++) /* cols */
+        {
+            f[j] = image->pixels[pp++];
+        }
+        fb += SYSVID_WIDTH;
     }
 }
 

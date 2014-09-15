@@ -4006,6 +4006,7 @@ static img_color_t IMG_SPLASH_COLORS[] = {
 
 static img_t IMG_SPLASH_OBJECT = {
   320, 200,
+  0, 0,
   256,
   IMG_SPLASH_COLORS,
   IMG_SPLASH_PIXELS

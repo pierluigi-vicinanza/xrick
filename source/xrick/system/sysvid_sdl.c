@@ -162,7 +162,7 @@ sysvid_init(void)
     /* various WM stuff */
     SDL_WM_SetCaption("xrick", "xrick");
     SDL_ShowCursor(SDL_DISABLE);
-    s = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->w, IMG_ICON->h, 8, IMG_ICON->w, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
+    s = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->width, IMG_ICON->height, 8, IMG_ICON->width, 0xffffffff, 0xffffffff, 0xffffffff, 0xffffffff);
     SDL_SetColors(s, (SDL_Color *)IMG_ICON->colors, 0, IMG_ICON->ncolors);
 
     tpix = *(IMG_ICON->pixels);

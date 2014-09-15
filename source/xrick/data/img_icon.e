@@ -70,6 +70,7 @@ static img_color_t IMG_ICON_COLORS[] = {
 
 static img_t IMG_ICON_OBJECT = {
   32, 32,
+  0, 0,
   216,
   IMG_ICON_COLORS,
   IMG_ICON_PIXELS
