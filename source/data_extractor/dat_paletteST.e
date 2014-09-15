@@ -1,4 +1,4 @@
-static enum { GAME_COLOR_COUNT = 32 };
+enum { GAME_COLOR_COUNT = 32 };
 
 static img_color_t GAME_COLORS[] = {
 {0,0,0,0},
