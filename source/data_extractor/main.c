@@ -21,6 +21,7 @@
 #include "data_extractor/dat_pics.h"
 #include "xrick/system/basic_funcs.h"
 #include "xrick/img.h"
+#include "data_extractor/dat_imgs.e"
 #ifdef GFXPC
 #include "data_extractor/dat_palettePC.e"
 #endif
@@ -62,6 +63,7 @@ static const char * resourceFiles[Resource_MAX_COUNT] =
     "graphics/spritesdata.dat",
     "graphics/tilesdata.dat",
     "misc/highscores.dat",
+    "graphics/imgsplash.dat",
 #ifdef GFXST
     "graphics/pichaf.dat", /* ST version only */
     "graphics/piccongrats.dat", /* ST version only */
@@ -211,6 +213,42 @@ static bool writePicture(FILE * fp, const pic_t * picture)
     return true;
 }
 #endif /* GFXST */
+
+/*-------------------------------------------------------*/
+
+static bool writeImage(FILE * fp, const img_t * image)
+{
+    U16 u16Temp;
+    size_t pixelCount;
+    resource_pic_t dataTemp;
+
+    u16Temp = htole16(image->width);
+    memcpy(dataTemp.width, &u16Temp, sizeof(U16));
+    u16Temp = htole16(image->height);
+    memcpy(dataTemp.height, &u16Temp, sizeof(U16));
+    u16Temp = htole16(image->xPos);
+    memcpy(dataTemp.xPos, &u16Temp, sizeof(U16));
+    u16Temp = htole16(image->yPos);
+    memcpy(dataTemp.yPos, &u16Temp, sizeof(U16));
+    if (fwrite(&dataTemp, sizeof(dataTemp), 1, fp) != 1)
+    {
+        perror("fwrite()");
+        return false;
+    }
+
+    if (!writeRawData(fp, image->colors, sizeof(*image->colors), image->ncolors))
+    {
+        return false;
+    }
+
+    pixelCount = (image->width * image->height);  /*we use 8b per pixel*/
+    if (fwrite(image->pixels, sizeof(*image->pixels), pixelCount, fp) != pixelCount)
+    {
+        perror("fwrite()");
+        return false;
+    }
+    return true;
+}
 
 /*-------------------------------------------------------*/
 
@@ -629,6 +667,7 @@ static bool writeFile(const unsigned id, char * rootPath)
             case Resource_IMAINCDC: success = writeString(fp, SCREEN_IMAINCDC, 0xFE); break;
             case Resource_SCREENCONGRATS: success = writeString(fp, SCREEN_CONGRATS, 0xFE); break;
 #endif /* GFXPC */
+            case Resource_IMGSPLASH: success = writeImage(fp, IMG_SPLASH); break;
             default: success = false; break;
         }
     }

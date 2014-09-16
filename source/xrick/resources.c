@@ -53,6 +53,8 @@ static bool loadResourceSpritesData(file_t fp);
 static void unloadResourceSpritesData(void);
 static bool loadResourceTilesData(file_t fp);
 static void unloadResourceTilesData(void);
+static bool loadImage(file_t fp, img_t ** image);
+static void unloadImage(img_t ** image);
 #ifdef GFXST 
 static bool loadPicture(file_t fp, pic_t ** picture);
 static void unloadPicture(pic_t ** picture);
@@ -611,6 +613,75 @@ static void unloadResourceTilesData()
 /*
  *
  */
+static bool loadImage(file_t fp, img_t ** image)
+{
+    U16 u16Temp;
+    size_t pixelCount, colorCount;
+    resource_pic_t dataTemp;
+    img_t * imgTemp;
+    void * vp;
+
+    imgTemp = sysmem_push(sizeof(*imgTemp));
+    if (!imgTemp)
+    {
+        return false;
+    }
+
+    if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
+    {
+        return false;
+    }
+    memcpy(&u16Temp, dataTemp.width, sizeof(U16));
+    imgTemp->width = letoh16(u16Temp);
+    memcpy(&u16Temp, dataTemp.height, sizeof(U16));
+    imgTemp->height = letoh16(u16Temp);
+    memcpy(&u16Temp, dataTemp.xPos, sizeof(U16));
+    imgTemp->xPos = letoh16(u16Temp);
+    memcpy(&u16Temp, dataTemp.yPos, sizeof(U16));
+    imgTemp->yPos = letoh16(u16Temp);
+
+    vp = imgTemp->colors;
+    if (!loadRawData(fp, &vp, sizeof(*imgTemp->colors), &colorCount))
+    {
+        return false;
+    }
+    imgTemp->ncolors = colorCount;
+    imgTemp->colors = vp;
+
+    pixelCount = (imgTemp->width * imgTemp->height);  /*we use 8b per pixel*/
+
+    imgTemp->pixels = sysmem_push(pixelCount * sizeof(U8));
+    if (!imgTemp->pixels)
+    {
+        return false;
+    }
+
+    if (sysfile_read(fp, imgTemp->pixels, sizeof(U8), pixelCount) != pixelCount)
+    {
+        return false;
+    }
+
+    *image = imgTemp;
+    return true;
+}
+
+/*
+ *
+ */
+static void unloadImage(img_t ** image)
+{
+    if (*image)
+    {        
+        sysmem_pop((*image)->pixels);
+        sysmem_pop((*image)->colors);
+    }
+    sysmem_pop(*image);
+    *image = NULL;
+}
+
+/*
+ *
+ */
 #ifdef GFXST
 static bool loadPicture(file_t fp, pic_t ** picture)
 {
@@ -1051,6 +1122,7 @@ static bool readFile(const unsigned id)
             case Resource_SPRITESDATA: success = loadResourceSpritesData(fp); break;
             case Resource_TILESDATA: success = loadResourceTilesData(fp); break;
             case Resource_HIGHSCORES: success = loadResourceHighScores(fp); break;
+            case Resource_IMGSPLASH: success = loadImage(fp, &img_splash); break;
 #ifdef GFXST
             case Resource_PICHAF: success = loadPicture(fp, &pic_haf); break;
             case Resource_PICCONGRATS: success = loadPicture(fp, &pic_congrats); break;
@@ -1193,6 +1265,7 @@ void resources_unload()
             case Resource_SPRITESDATA: unloadResourceSpritesData(); break;
             case Resource_TILESDATA: unloadResourceTilesData(); break;
             case Resource_HIGHSCORES: unloadResourceHighScores(); break;
+            case Resource_IMGSPLASH: unloadImage(&img_splash); break;
 #ifdef GFXST
             case Resource_PICHAF: unloadPicture(&pic_haf); break;
             case Resource_PICCONGRATS: unloadPicture(&pic_congrats); break;

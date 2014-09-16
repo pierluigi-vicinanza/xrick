@@ -86,7 +86,7 @@ extern const U8 resource_magic[4];
 
 enum
 {
-    DATA_VERSION = 2,
+    DATA_VERSION = 3,
 
     /* "bootstrap" file */
     Resource_FILELIST = 0,
@@ -112,6 +112,7 @@ enum
     Resource_SPRITESDATA,
     Resource_TILESDATA,
     Resource_HIGHSCORES,
+    Resource_IMGSPLASH,
     Resource_PICHAF,  /* ST version only */
     Resource_PICCONGRATS,  /* ST version only */
     Resource_PICSPLASH,  /* ST version only */

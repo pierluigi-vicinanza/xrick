@@ -135,6 +135,7 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/ents.h
     ${PROJECT_ROOT_DIR}/source/xrick/game.c
     ${PROJECT_ROOT_DIR}/source/xrick/game.h
+    ${PROJECT_ROOT_DIR}/source/xrick/img.c
     ${PROJECT_ROOT_DIR}/source/xrick/img.h
     ${PROJECT_ROOT_DIR}/source/xrick/maps.c
     ${PROJECT_ROOT_DIR}/source/xrick/maps.h

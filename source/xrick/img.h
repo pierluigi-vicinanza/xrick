@@ -32,6 +32,8 @@ typedef struct {
   U8 *pixels;
 } img_t;
 
+extern img_t *img_splash;
+
 #endif /* ndef _IMG_H */
 
 /* eof */

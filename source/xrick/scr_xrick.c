@@ -21,8 +21,6 @@
 #include "xrick/img.h"
 #include "xrick/system/system.h"
 
-#include "xrick/data/img_splash.e"
-
 /*
  * global vars
  */
@@ -64,7 +62,7 @@ screen_xrick(void)
 
 	if (seq == 0) {
 		sysvid_clear();
-		draw_img(IMG_SPLASH);
+		draw_img(img_splash);
 		game_rects = &draw_SCREENRECT;
 		seq = 1;
 	}
