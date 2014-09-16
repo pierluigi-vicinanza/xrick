@@ -1052,9 +1052,9 @@ static bool readFile(const unsigned id)
             case Resource_TILESDATA: success = loadResourceTilesData(fp); break;
             case Resource_HIGHSCORES: success = loadResourceHighScores(fp); break;
 #ifdef GFXST
-            case Resource_PICHAF: loadPicture(fp, &pic_haf); break;
-            case Resource_PICCONGRATS: loadPicture(fp, &pic_congrats); break;
-            case Resource_PICSPLASH: loadPicture(fp, &pic_splash); break;
+            case Resource_PICHAF: success = loadPicture(fp, &pic_haf); break;
+            case Resource_PICCONGRATS: success = loadPicture(fp, &pic_congrats); break;
+            case Resource_PICSPLASH: success = loadPicture(fp, &pic_splash); break;
 #endif /* GFXST */
 #ifdef GFXPC
             case Resource_IMAINHOFT: success = loadString(fp, (char **)(&screen_imainhoft), 0xFE); break;
