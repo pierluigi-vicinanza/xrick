@@ -16,7 +16,7 @@
 #include "xrick/control.h"
 #include "xrick/draw.h"
 #include "xrick/game.h"
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 #include "xrick/debug.h"
 #include "xrick/system/system.h"
 

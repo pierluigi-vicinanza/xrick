@@ -135,8 +135,6 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/ents.h
     ${PROJECT_ROOT_DIR}/source/xrick/game.c
     ${PROJECT_ROOT_DIR}/source/xrick/game.h
-    ${PROJECT_ROOT_DIR}/source/xrick/img.c
-    ${PROJECT_ROOT_DIR}/source/xrick/img.h
     ${PROJECT_ROOT_DIR}/source/xrick/maps.c
     ${PROJECT_ROOT_DIR}/source/xrick/maps.h
     ${PROJECT_ROOT_DIR}/source/xrick/rects.c
@@ -159,6 +157,8 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/ioapi.h
     ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/unzip.c
     ${PROJECT_ROOT_DIR}/source/xrick/3rd_party/zlib/unzip.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/img.c
+    ${PROJECT_ROOT_DIR}/source/xrick/data/img.h
     ${PROJECT_ROOT_DIR}/source/xrick/data/pics.c
     ${PROJECT_ROOT_DIR}/source/xrick/data/pics.h
     ${PROJECT_ROOT_DIR}/source/xrick/data/sounds.c

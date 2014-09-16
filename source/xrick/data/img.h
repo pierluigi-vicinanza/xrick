@@ -1,5 +1,5 @@
 /*
- * xrick/img.h
+ * xrick/data/img.h
  *
  * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net).
  * Copyright (C) 2008-2014 Pierluigi Vicinanza.

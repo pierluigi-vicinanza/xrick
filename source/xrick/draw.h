@@ -17,7 +17,7 @@
 #define _DRAW_H
 
 #include "xrick/rects.h"
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 #ifdef GFXST
 #include "xrick/data/pics.h"
 #endif

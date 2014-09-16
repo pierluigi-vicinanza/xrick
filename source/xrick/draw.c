@@ -55,7 +55,7 @@
 
 #include "xrick/maps.h"
 #include "xrick/rects.h"
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 
 
 /*

@@ -20,7 +20,7 @@
 #include "data_extractor/dat_tiles.h"
 #include "data_extractor/dat_pics.h"
 #include "xrick/system/basic_funcs.h"
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 #include "data_extractor/dat_imgs.e"
 #ifdef GFXPC
 #include "data_extractor/dat_palettePC.e"

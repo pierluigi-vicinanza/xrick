@@ -54,7 +54,7 @@
 
 #include "xrick/config.h"
 #include "xrick/rects.h"
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 #ifdef ENABLE_SOUND
 #include "xrick/data/sounds.h"
 #endif

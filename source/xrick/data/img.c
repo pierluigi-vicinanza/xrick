@@ -1,5 +1,5 @@
 /*
- * xrick/img.c
+ * xrick/data/img.c
  *
  * Copyright (C) 2008-2014 Pierluigi Vicinanza. All rights reserved.
  *
@@ -11,7 +11,7 @@
  * You must not remove this notice, or any other, from this software.
  */
 
-#include "xrick/img.h"
+#include "xrick/data/img.h"
 
 #include <stddef.h> /* NULL */
 
