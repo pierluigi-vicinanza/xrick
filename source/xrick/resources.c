@@ -656,7 +656,7 @@ static bool loadImage(file_t fp, img_t ** image)
         return false;
     }
 
-    if (sysfile_read(fp, imgTemp->pixels, sizeof(U8), pixelCount) != pixelCount)
+    if (sysfile_read(fp, imgTemp->pixels, sizeof(U8), pixelCount) != (int)pixelCount)
     {
         return false;
     }
