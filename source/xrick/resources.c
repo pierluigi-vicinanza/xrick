@@ -77,11 +77,11 @@ static char * resourceFiles[Resource_MAX_COUNT] =
 /*
  * load 16b length + not-terminated string
  */
-static bool loadString(file_t fp, char ** str, const char terminator)
+static bool loadString(file_t fp, char ** buffer, const char terminator)
 {
     size_t length;
     U16 u16Temp;
-    char * buffer;
+    char * bufferTemp;
 
     if (sysfile_read(fp, &u16Temp, sizeof(u16Temp), 1) != 1)
     {
@@ -89,23 +89,23 @@ static bool loadString(file_t fp, char ** str, const char terminator)
     }
     length = letoh16(u16Temp);
 
-    buffer = sysmem_push(length + 1);
-    if (!buffer)
+    bufferTemp = sysmem_push(length + 1);
+    *buffer = bufferTemp;
+    if (!bufferTemp)
     {
         return false;
     }
 
     if (length)
     {
-        if (sysfile_read(fp, buffer, length, 1) != 1)
+        if (sysfile_read(fp, bufferTemp, length, 1) != 1)
         {
             return false;
         }
     }
 
-    buffer[length] = terminator;
+    bufferTemp[length] = terminator;
 
-    *str = buffer;
     return true;
 }
 
@@ -620,8 +620,10 @@ static bool loadImage(file_t fp, img_t ** image)
     resource_pic_t dataTemp;
     img_t * imgTemp;
     void * vp;
+    bool success;
 
     imgTemp = sysmem_push(sizeof(*imgTemp));
+    *image = imgTemp;
     if (!imgTemp)
     {
         return false;
@@ -641,12 +643,13 @@ static bool loadImage(file_t fp, img_t ** image)
     imgTemp->yPos = letoh16(u16Temp);
 
     vp = imgTemp->colors;
-    if (!loadRawData(fp, &vp, sizeof(*imgTemp->colors), &colorCount))
+    success = loadRawData(fp, &vp, sizeof(*imgTemp->colors), &colorCount);
+    imgTemp->ncolors = colorCount;
+    imgTemp->colors = vp;
+    if (!success)
     {
         return false;
     }
-    imgTemp->ncolors = colorCount;
-    imgTemp->colors = vp;
 
     pixelCount = (imgTemp->width * imgTemp->height);  /*we use 8b per pixel*/
 
@@ -660,8 +663,6 @@ static bool loadImage(file_t fp, img_t ** image)
     {
         return false;
     }
-
-    *image = imgTemp;
     return true;
 }
 
@@ -691,6 +692,7 @@ static bool loadPicture(file_t fp, pic_t ** picture)
     pic_t * picTemp;
 
     picTemp = sysmem_push(sizeof(*picTemp));
+    *picture = picTemp;
     if (!picTemp)
     {
         return false;
@@ -726,8 +728,6 @@ static bool loadPicture(file_t fp, pic_t ** picture)
         }
         picTemp->pixels[i] = letoh32(u32Temp);
     }
-
-    *picture = picTemp;
     return true;
 }
 
