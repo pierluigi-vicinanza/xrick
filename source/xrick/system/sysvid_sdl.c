@@ -167,7 +167,7 @@ sysvid_init(void)
 
     tpix = *(IMG_ICON->pixels);
     IFDEBUG_VIDEO(
-        sys_printf("xrick/video: icon is %dx%d\n", IMG_ICON->w, IMG_ICON->h);
+        sys_printf("xrick/video: icon is %dx%d\n", IMG_ICON->width, IMG_ICON->height);
         sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", tpix,
                    IMG_ICON->colors[tpix].r,
                    IMG_ICON->colors[tpix].g,
