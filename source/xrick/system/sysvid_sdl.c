@@ -138,8 +138,9 @@ static bool sysvid_chkvm(void)
 bool
 sysvid_init(void)
 {
-    SDL_Surface *s;
-    U8 tpix;
+    SDL_Surface *icon;
+    U8 transpIndex, transpRed, transpGreen, transpBlue;
+    U32 colorKey;
     /*
     U8 *mask;
     U32 len, i;
@@ -159,19 +160,21 @@ sysvid_init(void)
         return false;
     }
 
-    /* various WM stuff */
+    /* various Window Manager stuff */
     SDL_WM_SetCaption("xrick", "xrick");
     SDL_ShowCursor(SDL_DISABLE);
-    s = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->width, IMG_ICON->height, 8, IMG_ICON->width, 0, 0, 0, 0);
-    SDL_SetColors(s, (SDL_Color *)IMG_ICON->colors, 0, IMG_ICON->ncolors);
 
-    tpix = *(IMG_ICON->pixels);
+    icon = SDL_CreateRGBSurfaceFrom(IMG_ICON->pixels, IMG_ICON->width, IMG_ICON->height, 8, IMG_ICON->width, 0, 0, 0, 0);
+    SDL_SetColors(icon, (SDL_Color *)IMG_ICON->colors, 0, IMG_ICON->ncolors);
+
+    transpIndex = *(IMG_ICON->pixels);
+    transpRed = IMG_ICON->colors[transpIndex].r;
+    transpGreen = IMG_ICON->colors[transpIndex].r;
+    transpBlue = IMG_ICON->colors[transpIndex].r;
     IFDEBUG_VIDEO(
         sys_printf("xrick/video: icon is %dx%d\n", IMG_ICON->width, IMG_ICON->height);
-        sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", tpix,
-                   IMG_ICON->colors[tpix].r,
-                   IMG_ICON->colors[tpix].g,
-                   IMG_ICON->colors[tpix].b);
+        sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", 
+        transpIndex, transpRed, transpGreen, transpBlue);
     );
     /*
 
@@ -190,11 +193,11 @@ sysvid_init(void)
     * Window Manager. On fvwm2 it is shifted to the right ...
     */
     /*SDL_WM_SetIcon(s, mask);*/
-    SDL_SetColorKey(s,
-        SDL_SRCCOLORKEY,
-        SDL_MapRGB(s->format,IMG_ICON->colors[tpix].r,IMG_ICON->colors[tpix].g,IMG_ICON->colors[tpix].b));
 
-    SDL_WM_SetIcon(s, NULL);
+    colorKey = SDL_MapRGB(icon->format, transpRed, transpGreen, transpBlue);
+    SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorKey);
+
+    SDL_WM_SetIcon(icon, NULL);
 
     /* video modes and screen */
     videoFlags = SDL_HWSURFACE|SDL_HWPALETTE;
