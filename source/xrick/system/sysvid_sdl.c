@@ -41,7 +41,7 @@ static U8 zoom = SYSVID_ZOOM; /* actual zoom level */
 static U8 szoom = 0;  /* saved zoom level */
 static U8 fszoom = 0;  /* fullscreen zoom level */
 
-#include "xrick/data/img_icon.e"
+#include "xrick/system/sdl_icon.e"
 
 /*
  * Initialize screen
