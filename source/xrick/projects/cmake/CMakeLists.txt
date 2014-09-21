@@ -65,6 +65,10 @@ if(NOT SDL_FOUND)
     message(FATAL_ERROR
             "Could not find a SDL installation.\n"
             "Set SDL_PREFIX to the location where SDL is installed.\n")
+elseif(NOT SDL_VERSION_STRING MATCHES "(1\\.2\\.[0-9]+)")
+    message(FATAL_ERROR
+            "Unsupported SDL version.\n"
+            "Detected SDL version ${SDL_VERSION_STRING}, required 1.2.x.\n")
 else()
     message(STATUS "Cmake FindSDL: using SDL includes at: ${SDL_INCLUDE_DIR}")
     message(STATUS "Cmake FindSDL: using SDL libraries: ${SDL_LIBRARY}; ${SDLMAIN_LIBRARY}")
