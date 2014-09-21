@@ -213,8 +213,7 @@ endif()
 #-----------------------------------------------------------------------------
 # Copy generated binary to game folder
 #
-add_custom_command(TARGET ${PROJECT_NAME}
-                   POST_BUILD
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_ROOT_DIR}/game)
 
 #-----------------------------------------------------------------------------
