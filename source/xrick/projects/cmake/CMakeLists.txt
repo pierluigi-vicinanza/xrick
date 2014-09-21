@@ -71,11 +71,11 @@ elseif(NOT SDL_VERSION_STRING MATCHES "(1\\.2\\.[0-9]+)")
             "Detected SDL version ${SDL_VERSION_STRING}, required 1.2.x.\n")
 else()
     message(STATUS "Cmake FindSDL: using SDL includes at: ${SDL_INCLUDE_DIR}")
-    message(STATUS "Cmake FindSDL: using SDL libraries: ${SDL_LIBRARY}; ${SDLMAIN_LIBRARY}")
+    message(STATUS "Cmake FindSDL: using SDL libraries: ${SDL_LIBRARY}")
 endif()
 
 include_directories(${SDL_INCLUDE_DIR})
-list(APPEND LIBS ${SDL_LIBRARY} ${SDLMAIN_LIBRARY})
+list(APPEND LIBS ${SDL_LIBRARY})
 
 #-----------------------------------------------------------------------------
 # Options
