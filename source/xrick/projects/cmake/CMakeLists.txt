@@ -217,6 +217,47 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> ${PROJECT_ROOT_DIR}/game)
 
 #-----------------------------------------------------------------------------
+# Copy required DLLs to game folder (Windows only)
+#
+if (WIN32)
+
+    # ZLIB
+    if(EXISTS ${ZLIB_PREFIX}/zlib1.dll)
+        # this is the official build of zlib as a DLL
+        set(ZLIB_WIN32_DLL ${ZLIB_PREFIX}/zlib1.dll)
+    else()
+        get_filename_component(ZLIB_EXTRACTED_NAME ${ZLIB_LIBRARY} NAME_WE)
+        get_filename_component(ZLIB_WIN32_DLL ${ZLIB_LIBRARY} PATH)
+        set(ZLIB_WIN32_DLL ${ZLIB_WIN32_DLL}/${ZLIB_EXTRACTED_NAME}.dll)
+    endif()
+    
+    if (EXISTS ${ZLIB_WIN32_DLL})
+        message(STATUS "Found ZLIB dll, it will be copied from: ${ZLIB_WIN32_DLL}")
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                          COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                          ${ZLIB_WIN32_DLL} ${PROJECT_ROOT_DIR}/game)
+    endif()
+    
+    # SDL
+    # extract SDL specific path only (e.g discard SDLmain)
+    foreach(SDL_EXTRACTED_PATH ${SDL_LIBRARY})
+        get_filename_component(SDL_EXTRACTED_NAME ${SDL_EXTRACTED_PATH} NAME)
+        if(${SDL_EXTRACTED_NAME} MATCHES "SDL.lib")
+            get_filename_component(SDL_WIN32_DLL ${SDL_EXTRACTED_PATH} PATH)
+            set(SDL_WIN32_DLL ${SDL_WIN32_DLL}/SDL.dll)
+        endif()
+    endforeach()
+    
+    if (EXISTS ${SDL_WIN32_DLL})
+         message(STATUS "Found SDL dll, it will be copied from: ${SDL_WIN32_DLL}")
+         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                            ${SDL_WIN32_DLL} ${PROJECT_ROOT_DIR}/game)
+    endif()
+    
+endif()
+
+#-----------------------------------------------------------------------------
 # Installation
 #
 include(GNUInstallDirs)
