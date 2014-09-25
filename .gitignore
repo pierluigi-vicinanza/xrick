@@ -1,0 +1,21 @@
+# Typical build directory
+build*
+
+# CMake generated configuration file
+source/xrick/config.h
+
+# Files required to run the game
+game/*
+
+# Do track data archive in game folder though
+!game/data.zip
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
