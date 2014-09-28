@@ -7,8 +7,8 @@ known to run on Linux, Windows, BeOs, Amiga, QNX, all sorts of gaming consoles..
 License agreement & legal bable
 -------------------------------
 
-  * Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net) (http://www.bigorno.net/xrick/)
-  * Copyright (C) 2008-2014 Pierluigi Vicinanza (pierluigi DOT vicinanza AT gmail.com)
+* Copyright (C) 1998-2002 BigOrno (bigorno@bigorno.net) (http://www.bigorno.net/xrick/)
+* Copyright (C) 2008-2014 Pierluigi Vicinanza (pierluigi DOT vicinanza AT gmail.com)
 
 I (BigOrno) have written the initial [xrick](http://www.bigorno.net/xrick/) code.
 However, graphics and maps and sounds are by the authors of the original Rick Dangerous
@@ -28,31 +28,32 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 Building
 --------
 
-  **Requirements:**
+**Requirements:**
 
-  * [CMake](http://www.cmake.org/)
-  * [SDL](https://www.libsdl.org/download-1.2.php) version 1.2.x
-  * [zlib](http://www.zlib.net/)
+* [CMake](http://www.cmake.org/)
+* [SDL](https://www.libsdl.org/download-1.2.php) version 1.2.x
+* [zlib](http://www.zlib.net/)
 
-  1. *Create a build directory*
+1. *Create a build directory*
   
-    ```
-    $ cd xrick-x.x.x
-    $ mkdir build
-    $ cd build
-    ```
+  ```
+  $ cd xrick-x.x.x
+  $ mkdir build
+  $ cd build
+  ```
   
-  2. *Generate your Makefile*
+2. *Generate your Makefile*
   
-    `$ cmake ../source/xrick/projects/cmake`
+  `$ cmake ../source/xrick/projects/cmake`
 
-  3. *Build*
+3. *Build*
   
-    `$ make`
+  `$ make`
   
-  4. *Install (optional)*
+4. *Install (optional)*
   
-    `$ make install`
+  `$ make install`
+
 
 Usage
 -----
@@ -72,10 +73,15 @@ Controls
 
 More details at http://www.bigorno.net/xrick/
 
+Release History
+---------------
+
+Please see the file called CHANGELOG.md.
+
 Contacts
 --------
 
 Report problems or ask questions to:
 
-  * _BigOrno_ (bigorno@bigorno.net)
-  * _Pierluigi Vicinanza_ (pierluigi DOT vicinanza AT gmail.com)
+* _BigOrno_ (bigorno@bigorno.net)
+* _Pierluigi Vicinanza_ (pierluigi DOT vicinanza AT gmail.com)
