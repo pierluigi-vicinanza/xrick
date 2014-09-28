@@ -219,7 +219,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 #-----------------------------------------------------------------------------
 # Copy required DLLs to game folder (Windows only)
 #
-if (WIN32)
+if(WIN32)
 
     # ZLIB
     if(EXISTS ${ZLIB_PREFIX}/zlib1.dll)
@@ -230,12 +230,12 @@ if (WIN32)
         get_filename_component(ZLIB_WIN32_DLL ${ZLIB_LIBRARY} PATH)
         set(ZLIB_WIN32_DLL ${ZLIB_WIN32_DLL}/${ZLIB_EXTRACTED_NAME}.dll)
     endif()
-    
     if (EXISTS ${ZLIB_WIN32_DLL})
         message(STATUS "Found ZLIB dll, it will be copied from: ${ZLIB_WIN32_DLL}")
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                           COMMAND ${CMAKE_COMMAND} -E copy_if_different
                           ${ZLIB_WIN32_DLL} ${PROJECT_ROOT_DIR}/game)
+        list(APPEND CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${ZLIB_WIN32_DLL})                    
     endif()
     
     # SDL
@@ -247,40 +247,82 @@ if (WIN32)
             set(SDL_WIN32_DLL ${SDL_WIN32_DLL}/SDL.dll)
         endif()
     endforeach()
-    
     if (EXISTS ${SDL_WIN32_DLL})
          message(STATUS "Found SDL dll, it will be copied from: ${SDL_WIN32_DLL}")
          add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                             COMMAND ${CMAKE_COMMAND} -E copy_if_different
                             ${SDL_WIN32_DLL} ${PROJECT_ROOT_DIR}/game)
+         list(APPEND CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${SDL_WIN32_DLL})         
     endif()
-    
+
 endif()
 
 #-----------------------------------------------------------------------------
 # Installation
 #
 include(GNUInstallDirs)
-set(INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}" CACHE PATH "Installation directory for executable")
-set(INSTALL_DATA_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}" CACHE PATH "Installation directory for game data")
-set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_MANDIR}/man6" CACHE PATH "Installation directory for manual pages")
+
+# executable
+if(UNIX)
+    set(DEFAULT_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR}")
+else()
+    set(DEFAULT_INSTALL_BIN_DIR "${CMAKE_INSTALL_PREFIX}") 
+endif()
+set(INSTALL_BIN_DIR "${DEFAULT_INSTALL_BIN_DIR}" CACHE PATH "Installation directory for executable")
 install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION "${INSTALL_BIN_DIR}")
+
+# data archive and readme
+if(UNIX)
+    set(DEFAULT_INSTALL_DATA_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_DATAROOTDIR}/${PROJECT_NAME}")
+else()
+    set(DEFAULT_INSTALL_DATA_DIR "${CMAKE_INSTALL_PREFIX}") 
+endif()
+set(INSTALL_DATA_DIR "${DEFAULT_INSTALL_DATA_DIR}" CACHE PATH "Installation directory for game data")
 install(FILES ${PROJECT_ROOT_DIR}/game/data.zip DESTINATION "${INSTALL_DATA_DIR}")
-install(FILES ${PROJECT_ROOT_DIR}/assets/docs/xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
+install(FILES ${PROJECT_ROOT_DIR}/README.md DESTINATION "${INSTALL_DATA_DIR}")
+
+if(UNIX)
+    # man pages
+    set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_MANDIR}/man6" CACHE PATH "Installation directory for manual pages")
+    install(FILES ${PROJECT_ROOT_DIR}/assets/docs/xrick.6.gz DESTINATION "${INSTALL_MAN_DIR}")
+elseif(WIN32)
+    # windows DLLs
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION "${DEFAULT_INSTALL_BIN_DIR}")
+    include(InstallRequiredSystemLibraries)
+endif()
 
 #-----------------------------------------------------------------------------
 # Create package
 #
 if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
-    set(CPACK_PACKAGE_VERSION "${XRICK_VERSION_STR}")
     set(CPACK_SET_DESTDIR true)
+    set(CPACK_STRIP_FILES true)
+    set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
+    set(CPACK_PACKAGE_VERSION "${XRICK_VERSION_STR}")
+    if(MSVC)
+        if(CMAKE_CL_64)
+            set(CPACK_PACKAGE_ARCH_SUFFIX "x86_64")
+        else()
+            set(CPACK_PACKAGE_ARCH_SUFFIX "x86")
+        endif() 
+    else()
+        set(CPACK_PACKAGE_ARCH_SUFFIX ${CMAKE_SYSTEM_PROCESSOR})
+    endif()
     set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "xrick - clone of the platform game Rick Dangerous")
-    set(CPACK_PACKAGE_CONTACT "Pierluigi Vicinanza")
+    set(CPACK_PACKAGE_CONTACT "Pierluigi Vicinanza <pierluigiDOTvicinanzaDELETEME@gmail.com>")
+    set(CPACK_RESOURCE_FILE_README ${PROJECT_ROOT_DIR}/README.md)
+    
     # Deb package
     if(CPACK_GENERATOR MATCHES "DEB")
-        set(CPACK_DEBIAN_ARCHITECTURE ${CMAKE_SYSTEM_PROCESSOR})
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl1.2-dev, zlib1g-dev, libc6 (>= 2.1.3)")
+        if(CPACK_PACKAGE_ARCH_SUFFIX MATCHES "x86_64")
+            set(CPACK_PACKAGE_ARCH_SUFFIX "amd64")
+        else()
+            set(CPACK_PACKAGE_ARCH_SUFFIX "i386")
+        endif()
+        set(CPACK_DEBIAN_ARCHITECTURE ${CPACK_PACKAGE_ARCH_SUFFIX})
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl1.2debian, zlib1g, libc6 (>= 2.1.3)")
         set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
     endif()
+    
     include(CPack)
 endif()
