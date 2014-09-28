@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# this script is needed to fix an issue with CPack and DEB generator, as
+# mentioned here:
+# http://stackoverflow.com/questions/17796670/cpack-deb-generator-control-file-has-bad-permissions-mdsums-0644-0644
+#
+# script taken from:
+# https://github.com/paralect/robomongo/blob/master/install/linux/fixup_deb.sh.in
+#
+
+set -e
+mkdir fix_up_deb
+dpkg-deb -x @CPACK_PACKAGE_FILE_NAME@.deb fix_up_deb
+dpkg-deb --control @CPACK_PACKAGE_FILE_NAME@.deb fix_up_deb/DEBIAN
+rm @CPACK_PACKAGE_FILE_NAME@.deb
+chmod 0644 fix_up_deb/DEBIAN/md5sums
+find -type d -print0 |xargs -0 chmod 755
+fakeroot dpkg -b fix_up_deb @CPACK_PACKAGE_FILE_NAME@.deb
+rm -rf fix_up_deb

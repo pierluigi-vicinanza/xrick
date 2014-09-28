@@ -323,6 +323,13 @@ if(EXISTS "${CMAKE_ROOT}/Modules/CPack.cmake")
         set(CPACK_DEBIAN_PACKAGE_DEPENDS "libsdl1.2debian, zlib1g, libc6 (>= 2.1.3)")
         set(CPACK_DEBIAN_PACKAGE_SECTION "Games")
     endif()
+    set(CPACK_PACKAGE_FILE_NAME
+        "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${CMAKE_SYSTEM_NAME}-${CPACK_PACKAGE_ARCH_SUFFIX}")
+    # fix permission warning reported by Lintian under Ubuntu
+    if(CPACK_GENERATOR MATCHES "DEB")  
+        configure_file("${PROJECT_ROOT_DIR}/source/xrick/projects/linux/fixup_deb.sh.in"
+                       "${CMAKE_CURRENT_BINARY_DIR}/fixup_deb.sh" @ONLY)
+    endif()
     
     include(CPack)
 endif()
