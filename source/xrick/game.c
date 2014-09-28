@@ -143,7 +143,7 @@ game_toggleCheat(cheat_t cheat)
  * Music
  */
 void
-game_setmusic(sound_t * newMusic, U8 loop)
+game_setmusic(sound_t * newMusic, S8 loop)
 {
     if (!newMusic)
     {

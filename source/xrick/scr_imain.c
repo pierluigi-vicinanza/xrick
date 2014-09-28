@@ -36,7 +36,6 @@ screen_introMain(void)
     static bool first = true;
     static U8 period = 0;
     static U32 tm = 0;
-    U8 i, s[32];
 
     if (seq == 0) {
         draw_tilesBank = 0;
@@ -99,6 +98,9 @@ screen_introMain(void)
         }
         case 4:  /* dispay hall of fame */
         {
+            U8 s[32];
+            size_t i;
+
             sysvid_clear();
             tm = sys_gettime();
             /* hall of fame title */
@@ -119,7 +121,9 @@ screen_introMain(void)
             for (i = 0; i < screen_nbr_hiscores; i++) {
                 sys_snprintf((char *)s, sizeof(s), "%06d@@@====@@@%s",
                     screen_highScores[i].score, screen_highScores[i].name);
-                s[26] = '\377'; s[27] = '\377'; s[28] = '\376';
+                s[26] = (U8)'\377';
+                s[27] = (U8)'\377'; 
+                s[28] = (U8)'\376';
                 draw_tllst = s;
                 draw_tilesList();
             }
