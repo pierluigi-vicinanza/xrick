@@ -1,6 +1,12 @@
 xrick Release History
 ---------------------
 
+### Version 2.0.0-Rockbox / September 30, 2014:
+
+Enhancements:
+
+* Added Rockbox port. 
+
 ### Version 2.0.0 / September 29, 2014:
 
 Enhancements:
