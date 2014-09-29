@@ -54,6 +54,7 @@ Building
   
   `$ make install`
 
+Platform specific notes can be found in README.platforms.
 
 Usage
 -----

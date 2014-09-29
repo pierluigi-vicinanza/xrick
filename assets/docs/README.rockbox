@@ -1,0 +1,38 @@
+xrick on Rockbox
+----------------
+
+* Building
+  
+  1. Clone 'rockbox' from git (or extract a downloaded archive).
+
+     $ cd  
+     $ git clone git://git.rockbox.org/rockbox
+  
+  2. Clone 'xrick' from git (or extract a downloaded archive).
+
+     $ git clone https://github.com/pierluigi-vicinanza/xrick.git
+  
+  3. Invoke xrick setup script, specifying your Rockbox path via command-line option.
+  
+     $ ~/xrick/source/xrick/projects/rockbox/setup.sh -p ~/rockbox
+     
+  4. Follow Rockbox building instructions contained inside Rockbox README at
+     http://git.rockbox.org/?p=rockbox.git;a=blob_plain;f=docs/README;hb=refs/heads/master
+
+* Installation
+
+  1. Extract "rockbox.zip" on your music player.
+  
+     $ unzip ~/rockbox/build/rockbox.zip -d /mnt/myMp3Player
+  
+  2. If you did not build xrick yourself, or just want to update it, place game binary
+     into Rockbox game folder on your music player.
+     
+     $ cp ~/rockbox/build/apps/plugins/xrick/xrick.rock  /mnt/myMp3Player/.rockbox/rocks/games/
+  
+  3. Create "xrick" folder into Rockbox game folder and extract xrick "data.zip" 
+     archive into it.
+
+     $ mkdir /mnt/myMp3Player/.rockbox/rocks/games/xrick
+     $ unzip ~/xrick/game/data.zip -d /mnt/myMp3Player/.rockbox/rocks/games/xrick
+     
