@@ -1,6 +1,30 @@
 xrick Release History
 ---------------------
 
+### Version 2.0.0 / September 29, 2014:
+
+Enhancements:
+
+* Moved all hardcoded data (graphic, maps, texts) to external data archive.
+* Added resource manager, now loading all data at runtime.
+* Added memory manager to remove dependency of main game engine on malloc/free.
+* Display "congratulations !" image.
+* Changed CLI syntax, now using double-dash for long named options.
+* Added new CLI option: --version.
+* Added CMake support to build xrick more easily under non-Unix systems (e.g Windows/Mac).
+* Added ability to perform sound mixing in main game loop (not currently used under SDL implementation).
+* Removed many compiler warnings and tidied up code.
+
+Bugfixes:
+
+* Fixed Rick state not being properly restored after going zombie.
+* Added defensive code to prevent segfaults in submap 13 and 47.
+* Changed submap 19 (spikes killing Rick) to allow game to be completed.
+* Changed intro, "enter your name" and "hi-score" screen positions to match Atari ST version.
+* Fixed display of unexpected entities in place of traps and gate bonuses (taken from RickJS - https://github.com/chrilith/RickJS).
+* Changed Rick jump when going zombie to match Atari ST version (taken from RickJS - https://github.com/chrilith/RickJS).
+* Fixed memory leaks.
+  
 ### Version 021212 / December 12, 2002:
 
 * Reworked the build system so xrick can easily be built on Unix boxes as well as on non-Unix boxes (do not rely on symbolic links, etc.).
