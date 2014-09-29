@@ -23,6 +23,9 @@
 #define MINIZ_NO_ARCHIVE_WRITING_APIS
 #define MINIZ_NO_ZLIB_APIS
 #define MINIZ_NO_MALLOC
+#ifdef ROCKBOX
+#  define MINIZ_NO_ASSERT
+#endif
 
 #endif /* ndef _MINIZ_CONFIG_H */
 

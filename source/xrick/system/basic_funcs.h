@@ -24,6 +24,17 @@
 #  define USE_DEFAULT_ENDIANNESS_FUNCTIONS
 #  include <stdlib.h> /* _byteswap_XXX */
 
+#elif defined(ROCKBOX)
+/* Rockbox*/
+#  include "plugin.h"
+#  define __ORDER_LITTLE_ENDIAN__ 1234
+#  define __ORDER_BIG_ENDIAN__ 4321
+#  ifdef ROCKBOX_BIG_ENDIAN
+#    define __BYTE_ORDER__  __ORDER_BIG_ENDIAN__
+#  else 
+#    define __BYTE_ORDER__  __ORDER_LITTLE_ENDIAN__
+#  endif
+
 #elif (defined(__FreeBSD__) && __FreeBSD_version >= 470000) || defined(__OpenBSD__) || defined(__NetBSD__)
 /*  *BSD  */
 #  include <sys/endian.h>
