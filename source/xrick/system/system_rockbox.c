@@ -128,7 +128,6 @@ U32 sys_gettime(void)
 */
 void sys_yield(void)
 {
-    rb->sleep(HZ / 1000); /* sleep 1 ms */
     rb->yield();
 }
 
