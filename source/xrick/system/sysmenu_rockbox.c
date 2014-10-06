@@ -32,6 +32,9 @@
 #include "xrick/system/syssnd_rockbox.h"
 
 #include "plugin.h"
+#ifndef HAVE_LCD_COLOR
+#include "lib/grey.h"
+#endif
 
 #ifdef ENABLE_CHEATS
 /*
