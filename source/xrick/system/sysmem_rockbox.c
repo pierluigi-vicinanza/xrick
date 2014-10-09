@@ -31,8 +31,8 @@
 /*
  * Local variables
  */
-enum 
-{ 
+enum
+{
     ALIGNMENT = sizeof(void*)  /* this is more of an educated guess; might want to adjust for your specific architecture */
 };
 static U8 * stackBuffer;
@@ -51,13 +51,13 @@ bool sysmem_init(void)
     {
         return true;
     }
-    
+
     if (rb->audio_status())
     {
         /* Playback must be stopped the entire time the sound buffer is used.*/
         rb->audio_stop();
     }
-    
+
     stackBuffer = rb->plugin_get_audio_buffer(&stackMaxSize);
     stackTop = stackBuffer;
     stackSize = 0;
@@ -103,7 +103,7 @@ void *sysmem_push(size_t size)
     }
 
     alignedPtr = (((uintptr_t)stackTop) + sizeof(size_t) + ALIGNMENT) & ~((uintptr_t)(ALIGNMENT - 1));
-    
+
     allocatedSizePtr = (size_t *)(alignedPtr);
     allocatedSizePtr[-1] = neededSize;
 
@@ -125,7 +125,7 @@ void sysmem_pop(void * alignedPtr)
 {
     size_t allocatedSize;
 
-    if (!alignedPtr) 
+    if (!alignedPtr)
     {
         return;
     }

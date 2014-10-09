@@ -43,15 +43,15 @@ U8 e_bomb_ticker;
  */
 bool e_bomb_hit(U8 e)
 {
-	if (ent_ents[e].x > (E_BOMB_ENT.x >= 0xE0 ? 0xFF : E_BOMB_ENT.x + 0x20))
-			return false;
-	if (ent_ents[e].x + ent_ents[e].w < (E_BOMB_ENT.x > 0x04 ? E_BOMB_ENT.x - 0x04 : 0))
-			return false;
-	if (ent_ents[e].y > (E_BOMB_ENT.y + 0x1D))
-			return false;
-	if (ent_ents[e].y + ent_ents[e].h < (E_BOMB_ENT.y > 0x0004 ? E_BOMB_ENT.y - 0x0004 : 0))
-			return false;
-	return true;
+    if (ent_ents[e].x > (E_BOMB_ENT.x >= 0xE0 ? 0xFF : E_BOMB_ENT.x + 0x20))
+            return false;
+    if (ent_ents[e].x + ent_ents[e].w < (E_BOMB_ENT.x > 0x04 ? E_BOMB_ENT.x - 0x04 : 0))
+            return false;
+    if (ent_ents[e].y > (E_BOMB_ENT.y + 0x1D))
+            return false;
+    if (ent_ents[e].y + ent_ents[e].h < (E_BOMB_ENT.y > 0x0004 ? E_BOMB_ENT.y - 0x0004 : 0))
+            return false;
+    return true;
 }
 
 /*
@@ -85,72 +85,72 @@ void e_bomb_init(U16 x, U16 y)
 void
 e_bomb_action(UNUSED(U8 e))
 {
-	/* tick */
-	e_bomb_ticker--;
+    /* tick */
+    e_bomb_ticker--;
 
-	if (e_bomb_ticker == 0)
-	{
-		/*
-		 * end: deactivate
-		 */
-		E_BOMB_ENT.n = 0;
-		e_bomb_lethal = false;
-	}
-	else if (e_bomb_ticker >= 0x0A)
-	{
-		/*
-		 * ticking
-		 */
+    if (e_bomb_ticker == 0)
+    {
+        /*
+         * end: deactivate
+         */
+        E_BOMB_ENT.n = 0;
+        e_bomb_lethal = false;
+    }
+    else if (e_bomb_ticker >= 0x0A)
+    {
+        /*
+         * ticking
+         */
 #ifdef ENABLE_SOUND
-		if ((e_bomb_ticker & 0x03) == 0x02)
-			syssnd_play(soundBombshht, 1);
+        if ((e_bomb_ticker & 0x03) == 0x02)
+            syssnd_play(soundBombshht, 1);
 #endif
 #ifdef GFXST
-		/* ST bomb sprites sequence is longer */
-		if (e_bomb_ticker < 40)
-			E_BOMB_ENT.sprite = 0x99 + 19 - (e_bomb_ticker >> 1);
-		else
+        /* ST bomb sprites sequence is longer */
+        if (e_bomb_ticker < 40)
+            E_BOMB_ENT.sprite = 0x99 + 19 - (e_bomb_ticker >> 1);
+        else
 #endif
-		E_BOMB_ENT.sprite = (e_bomb_ticker & 0x01) ? 0x23 : 0x22;
-	}
-	else if (e_bomb_ticker == 0x09)
-	{
-		/*
-		 * explode
-		 */
+        E_BOMB_ENT.sprite = (e_bomb_ticker & 0x01) ? 0x23 : 0x22;
+    }
+    else if (e_bomb_ticker == 0x09)
+    {
+        /*
+         * explode
+         */
 #ifdef ENABLE_SOUND
-		syssnd_play(soundExplode, 1);
+        syssnd_play(soundExplode, 1);
 #endif
 #ifdef GFXPC
-		E_BOMB_ENT.sprite = 0x24 + 4 - (e_bomb_ticker >> 1);
+        E_BOMB_ENT.sprite = 0x24 + 4 - (e_bomb_ticker >> 1);
 #endif
 #ifdef GFXST
-		/* See above: fixing alignment */
-		E_BOMB_ENT.x -= 4;
-		E_BOMB_ENT.y -= 5;
-		E_BOMB_ENT.sprite = 0xa8 + 4 - (e_bomb_ticker >> 1);
+        /* See above: fixing alignment */
+        E_BOMB_ENT.x -= 4;
+        E_BOMB_ENT.y -= 5;
+        E_BOMB_ENT.sprite = 0xa8 + 4 - (e_bomb_ticker >> 1);
 #endif
-		e_bomb_xc = E_BOMB_ENT.x + 0x0C;
-		e_bomb_yc = E_BOMB_ENT.y + 0x000A;
-		e_bomb_lethal = true;
-		if (e_bomb_hit(E_RICK_NO))
-			e_rick_gozombie();
-	}
-	else
-	{
-		/*
-		 * exploding
-		 */
+        e_bomb_xc = E_BOMB_ENT.x + 0x0C;
+        e_bomb_yc = E_BOMB_ENT.y + 0x000A;
+        e_bomb_lethal = true;
+        if (e_bomb_hit(E_RICK_NO))
+            e_rick_gozombie();
+    }
+    else
+    {
+        /*
+         * exploding
+         */
 #ifdef GFXPC
-		E_BOMB_ENT.sprite = 0x24 + 4 - (e_bomb_ticker >> 1);
+        E_BOMB_ENT.sprite = 0x24 + 4 - (e_bomb_ticker >> 1);
 #endif
 #ifdef GFXST
-		E_BOMB_ENT.sprite = 0xa8 + 4 - (e_bomb_ticker >> 1);
+        E_BOMB_ENT.sprite = 0xa8 + 4 - (e_bomb_ticker >> 1);
 #endif
-		/* exploding, hence lethal */
-		if (e_bomb_hit(E_RICK_NO))
-			e_rick_gozombie();
-	}
+        /* exploding, hence lethal */
+        if (e_bomb_hit(E_RICK_NO))
+            e_rick_gozombie();
+    }
 }
 
 /* eof */

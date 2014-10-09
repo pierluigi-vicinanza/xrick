@@ -55,7 +55,7 @@ static bool loadResourceTilesData(file_t fp);
 static void unloadResourceTilesData(void);
 static bool loadImage(file_t fp, img_t ** image);
 static void unloadImage(img_t ** image);
-#ifdef GFXST 
+#ifdef GFXST
 static bool loadPicture(file_t fp, pic_t ** picture);
 static void unloadPicture(pic_t ** picture);
 #endif /* GFXST */
@@ -68,7 +68,7 @@ static void unloadSound(const unsigned id);
 /*
  * local vars
  */
-static char * resourceFiles[Resource_MAX_COUNT] = 
+static char * resourceFiles[Resource_MAX_COUNT] =
 {
     BOOTSTRAP_RESOURCE_NAME,
     /* the rest initialised to NULL by default */
@@ -279,7 +279,7 @@ static bool loadResourceMaps(file_t fp)
         }
         map_maps[i].tune = *soundTemp;
 #endif /* ENABLE_SOUND */
-    }     
+    }
     return true;
 }
 
@@ -314,7 +314,7 @@ static bool loadResourceSubmaps(file_t fp)
         return false;
     }
 
-    for (i = 0; i < map_nbr_submaps; ++i) 
+    for (i = 0; i < map_nbr_submaps; ++i)
     {
         if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
@@ -326,9 +326,9 @@ static bool loadResourceSubmaps(file_t fp)
         map_submaps[i].bnum = letoh16(u16Temp);
         memcpy(&u16Temp, dataTemp.connect, sizeof(U16));
         map_submaps[i].connect = letoh16(u16Temp);
-        memcpy(&u16Temp, dataTemp.mark, sizeof(U16)); 
+        memcpy(&u16Temp, dataTemp.mark, sizeof(U16));
         map_submaps[i].mark = letoh16(u16Temp);
-    }  
+    }
     return true;
 }
 
@@ -363,7 +363,7 @@ static bool loadResourceImapsteps(file_t fp)
         return false;
     }
 
-    for (i = 0; i < screen_nbr_imapstesps; ++i) 
+    for (i = 0; i < screen_nbr_imapstesps; ++i)
     {
         if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
@@ -377,8 +377,8 @@ static bool loadResourceImapsteps(file_t fp)
         screen_imapsteps[i].dy = letoh16(u16Temp);
         memcpy(&u16Temp, dataTemp.base, sizeof(U16));
         screen_imapsteps[i].base = letoh16(u16Temp);
-    }  
-    return true;   
+    }
+    return true;
 }
 
 /*
@@ -404,19 +404,19 @@ static bool loadResourceImaptext(file_t fp)
         return false;
     }
     screen_nbr_imaptext = letoh16(u16Temp);
-    
+
     screen_imaptext = sysmem_push(screen_nbr_imaptext * sizeof(*screen_imaptext));
     if (!screen_imapsteps)
     {
         return false;
     }
 
-    for (i = 0; i < screen_nbr_imaptext; ++i) 
+    for (i = 0; i < screen_nbr_imaptext; ++i)
     {
         if (!loadString(fp, (char **)(&(screen_imaptext[i])), 0xFE))
         {
             return false;
-        }  
+        }
     }
     return true;
 }
@@ -431,7 +431,7 @@ static void unloadResourceImaptext()
     for (i = screen_nbr_imaptext - 1; i >= 0; --i)
     {
         unloadString((char **)(&(screen_imaptext[i])));
-    } 
+    }
 
     sysmem_pop(screen_imaptext);
     screen_imaptext = NULL;
@@ -460,7 +460,7 @@ static bool loadResourceHighScores(file_t fp)
         return false;
     }
 
-    for (i = 0; i < screen_nbr_hiscores; ++i) 
+    for (i = 0; i < screen_nbr_hiscores; ++i)
     {
         if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
         {
@@ -469,7 +469,7 @@ static bool loadResourceHighScores(file_t fp)
         memcpy(&u32Temp, dataTemp.score, sizeof(U32));
         screen_highScores[i].score = letoh32(u32Temp);
         memcpy(screen_highScores[i].name, dataTemp.name, HISCORE_NAME_SIZE);
-    }  
+    }
     return true;
 }
 
@@ -506,7 +506,7 @@ static bool loadResourceSpritesData(file_t fp)
 #ifdef GFXST
     for (i = 0; i < sprites_nbr_sprites; ++i)
     {
-        for (j = 0; j < SPRITES_NBR_DATA; ++j) 
+        for (j = 0; j < SPRITES_NBR_DATA; ++j)
         {
             U32 u32Temp;
             if (sysfile_read(fp, &u32Temp, sizeof(u32Temp), 1) != 1)
@@ -521,10 +521,10 @@ static bool loadResourceSpritesData(file_t fp)
 #ifdef GFXPC
     for (i = 0; i < sprites_nbr_sprites; ++i)
     {
-        for (j = 0; j < SPRITES_NBR_COLS; ++j) 
+        for (j = 0; j < SPRITES_NBR_COLS; ++j)
         {
             size_t k;
-            for (k = 0; k < SPRITES_NBR_ROWS; ++k) 
+            for (k = 0; k < SPRITES_NBR_ROWS; ++k)
             {
                 resource_spriteX_t dataTemp;
                 if (sysfile_read(fp, &dataTemp, sizeof(dataTemp), 1) != 1)
@@ -536,7 +536,7 @@ static bool loadResourceSpritesData(file_t fp)
                 memcpy(&u16Temp, dataTemp.pict, sizeof(U16));
                 sprites_data[i][j][k].pict = letoh16(u16Temp);
             }
-        }              
+        }
     }
 #endif /* GFXPC */
 
@@ -575,7 +575,7 @@ static bool loadResourceTilesData(file_t fp)
 
     for (i = 0; i < tiles_nbr_banks ; ++i)
     {
-        for (j = 0; j < TILES_NBR_TILES; ++j) 
+        for (j = 0; j < TILES_NBR_TILES; ++j)
         {
             for (k = 0; k < TILES_NBR_LINES ; ++k)
             {
@@ -595,7 +595,7 @@ static bool loadResourceTilesData(file_t fp)
                 tiles_data[i * TILES_NBR_TILES + j][k] = letoh32(u32Temp);
 #endif /* GFXST */
             }
-        }              
+        }
     }
     return true;
 }
@@ -672,7 +672,7 @@ static bool loadImage(file_t fp, img_t ** image)
 static void unloadImage(img_t ** image)
 {
     if (*image)
-    {        
+    {
         sysmem_pop((*image)->pixels);
         sysmem_pop((*image)->colors);
     }
@@ -783,9 +783,9 @@ static bool fromResourceIdToSound(const unsigned id, sound_t *** sound)
         case Resource_SOUNDTUNE4: *sound = &soundTune4; return true;
         case Resource_SOUNDTUNE5: *sound = &soundTune5; return true;
         case Resource_SOUNDWALK: *sound = &soundWalk; return true;
-        default: 
+        default:
         {
-            sys_error("(resources) no associated sound found for ID %d", id);             
+            sys_error("(resources) no associated sound found for ID %d", id);
             return false;
         }
     }
@@ -853,20 +853,20 @@ static bool loadSound(const unsigned id)
         if (letoh16(u16Temp) != Wave_AUDIO_FORMAT)
         {
             break;
-        }        
+        }
         memcpy(&u16Temp, header.channelCount, sizeof(u16Temp));
-        if (letoh16(u16Temp) != Wave_CHANNEL_COUNT) 
+        if (letoh16(u16Temp) != Wave_CHANNEL_COUNT)
         {
             break;
         }
         memcpy(&u32Temp, header.sampleRate, sizeof(u32Temp));
-        if (letoh32(u32Temp) != Wave_SAMPLE_RATE) 
+        if (letoh32(u32Temp) != Wave_SAMPLE_RATE)
         {
             isHeaderValid = false;
             break;
         }
         memcpy(&u16Temp, header.bitsPerSample, sizeof(u16Temp));
-        if (letoh16(u16Temp) != Wave_BITS_PER_SAMPLE) 
+        if (letoh16(u16Temp) != Wave_BITS_PER_SAMPLE)
         {
             isHeaderValid = false;
             break;
@@ -979,7 +979,7 @@ static bool checkCrc32(const unsigned id)
 
         memcpy(tempBuffer, tempBuffer + bytesRead, sizeof(U32));
     } while (bytesRead == sizeof(tempBuffer) - sizeof(U32));
-    
+
     sysfile_close(fp);
 
     memcpy(&expectedCrc32, tempBuffer, sizeof(U32));
@@ -1027,7 +1027,7 @@ static bool readFile(const unsigned id)
     {
         return false;
     }
-     
+
     fp = sysfile_open(resourceFiles[id]);
     if (fp == NULL)
     {
@@ -1037,14 +1037,14 @@ static bool readFile(const unsigned id)
 
     success = readHeader(fp, id);
 
-    if (success) 
+    if (success)
     {
         switch (id)
         {
             case Resource_FILELIST: success = loadResourceFilelist(fp); break;
-            case Resource_PALETTE: 
+            case Resource_PALETTE:
             {
-                vp = game_colors; 
+                vp = game_colors;
                 success = loadRawData(fp, &vp, sizeof(*game_colors), &game_color_count);
                 game_colors = vp;
                 break;
@@ -1053,72 +1053,72 @@ static bool readFile(const unsigned id)
             case Resource_SPRSEQ:
             {
                 vp = ent_sprseq;
-                success = loadRawData(fp, &vp, sizeof(*ent_sprseq), &ent_nbr_sprseq); 
+                success = loadRawData(fp, &vp, sizeof(*ent_sprseq), &ent_nbr_sprseq);
                 ent_sprseq = vp;
                 break;
             }
-            case Resource_MVSTEP: 
+            case Resource_MVSTEP:
             {
-                vp = ent_mvstep; 
-                success = loadRawData(fp, &vp, sizeof(*ent_mvstep), &ent_nbr_mvstep); 
+                vp = ent_mvstep;
+                success = loadRawData(fp, &vp, sizeof(*ent_mvstep), &ent_nbr_mvstep);
                 ent_mvstep = vp;
                 break;
             }
             case Resource_MAPS: success = loadResourceMaps(fp); break;
             case Resource_SUBMAPS: success = loadResourceSubmaps(fp); break;
-            case Resource_CONNECT: 
+            case Resource_CONNECT:
             {
-                vp = map_connect; 
-                success = loadRawData(fp, &vp, sizeof(*map_connect), &map_nbr_connect); 
+                vp = map_connect;
+                success = loadRawData(fp, &vp, sizeof(*map_connect), &map_nbr_connect);
                 map_connect = vp;
                 break;
             }
-            case Resource_BNUMS: 
+            case Resource_BNUMS:
             {
-                vp = map_bnums; 
-                success = loadRawData(fp, &vp, sizeof(*map_bnums), &map_nbr_bnums); 
-                map_bnums = vp; 
+                vp = map_bnums;
+                success = loadRawData(fp, &vp, sizeof(*map_bnums), &map_nbr_bnums);
+                map_bnums = vp;
                 break;
             }
             case Resource_BLOCKS:
             {
-                vp = map_blocks; 
-                success = loadRawData(fp, &vp, sizeof(*map_blocks), &map_nbr_blocks); 
+                vp = map_blocks;
+                success = loadRawData(fp, &vp, sizeof(*map_blocks), &map_nbr_blocks);
                 map_blocks = vp;
                 break;
             }
-            case Resource_MARKS: 
+            case Resource_MARKS:
             {
-                vp = map_marks; 
-                success = loadRawData(fp, &vp, sizeof(*map_marks), &map_nbr_marks); 
+                vp = map_marks;
+                success = loadRawData(fp, &vp, sizeof(*map_marks), &map_nbr_marks);
                 map_marks = vp;
                 break;
             }
-            case Resource_EFLGC: 
+            case Resource_EFLGC:
             {
-                vp = map_eflg_c; 
-                success = loadRawData(fp, &vp, sizeof(*map_eflg_c), &map_nbr_eflgc); 
+                vp = map_eflg_c;
+                success = loadRawData(fp, &vp, sizeof(*map_eflg_c), &map_nbr_eflgc);
                 map_eflg_c = vp;
                 break;
             }
             case Resource_IMAPSL:
             {
-                vp = screen_imapsl; 
+                vp = screen_imapsl;
                 success = loadRawData(fp, &vp, sizeof(*screen_imapsl), &screen_nbr_imapsl);
                 screen_imapsl = vp;
                 break;
             }
             case Resource_IMAPSTEPS: success = loadResourceImapsteps(fp); break;
-            case Resource_IMAPSOFS: 
+            case Resource_IMAPSOFS:
             {
-                vp = screen_imapsofs; 
-                success = loadRawData(fp, &vp, sizeof(*screen_imapsofs), &screen_nbr_imapsofs); 
+                vp = screen_imapsofs;
+                success = loadRawData(fp, &vp, sizeof(*screen_imapsofs), &screen_nbr_imapsofs);
                 screen_imapsofs = vp;
                 break;
             }
             case Resource_IMAPTEXT: success = loadResourceImaptext(fp); break;
             case Resource_GAMEOVERTXT: success = loadString(fp, (char **)(&screen_gameovertxt), 0xFE); break;
-            case Resource_PAUSEDTXT: success = loadString(fp, (char **)(&screen_pausedtxt), 0xFE); break;           
+            case Resource_PAUSEDTXT: success = loadString(fp, (char **)(&screen_pausedtxt), 0xFE); break;
             case Resource_SPRITESDATA: success = loadResourceSpritesData(fp); break;
             case Resource_TILESDATA: success = loadResourceTilesData(fp); break;
             case Resource_HIGHSCORES: success = loadResourceHighScores(fp); break;
@@ -1177,7 +1177,7 @@ bool resources_load()
  *
  */
 void resources_unload()
-{    
+{
     int id;
     void * vp;
 
@@ -1185,83 +1185,83 @@ void resources_unload()
     {
         switch (id)
         {
-            case Resource_PALETTE: 
+            case Resource_PALETTE:
             {
-                vp = game_colors; 
-                unloadRawData(&vp, &game_color_count); 
+                vp = game_colors;
+                unloadRawData(&vp, &game_color_count);
                 game_colors = vp;
                 break;
             }
             case Resource_ENTDATA: unloadResourceEntdata(); break;
-            case Resource_SPRSEQ: 
+            case Resource_SPRSEQ:
             {
-                vp = ent_sprseq; 
-                unloadRawData(&vp, &ent_nbr_sprseq); 
+                vp = ent_sprseq;
+                unloadRawData(&vp, &ent_nbr_sprseq);
                 ent_sprseq = vp;
                 break;
             }
-            case Resource_MVSTEP: 
+            case Resource_MVSTEP:
             {
-                vp = ent_mvstep; 
-                unloadRawData(&vp, &ent_nbr_mvstep); 
+                vp = ent_mvstep;
+                unloadRawData(&vp, &ent_nbr_mvstep);
                 ent_mvstep = vp;
                 break;
             }
             case Resource_MAPS: unloadResourceMaps(); break;
             case Resource_SUBMAPS: unloadResourceSubmaps(); break;
-            case Resource_CONNECT: 
+            case Resource_CONNECT:
             {
-                vp = map_connect; 
-                unloadRawData(&vp, &map_nbr_connect); 
+                vp = map_connect;
+                unloadRawData(&vp, &map_nbr_connect);
                 map_connect = vp;
                 break;
             }
-            case Resource_BNUMS: 
+            case Resource_BNUMS:
             {
                 vp = map_bnums;
-                unloadRawData(&vp, &map_nbr_bnums); 
+                unloadRawData(&vp, &map_nbr_bnums);
                 map_bnums = vp;
                 break;
             }
-            case Resource_BLOCKS: 
+            case Resource_BLOCKS:
             {
                 vp = map_blocks;
-                unloadRawData(&vp, &map_nbr_blocks); 
+                unloadRawData(&vp, &map_nbr_blocks);
                 map_blocks = vp;
                 break;
             }
-            case Resource_MARKS: 
+            case Resource_MARKS:
             {
                 vp = map_marks;
-                unloadRawData(&vp, &map_nbr_marks); 
+                unloadRawData(&vp, &map_nbr_marks);
                 map_marks = vp;
                 break;
             }
-            case Resource_EFLGC: 
+            case Resource_EFLGC:
             {
                 vp = map_eflg_c;
-                unloadRawData(&vp, &map_nbr_eflgc); 
+                unloadRawData(&vp, &map_nbr_eflgc);
                 map_eflg_c = vp;
                 break;
             }
-            case Resource_IMAPSL: 
+            case Resource_IMAPSL:
             {
                 vp = screen_imapsl;
-                unloadRawData(&vp, &screen_nbr_imapsl); 
+                unloadRawData(&vp, &screen_nbr_imapsl);
                 screen_imapsl = vp;
                 break;
             }
             case Resource_IMAPSTEPS: unloadResourceImapsteps(); break;
-            case Resource_IMAPSOFS: 
+            case Resource_IMAPSOFS:
             {
                 vp = screen_imapsofs;
-                unloadRawData(&vp, &screen_nbr_imapsofs); 
+                unloadRawData(&vp, &screen_nbr_imapsofs);
                 screen_imapsofs = vp;
                 break;
             }
             case Resource_IMAPTEXT: unloadResourceImaptext(); break;
             case Resource_GAMEOVERTXT: unloadString((char **)(&screen_gameovertxt)); break;
-            case Resource_PAUSEDTXT: unloadString((char **)(&screen_pausedtxt)); break;           
+            case Resource_PAUSEDTXT: unloadString((char **)(&screen_pausedtxt)); break;
             case Resource_SPRITESDATA: unloadResourceSpritesData(); break;
             case Resource_TILESDATA: unloadResourceTilesData(); break;
             case Resource_HIGHSCORES: unloadResourceHighScores(); break;

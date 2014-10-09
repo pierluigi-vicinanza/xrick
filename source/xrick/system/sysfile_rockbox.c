@@ -55,8 +55,8 @@ bool sysfile_setRootPath(const char *name)
  */
 void sysfile_clearRootPath()
 {
-	sysmem_pop(rootPath);
-	rootPath = NULL;
+    sysmem_pop(rootPath);
+    rootPath = NULL;
 }
 
 /*
@@ -65,7 +65,7 @@ void sysfile_clearRootPath()
 file_t sysfile_open(const char *name)
 {
     int fd;
-    
+
     size_t fullPathLength = rb->strlen(rootPath) + rb->strlen(name) + 2;
     char *fullPath = sysmem_push(fullPathLength);
     if (!fullPath)
@@ -75,8 +75,8 @@ file_t sysfile_open(const char *name)
     rb->snprintf(fullPath, fullPathLength, "%s/%s", rootPath, name);
     fd = rb->open(fullPath, O_RDONLY);
     sysmem_pop(fullPath);
-    
-    /* 
+
+    /*
      * note: I've never seen zero/NULL being used as a file descriptor under Rockbox.
      *       Putting a check here in case this will ever happen (will need a fix).
      */
@@ -88,7 +88,7 @@ file_t sysfile_open(const char *name)
     {
         return NULL;
     }
-        
+
     return (file_t)fd;
 }
 

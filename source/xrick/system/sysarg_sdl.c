@@ -77,7 +77,7 @@ static void sysarg_help(void)
        "Usage: xrick [option(s)]\n"
        " The options are:\n\n"
        "  -h, --help         Display this information\n"
-       "  --fullscreen       Run in fullscreen mode.\n" 
+       "  --fullscreen       Run in fullscreen mode.\n"
        "                     The default is to run in a window.\n"
        "  --speed <speed>    Run at speed <speed>. <speed> must be \n"
        "                     an integer between 1 (fast) and 100 (slow).\n"
@@ -99,7 +99,7 @@ static void sysarg_help(void)
        "  --data <archive>   Use data archive <archive>\n"
        "                     <archive> must be either a zip file or\n"
        "                     a directory. The default is to look for \"data.zip\"\n"
-       "                     in the directory where xrick is run from.\n"       
+       "                     in the directory where xrick is run from.\n"
 #ifdef ENABLE_SOUND
        "  --nosound          Disable sounds.\n"
        "                     The default is to play with sounds enabled.\n"
@@ -204,21 +204,21 @@ sysarg_init(int argc, char **argv)
 {
     int i;
 
-    for (i = 1; i < argc; i++) 
+    for (i = 1; i < argc; i++)
     {
-        if (!strcmp(argv[i], "--fullscreen")) 
+        if (!strcmp(argv[i], "--fullscreen"))
         {
             sysarg_args_fullscreen = 1;
         }
         else if (!strcmp(argv[i], "--help") ||
-                 !strcmp(argv[i], "-h")) 
+                 !strcmp(argv[i], "-h"))
         {
             sysarg_help();
             return false;
         }
-        else if (!strcmp(argv[i], "--speed")) 
+        else if (!strcmp(argv[i], "--speed"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing speed value");
                 return false;
@@ -230,9 +230,9 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "--keys")) 
+        else if (!strcmp(argv[i], "--keys"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing key codes");
                 return false;
@@ -243,9 +243,9 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "--zoom")) 
+        else if (!strcmp(argv[i], "--zoom"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing zoom value");
                 return false;
@@ -257,9 +257,9 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "--map")) 
+        else if (!strcmp(argv[i], "--map"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing map number");
                 return false;
@@ -271,9 +271,9 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "--submap")) 
+        else if (!strcmp(argv[i], "--submap"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing submap number");
                 return false;
@@ -286,9 +286,9 @@ sysarg_init(int argc, char **argv)
             }
         }
 #ifdef ENABLE_SOUND
-        else if (!strcmp(argv[i], "--vol")) 
+        else if (!strcmp(argv[i], "--vol"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing volume");
                 return false;
@@ -300,26 +300,26 @@ sysarg_init(int argc, char **argv)
                 return false;
             }
         }
-        else if (!strcmp(argv[i], "--nosound")) 
+        else if (!strcmp(argv[i], "--nosound"))
         {
             sysarg_args_nosound = true;
         }
 #endif /* ENABLE_SOUND */
-        else if (!strcmp(argv[i], "--data")) 
+        else if (!strcmp(argv[i], "--data"))
         {
-            if (++i == argc) 
+            if (++i == argc)
             {
                 sysarg_fail("missing data");
                 return false;
             }
             sysarg_args_data = argv[i];
         }
-        else if (!strcmp(argv[i], "--version")) 
+        else if (!strcmp(argv[i], "--version"))
         {
             sysarg_version();
             return false;
         }
-        else 
+        else
         {
             char message[128];
             sys_snprintf(message, sizeof(message), "unrecognized option '%s'", argv[i]);
@@ -328,9 +328,9 @@ sysarg_init(int argc, char **argv)
         }
     }
 
-    /* TODO: remove checks below based on hardcoded values. 
-    *       Add code to check sysarg_args_map and sysarg_args_submap against map/submap max counts 
-    *       (after these have been loaded from resource files). 
+    /* TODO: remove checks below based on hardcoded values.
+    *       Add code to check sysarg_args_map and sysarg_args_submap against map/submap max counts
+    *       (after these have been loaded from resource files).
     */
 
     /* this is dirty (sort of) */

@@ -21,13 +21,13 @@
  * KIND, either express or implied.
  *
  ****************************************************************************/
- 
+
 #include "xrick/system/sysmenu_rockbox.h"
 
 #include "xrick/config.h"
 #include "xrick/control.h"
 #include "xrick/draw.h"
-#include "xrick/game.h" 
+#include "xrick/game.h"
 #include "xrick/system/system.h"
 #include "xrick/system/syssnd_rockbox.h"
 
@@ -45,7 +45,7 @@ static char * sysmenu_cheatItemText(int selected_item, void *data, char *buffer)
     (void)selected_item;
     cheat_t cheat = (cheat_t)data;
     (void)buffer;
-    char * messages[] = 
+    char * messages[] =
     {
         "Disable Unlimited Lives/Ammo Mode",
         "Enable Unlimited Lives/Ammo Mode",
@@ -55,8 +55,8 @@ static char * sysmenu_cheatItemText(int selected_item, void *data, char *buffer)
         "Enable Expose Mode"
     };
 
-    switch (cheat) 
-    {           
+    switch (cheat)
+    {
         case Cheat_UNLIMITED_ALL:
         {
             return game_cheat1? messages[0] : messages[1];
@@ -69,7 +69,7 @@ static char * sysmenu_cheatItemText(int selected_item, void *data, char *buffer)
         {
             return game_cheat3? messages[4] : messages[5];
         }
-        default: break;                                      
+        default: break;
     }
     return "";
 }
@@ -85,19 +85,19 @@ static int sysmenu_doToggleCheat(void *param)
 }
 
 MENUITEM_FUNCTION_DYNTEXT(sysmenu_unlimitedAllItem, MENU_FUNC_USEPARAM,
-                          sysmenu_doToggleCheat, (void *)Cheat_UNLIMITED_ALL, 
+                          sysmenu_doToggleCheat, (void *)Cheat_UNLIMITED_ALL,
                           sysmenu_cheatItemText, NULL, (void *)Cheat_UNLIMITED_ALL,
                           NULL, Icon_NOICON);
 
 MENUITEM_FUNCTION_DYNTEXT(sysmenu_neverDieItem, MENU_FUNC_USEPARAM,
-                          sysmenu_doToggleCheat, (void *)Cheat_NEVER_DIE, 
+                          sysmenu_doToggleCheat, (void *)Cheat_NEVER_DIE,
                           sysmenu_cheatItemText, NULL, (void *)Cheat_NEVER_DIE,
                           NULL, Icon_NOICON);
 
 MENUITEM_FUNCTION_DYNTEXT(sysmenu_exposeItem, MENU_FUNC_USEPARAM,
-                          sysmenu_doToggleCheat, (void *)Cheat_EXPOSE, 
+                          sysmenu_doToggleCheat, (void *)Cheat_EXPOSE,
                           sysmenu_cheatItemText, NULL, (void *)Cheat_EXPOSE,
-                          NULL, Icon_NOICON);                                                                                                            
+                          NULL, Icon_NOICON);
 
 MAKE_MENU(sysmenu_cheatItems, "Cheat Settings", NULL, Icon_NOICON,
           &sysmenu_unlimitedAllItem, &sysmenu_neverDieItem, &sysmenu_exposeItem);
@@ -112,52 +112,52 @@ void sysmenu_exec(void)
     int result;
     bool done;
 
-    enum 
+    enum
     {
         Menu_RESUME,
         Menu_RESTART,
-#ifdef ENABLE_CHEATS   
+#ifdef ENABLE_CHEATS
         Menu_CHEAT_SETTINGS,
 #endif
         Menu_QUIT
     };
-    
+
     MENUITEM_STRINGLIST(sysmenu_mainItems, "xrick Menu", NULL,
                     "Resume Game",
                     "Restart Game",
-#ifdef ENABLE_CHEATS  
+#ifdef ENABLE_CHEATS
                     "Cheat Settings",
 #endif
                     "Quit");
-                    
+
 #ifdef ENABLE_SOUND
     syssnd_pauseAll(true);
 #endif
 
-#ifndef HAVE_LCD_COLOR     
-    grey_show(false); 
-#endif 
+#ifndef HAVE_LCD_COLOR
+    grey_show(false);
+#endif
 
     done = false;
-    do 
+    do
     {
         rb->button_clear_queue();
-        
+
         result = rb->do_menu(&sysmenu_mainItems, NULL, NULL, false);
         switch(result)
         {
             case Menu_RESUME:
             {
-                done = true; 
+                done = true;
                 break;
             }
             case Menu_RESTART:
             {
                 control_set(Control_END);
-                done = true; 
+                done = true;
                 break;
             }
-#ifdef ENABLE_CHEATS 
+#ifdef ENABLE_CHEATS
             case Menu_CHEAT_SETTINGS:
             {
                 rb->do_menu(&sysmenu_cheatItems, NULL, NULL, false);
@@ -167,15 +167,15 @@ void sysmenu_exec(void)
             case Menu_QUIT:
             {
                 control_set(Control_EXIT);
-                done = true; 
+                done = true;
                 break;
             }
             default: break;
         }
     } while (!done);
 
-#ifdef HAVE_LCD_COLOR 
-    if (!(control_test(Control_EXIT))) 
+#ifdef HAVE_LCD_COLOR
+    if (!(control_test(Control_EXIT)))
     {
         rb->memset(rb->lcd_framebuffer, 0, sizeof(fb_data) * LCD_WIDTH * LCD_HEIGHT);
         sysvid_update(&draw_SCREENRECT);
@@ -183,7 +183,7 @@ void sysmenu_exec(void)
     }
 #else
     grey_show(true);
-#endif 
+#endif
 
 #ifdef ENABLE_SOUND
     syssnd_pauseAll(false);

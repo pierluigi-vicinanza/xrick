@@ -56,7 +56,7 @@ extern void game_stopmusic(void);
 #endif /* ENABLE_SOUND */
 
 #ifdef ENABLE_CHEATS
-typedef enum 
+typedef enum
 {
     Cheat_UNLIMITED_ALL,
     Cheat_NEVER_DIE,

@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "xrick/system/system.h"
- 
+
 #include "xrick/config.h"
 #include "xrick/control.h"
 #include "xrick/game.h"
@@ -35,7 +35,7 @@
  */
 static inline void checkKey(int key, unsigned button, control_t control)
 {
-    if (key & button) 
+    if (key & button)
     {
         control_set(control);
     }
@@ -65,11 +65,11 @@ void sysevt_poll(void)
 #if defined(HAS_BUTTON_HOLD)
               || rb->button_hold()
 #endif
-            )  
+            )
         {
             sysmenu_exec();
         }
-  
+
         currentKey = rb->button_status();
         if (currentKey != previousKey)
         {
@@ -77,7 +77,7 @@ void sysevt_poll(void)
         }
         else if (game_waitevt)
         {
-            rb->sleep(HZ / 100); /* sleep 10 ms */ 
+            rb->sleep(HZ / 100); /* sleep 10 ms */
         }
         else /* (currentKey == previousKey) && !game_waitevt */
         {
@@ -86,9 +86,9 @@ void sysevt_poll(void)
     }
 
 #ifdef XRICK_BTN_MENU
-    if (currentKey & XRICK_BTN_MENU) 
+    if (currentKey & XRICK_BTN_MENU)
     {
-        sysmenu_exec();   
+        sysmenu_exec();
     }
 #endif
 
@@ -97,15 +97,15 @@ void sysevt_poll(void)
 #endif
 
     checkKey(currentKey, XRICK_BTN_UP, Control_UP);
-    
+
     checkKey(currentKey, XRICK_BTN_DOWN, Control_DOWN);
-    
+
     checkKey(currentKey, XRICK_BTN_LEFT, Control_LEFT);
-    
+
     checkKey(currentKey, XRICK_BTN_RIGHT, Control_RIGHT);
-    
+
     checkKey(currentKey, XRICK_BTN_FIRE, Control_FIRE);
-    
+
     previousKey = currentKey;
 }
 
@@ -114,7 +114,7 @@ void sysevt_poll(void)
  */
 void sysevt_wait(void)
 {
-    sysevt_poll(); /* sysevt_poll deals with blocking case as well */ 
+    sysevt_poll(); /* sysevt_poll deals with blocking case as well */
 }
 
 /* eof */

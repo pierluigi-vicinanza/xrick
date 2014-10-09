@@ -114,7 +114,7 @@ void syssnd_update(void)
     {
         return;
     }
-    
+
     for (;;)
     {
         size_t c;
@@ -129,25 +129,25 @@ void syssnd_update(void)
         {
             return;
         }
-        
+
         maxSampleCount = 0;
 
         sampleOffset = mixBuffers[writeIndex].length;
         destBuf = mixBuffers[writeIndex].data + sampleOffset * 2;
-  
-        isFirstSound = true;        
+
+        isFirstSound = true;
         for (c = 0; c < SYSSND_MIX_CHANNELS ; ++c)
         {
             U32 * mixBuffer;
             size_t sampleCount;
             channel_t * channel = &channels[c];
 
-            if (!channel->sound /* no sound to play on this channel */ 
-                || (channel->loop == 0)) /* channel is inactive */ 
+            if (!channel->sound /* no sound to play on this channel */
+                || (channel->loop == 0)) /* channel is inactive */
             {
                 continue;
             }
-            
+
             if (isFirstSound)
             {
                 /* clear mixing buffer */
@@ -160,7 +160,7 @@ void syssnd_update(void)
             {
                 maxSampleCount = sampleCount;
             }
-            
+
             /* mix sound samples */
             mixBuffer = destBuf;
             sourceBuf = channel->buf;
@@ -172,11 +172,11 @@ void syssnd_update(void)
                 int monoSample = (sourceSample - 0x80) << 8;
                 U32 stereoSample = *mixBuffer;
                 monoSample += (S32)(stereoSample) >> 16;
-                if (monoSample >= 0x8000) 
+                if (monoSample >= 0x8000)
                 {
                     monoSample = 0x7FFF;
                 }
-                else if (monoSample < -0x8000) 
+                else if (monoSample < -0x8000)
                 {
                     monoSample = -0x8000;
                 }
@@ -189,11 +189,11 @@ void syssnd_update(void)
             channel->len -= sampleCount;
             if (channel->len == 0) /* ending ? */
             {
-                if (channel->loop > 0) 
+                if (channel->loop > 0)
                 {
                     channel->loop--;
                 }
-                if (channel->loop) 
+                if (channel->loop)
                 {
                     /* just loop */
                     IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - loop\n", c););
@@ -208,18 +208,18 @@ void syssnd_update(void)
                 }
             }
         }
-        
+
         if (maxSampleCount == 0)
         {
             return;
         }
-            
+
         mixBuffers[writeIndex].length += maxSampleCount;
-        
+
         /* Advance one part of audio buffer. */
         writeIndex = (writeIndex + 1) & (AUDIO_BUFFER_COUNT - 1);
         fillCount++;
-        
+
         if (!isAudioPlaying && fillCount > 0)
         {
             rb->pcm_play_data(&get_more, NULL, NULL, 0);
@@ -237,9 +237,9 @@ bool syssnd_init(void)
     {
         return true;
     }
-    
+
     IFDEBUG_AUDIO(sys_printf("xrick/audio: start\n"););
-    
+
     rb->talk_disable(true);
 
     /* Stop playback to reconfigure audio settings and acquire audio buffer */
@@ -251,12 +251,12 @@ bool syssnd_init(void)
     rb->audio_set_output_source(AUDIO_SRC_PLAYBACK);
 #endif
 
-    rb->pcm_set_frequency(HW_FREQ_44); 
-    rb->pcm_apply_settings(); 
+    rb->pcm_set_frequency(HW_FREQ_44);
+    rb->pcm_apply_settings();
 
     rb->memset(channels, 0, sizeof(channels));
     rb->memset(mixBuffers, 0, sizeof(mixBuffers));
-   
+
     writeIndex = 0;
     readIndex = 0;
     fillCount = 0;
@@ -272,11 +272,11 @@ bool syssnd_init(void)
  */
 void syssnd_shutdown(void)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
-    
+
     /* Stop playback. */
     rb->pcm_play_stop();
 
@@ -288,7 +288,7 @@ void syssnd_shutdown(void)
     rb->pcm_apply_settings();
 
     rb->talk_disable(false);
-    
+
     isAudioInitialised = false;
     IFDEBUG_AUDIO(sys_printf("xrick/audio: stop\n"););
 }
@@ -310,7 +310,7 @@ void syssnd_play(sound_t *sound, S8 loop)
     {
         return;
     }
-    
+
     c = 0;
     while (channels[c].sound != sound &&
            channels[c].loop != 0 &&
@@ -318,7 +318,7 @@ void syssnd_play(sound_t *sound, S8 loop)
     {
         c++;
     }
-    if (c >= SYSSND_MIX_CHANNELS) 
+    if (c >= SYSSND_MIX_CHANNELS)
     {
         return;
     }
@@ -332,7 +332,7 @@ void syssnd_play(sound_t *sound, S8 loop)
             return;
         }
     }
-    
+
     IFDEBUG_AUDIO(
         if (channels[c].sound == sound)
         {
@@ -344,7 +344,7 @@ void syssnd_play(sound_t *sound, S8 loop)
             sys_printf("xrick/audio: playing %s on channel %d\n", sound->name, c);
         }
     );
-    
+
     channels[c].loop = loop;
     channels[c].sound = sound;
     channels[c].buf = sound->buf;
@@ -356,13 +356,13 @@ void syssnd_play(sound_t *sound, S8 loop)
  */
 void syssnd_pauseAll(bool pause)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
-    
+
     rb->pcm_play_lock();
-    rb->pcm_play_pause(!pause);  
+    rb->pcm_play_pause(!pause);
     rb->pcm_play_unlock();
 }
 
@@ -380,7 +380,7 @@ void syssnd_stop(sound_t *sound)
 
     for (c = 0; c < SYSSND_MIX_CHANNELS; c++)
     {
-        if (channels[c].sound == sound) 
+        if (channels[c].sound == sound)
         {
             endChannel(c);
         }
@@ -393,12 +393,12 @@ void syssnd_stop(sound_t *sound)
 void syssnd_stopAll(void)
 {
     size_t c;
-    
-    if (!isAudioInitialised) 
+
+    if (!isAudioInitialised)
     {
         return;
     }
-    
+
     for (c = 0; c < SYSSND_MIX_CHANNELS; c++)
     {
         if (channels[c].sound)
@@ -423,7 +423,7 @@ void syssnd_load(sound_t *sound)
     }
 
     success = false;
-    do 
+    do
     {
         sound->buf = sysmem_push(sound->len);
         if (!sound->buf)
@@ -459,7 +459,7 @@ void syssnd_load(sound_t *sound)
         sound->len = 0;
         return;
     }
-    
+
     IFDEBUG_AUDIO(sys_printf("xrick/audio: successfully loaded \"%s\"\n", sound->name););
 }
 
@@ -468,7 +468,7 @@ void syssnd_load(sound_t *sound)
  */
 void syssnd_unload(sound_t *sound)
 {
-    if (!isAudioInitialised || !sound || !sound->buf) 
+    if (!isAudioInitialised || !sound || !sound->buf)
     {
         return;
     }

@@ -45,7 +45,7 @@ void sys_error(const char *err, ...)
     va_start(argptr, err);
     rb->vsnprintf(s, sizeof(s), err, argptr);
     va_end(argptr);
-    
+
     /* print error message */
     rb->splashf(HZ*3, "%s\nError!\n", s);
     DEBUGF("%s\nError!\n", s);
@@ -58,7 +58,7 @@ void sys_printf(const char *msg, ...)
 {
     va_list argptr;
     char s[LINE_LENGTH];
-    
+
     /* prepare message */
     va_start(argptr, msg);
     rb->vsnprintf(s, sizeof(s), msg, argptr);
@@ -120,11 +120,11 @@ size_t sys_strlen(const char * str)
 U32 sys_gettime(void)
 {
     long ticks = *(rb->current_tick);
-    return (U32)((ticks * 1000) / HZ); 
+    return (U32)((ticks * 1000) / HZ);
 }
 
 /*
-* Yield execution to another thread 
+* Yield execution to another thread
 */
 void sys_yield(void)
 {
@@ -178,7 +178,7 @@ void sys_shutdown(void)
     sysmem_shutdown();
 
 #ifdef HAVE_ADJUSTABLE_CPU_FREQ
-    rb->cpu_boost(false);  
+    rb->cpu_boost(false);
 #endif
 }
 
@@ -240,7 +240,7 @@ void sys_uncacheData(void)
     syssnd_unload(soundEntity[4]);
     syssnd_unload(soundEntity[3]);
     syssnd_unload(soundEntity[2]);
-    syssnd_unload(soundEntity[1]);  
+    syssnd_unload(soundEntity[1]);
     syssnd_unload(soundEntity[0]);
     syssnd_unload(soundDie);
     syssnd_unload(soundSbonus1);

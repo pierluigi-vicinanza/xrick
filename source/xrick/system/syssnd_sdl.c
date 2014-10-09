@@ -12,7 +12,7 @@
  *
  * You must not remove this notice, or any other, from this software.
  */
- 
+
 #include "xrick/config.h"
 
 #ifdef ENABLE_SOUND
@@ -64,25 +64,25 @@ static void endChannel(size_t);
 static void sdl_callback(UNUSED(void *userdata), U8 *stream, int len)
 {
     int i;
-    for (i = 0; i < len; i++) 
+    for (i = 0; i < len; i++)
     {
         size_t c;
         S16 s = 0;
 
-        for (c = 0; c < SYSSND_MIXCHANNELS; c++) 
+        for (c = 0; c < SYSSND_MIXCHANNELS; c++)
         {
-            if (channel[c].loop != 0) 
+            if (channel[c].loop != 0)
             {  /* channel is active */
-                if (channel[c].len > 0) 
+                if (channel[c].len > 0)
                 {  /* not ending */
                     s += ADJVOL(*channel[c].buf - 0x80);
                     channel[c].buf++;
                     channel[c].len--;
                 }
-                else 
+                else
                 {  /* ending */
                     if (channel[c].loop > 0) channel[c].loop--;
-                    if (channel[c].loop) 
+                    if (channel[c].loop)
                     {  /* just loop */
                         IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - loop\n", c););
                         channel[c].buf = channel[c].snd->buf;
@@ -91,7 +91,7 @@ static void sdl_callback(UNUSED(void *userdata), U8 *stream, int len)
                         channel[c].buf++;
                         channel[c].len--;
                     }
-                    else 
+                    else
                     {  /* end for real */
                         IFDEBUG_AUDIO2(sys_printf("xrick/audio: channel %d - end\n", c););
                         endChannel(c);
@@ -103,7 +103,7 @@ static void sdl_callback(UNUSED(void *userdata), U8 *stream, int len)
         {
             stream[i] = 0x80;
         }
-        else 
+        else
         {
             s += 0x80;
             if (s > 0xff) s = 0xff;
@@ -118,10 +118,10 @@ static void sdl_callback(UNUSED(void *userdata), U8 *stream, int len)
  */
 static void endChannel(size_t c)
 {
-	channel[c].loop = 0;
-	if (channel[c].snd->dispose)
+    channel[c].loop = 0;
+    if (channel[c].snd->dispose)
     {
-		syssnd_free(channel[c].snd);
+        syssnd_free(channel[c].snd);
     }
     channel[c].snd = NULL;
 }
@@ -141,7 +141,7 @@ bool syssnd_init(void)
 
     IFDEBUG_AUDIO(sys_printf("xrick/audio: start\n"););
 
-    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0) 
+    if (SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
     {
         sys_error("(audio) can not initialize audio subsystem");
         return true; /* shall we treat this as an error? */
@@ -154,14 +154,14 @@ bool syssnd_init(void)
     desired.callback = sdl_callback;
     desired.userdata = NULL;
 
-    if (SDL_OpenAudio(&desired, &obtained) < 0) 
+    if (SDL_OpenAudio(&desired, &obtained) < 0)
     {
         sys_error("(audio) can not open audio (%s)", SDL_GetError());
         SDL_QuitSubSystem(SDL_INIT_AUDIO);
         return true; /* shall we treat this as an error? */
     }
 
-    if (sysarg_args_vol != 0) 
+    if (sysarg_args_vol != 0)
     {
         sndUVol = sysarg_args_vol;
         sndVol = SDL_MIX_MAXVOLUME * sndUVol / SYSSND_MAXVOL;
@@ -183,7 +183,7 @@ bool syssnd_init(void)
  */
 void syssnd_shutdown(void)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
@@ -202,7 +202,7 @@ void syssnd_shutdown(void)
  */
 void syssnd_toggleMute(void)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
@@ -217,13 +217,13 @@ void syssnd_toggleMute(void)
  */
 void syssnd_vol(S8 d)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
 
     if ((d < 0 && sndUVol > 0) ||
-        (d > 0 && sndUVol < SYSSND_MAXVOL)) 
+        (d > 0 && sndUVol < SYSSND_MAXVOL))
     {
         sndUVol += d;
         SDL_LockAudio();
@@ -252,7 +252,7 @@ void syssnd_play(sound_t *sound, S8 loop)
 
     {
         SDL_LockAudio();
-        
+
         c = 0;
         while (channel[c].snd != sound &&
             channel[c].loop != 0 &&
@@ -308,7 +308,7 @@ void syssnd_play(sound_t *sound, S8 loop)
  */
 void syssnd_pauseAll(bool pause)
 {
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
@@ -321,22 +321,22 @@ void syssnd_pauseAll(bool pause)
  */
 void syssnd_stop(sound_t *sound)
 {
-	size_t i;
+    size_t i;
 
     if (!isAudioInitialised || !sound)
     {
         return;
     }
 
-	SDL_LockAudio();
-	for (i = 0; i < SYSSND_MIXCHANNELS; i++)
+    SDL_LockAudio();
+    for (i = 0; i < SYSSND_MIXCHANNELS; i++)
     {
-        if (channel[i].snd == sound) 
+        if (channel[i].snd == sound)
         {
             endChannel(i);
         }
     }
-	SDL_UnlockAudio();
+    SDL_UnlockAudio();
 }
 
 /*
@@ -344,22 +344,22 @@ void syssnd_stop(sound_t *sound)
  */
 void syssnd_stopAll(void)
 {
-	size_t i;
+    size_t i;
 
-    if (!isAudioInitialised) 
+    if (!isAudioInitialised)
     {
         return;
     }
 
-	SDL_LockAudio();
-	for (i = 0; i < SYSSND_MIXCHANNELS; i++)
+    SDL_LockAudio();
+    for (i = 0; i < SYSSND_MIXCHANNELS; i++)
     {
-		if (channel[i].snd)
+        if (channel[i].snd)
         {
             endChannel(i);
         }
     }
-	SDL_UnlockAudio();
+    SDL_UnlockAudio();
 }
 
 /*
@@ -367,8 +367,8 @@ void syssnd_stopAll(void)
  */
 void syssnd_load(sound_t *sound)
 {
-	SDL_RWops *context;
-	SDL_AudioSpec audiospec;
+    SDL_RWops *context;
+    SDL_AudioSpec audiospec;
     bool success;
 
     if (!isAudioInitialised || !sound)
@@ -376,12 +376,12 @@ void syssnd_load(sound_t *sound)
         return;
     }
 
-	/* alloc context */
-	context = malloc(sizeof(SDL_RWops));
-	context->seek = sdlRWops_seek;
-	context->read = sdlRWops_read;
-	context->write = sdlRWops_write;
-	context->close = sdlRWops_close;
+    /* alloc context */
+    context = malloc(sizeof(SDL_RWops));
+    context->seek = sdlRWops_seek;
+    context->read = sdlRWops_read;
+    context->write = sdlRWops_write;
+    context->close = sdlRWops_close;
 
     success = false;
     do
@@ -414,20 +414,20 @@ void syssnd_load(sound_t *sound)
  * Unload a sound
  */
 void syssnd_free(sound_t *sound)
-{  
-    if (!isAudioInitialised || !sound || !sound->buf) 
+{
+    if (!isAudioInitialised || !sound || !sound->buf)
     {
         return;
     }
 
     SDL_FreeWAV(sound->buf);
-	sound->buf = NULL;
-	sound->len = 0;
+    sound->buf = NULL;
+    sound->len = 0;
 }
 
 /*
  * Mix audio samples and fill playback buffer
- * 
+ *
  * Note: all work is currently done in "sdl_callback(...)". This might change in future.
  */
 void syssnd_update(void)
@@ -440,39 +440,39 @@ void syssnd_update(void)
 static int
 sdlRWops_open(SDL_RWops *context, char *name)
 {
-	file_t f;
+    file_t f;
 
-	f = sysfile_open(name);
-	if (!f) return -1;
-	context->hidden.unknown.data1 = (void *)f;
+    f = sysfile_open(name);
+    if (!f) return -1;
+    context->hidden.unknown.data1 = (void *)f;
 
-	return 0;
+    return 0;
 }
 
 static int
 sdlRWops_seek(SDL_RWops *context, int offset, int whence)
 {
-	return sysfile_seek((file_t)(context->hidden.unknown.data1), offset, whence);
+    return sysfile_seek((file_t)(context->hidden.unknown.data1), offset, whence);
 }
 
 static int
 sdlRWops_read(SDL_RWops *context, void *ptr, int size, int maxnum)
 {
-	return sysfile_read((file_t)(context->hidden.unknown.data1), ptr, size, maxnum);
+    return sysfile_read((file_t)(context->hidden.unknown.data1), ptr, size, maxnum);
 }
 
 static int
 sdlRWops_write(SDL_RWops *context, const void *ptr, int size, int num)
 {
-	/* not implemented */
-	return -1;
+    /* not implemented */
+    return -1;
 }
 
 static int
 sdlRWops_close(SDL_RWops *context)
 {
     sysfile_close((file_t)(context->hidden.unknown.data1));
-	return 0;
+    return 0;
 }
 
 #endif /* ENABLE_SOUND */

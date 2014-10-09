@@ -65,8 +65,8 @@ devtools_run(void)
     draw_tilesBank = pos;
     for (i = 0; i < 0x10; i++)
       for (j = 0; j < 0x10; j++) {
-	draw_setfb(80 + j * 0x0a, 30 + i * 0x0a);
-	draw_tile(k++);
+    draw_setfb(80 + j * 0x0a, 30 + i * 0x0a);
+    draw_tile(k++);
       }
     seq = 10;
     break;
@@ -123,7 +123,7 @@ devtools_run(void)
     k = pos;
     for (i = 0; i < 4; i++)
       for (j = 0; j < 8; j++) {
-	  draw_sprite(k++, 0x20 + j * 0x20, 0x30 + i * 0x20);
+      draw_sprite(k++, 0x20 + j * 0x20, 0x30 + i * 0x20);
       }
     seq = 30;
     break;
@@ -166,18 +166,18 @@ devtools_run(void)
     if (pos2 == 0) pos2 = 1;
 #endif
     sys_snprintf(s, sizeof(s), "BLOCKS@%#04X@TO@%#04X@WITH@BANK@%d\376",
-	    pos, pos + 4*8-1, pos2);
+        pos, pos + 4*8-1, pos2);
     draw_setfb(4, 4);
     draw_tilesBank = 0;
     draw_tilesListImm(s);
     draw_tilesBank = pos2;
     for (l = 0; l < 8; l++)
       for (k = 0; k < 4; k++)
-	for (i = 0; i < 4; i++)
-	  for (j = 0; j < 4; j++) {
-	    draw_setfb(20 + j * 8 + l * 36, 30 + i * 8 + k * 36);
-	    draw_tile(map_blocks[pos + l + k * 8][i * 4 + j]);
-	  }
+    for (i = 0; i < 4; i++)
+      for (j = 0; j < 4; j++) {
+        draw_setfb(20 + j * 8 + l * 36, 30 + i * 8 + k * 36);
+        draw_tile(map_blocks[pos + l + k * 8][i * 4 + j]);
+      }
     seq = 41;
     break;
   case 41:

@@ -21,7 +21,7 @@
  * KIND, either express or implied.
  *
  ****************************************************************************/
- 
+
 #include "xrick/system/system.h"
 
 #include "xrick/config.h"
@@ -55,7 +55,7 @@ enum { GREYBUFSIZE = (LCD_WIDTH*((LCD_HEIGHT+7)/8)*16+200) };
 #  endif
 #endif /* ndef HAVE_LCD_COLOR */
 
-#if (LCD_HEIGHT < SYSVID_HEIGHT) 
+#if (LCD_HEIGHT < SYSVID_HEIGHT)
 enum { ROW_RESIZE_STEP = (LCD_HEIGHT << 16) / SYSVID_HEIGHT };
 
 static bool rowsToSkip[SYSVID_HEIGHT];
@@ -66,18 +66,18 @@ static bool rowsToSkip[SYSVID_HEIGHT];
 static void calculateRowsToSkip(void)
 {
     U32 currentRow, prevResizedRow;
-    
+
     prevResizedRow = 0;
     rowsToSkip[0] = false;
-    
+
     for (currentRow = 1; currentRow < SYSVID_HEIGHT; ++currentRow)
-    {    
+    {
         U32 resizedRow = (currentRow * ROW_RESIZE_STEP) >> 16;
         if (resizedRow == prevResizedRow)
         {
             rowsToSkip[currentRow] = true;
         }
-        prevResizedRow = resizedRow;      
+        prevResizedRow = resizedRow;
     }
 }
 #endif /* (LCD_HEIGHT < SYSVID_HEIGHT) */
@@ -93,18 +93,18 @@ static bool columnsToSkip[SYSVID_WIDTH + (DRAW_XYMAP_SCRLEFT*2)];
 static void calculateColumnsToSkip(void)
 {
     U32 currentColumn, prevResizedColumn;
-    
+
     prevResizedColumn = 0;
     columnsToSkip[0] = false;
-    
+
     for (currentColumn = 1; currentColumn < (SYSVID_WIDTH + (DRAW_XYMAP_SCRLEFT*2)); ++currentColumn)
-    {    
+    {
         U32 resizedColumn = (currentColumn * COLUMN_RESIZE_STEP) >> 16;
         if (resizedColumn == prevResizedColumn)
         {
             columnsToSkip[currentColumn] = true;
         }
-        prevResizedColumn = resizedColumn;      
+        prevResizedColumn = resizedColumn;
     }
 }
 #endif /* (LCD_WIDTH < SYSVID_WIDTH) */
@@ -114,11 +114,11 @@ static void calculateColumnsToSkip(void)
  */
 void sysvid_setPalette(img_color_t *pal, U16 n)
 {
-    U16 i; 
+    U16 i;
 
-    for (i = 0; i < n; i++) 
+    for (i = 0; i < n; i++)
     {
-#ifdef HAVE_LCD_COLOR        
+#ifdef HAVE_LCD_COLOR
         palette[i] = LCD_RGBPACK(pal[i].r, pal[i].g, pal[i].b);
 #else
         palette[i] = ((3 * pal[i].r) + (6 * pal[i].g) + pal[i].b) / 10;
@@ -175,7 +175,7 @@ void sysvid_update(const rect_t *rects)
         {
             ++sourceColumn;
         }
-        
+
         resizedColumn = ((sourceColumn + DRAW_XYMAP_SCRLEFT) * COLUMN_RESIZE_STEP) >> 16;
         resizedWidth = 0;
 #else
@@ -183,13 +183,13 @@ void sysvid_update(const rect_t *rects)
         resizedWidth = rects->width;
 #endif /* (LCD_WIDTH < SYSVID_WIDTH) */
 
-#if (LCD_HEIGHT < SYSVID_HEIGHT) 
+#if (LCD_HEIGHT < SYSVID_HEIGHT)
         /* skip unwanted rows */
         while (rowsToSkip[sourceRow] /* && sourceRow < SYSVID_HEIGHT */)
         {
             ++sourceRow;
         }
-        
+
         resizedRow = (sourceRow * ROW_RESIZE_STEP) >> 16;
         resizedHeight = 0;
 #else
@@ -212,21 +212,21 @@ void sysvid_update(const rect_t *rects)
         sourceLastColumn += DRAW_XYMAP_SCRLEFT;
 #endif /* (LCD_WIDTH < SYSVID_WIDTH) */
 
-        for (y = sourceRow; y < sourceLastRow; ++y) 
+        for (y = sourceRow; y < sourceLastRow; ++y)
         {
-#if (LCD_HEIGHT < SYSVID_HEIGHT)         
+#if (LCD_HEIGHT < SYSVID_HEIGHT)
             if (rowsToSkip[y])
             {
                 sourceBuf += SYSVID_WIDTH;
                 continue;
             }
-            
+
             ++resizedHeight;
 #endif /* (LCD_HEIGHT < SYSVID_HEIGHT) */
 
             sourceTemp = sourceBuf;
             destTemp = destBuf;
-            for (x = sourceColumn; x < sourceLastColumn; ++x) 
+            for (x = sourceColumn; x < sourceLastColumn; ++x)
             {
 #if (LCD_WIDTH < SYSVID_WIDTH)
                 if (columnsToSkip[x])
@@ -234,7 +234,7 @@ void sysvid_update(const rect_t *rects)
                     ++sourceTemp;
                     continue;
                 }
-                
+
                 if (y == sourceRow)
                 {
                     ++resizedWidth;
@@ -305,15 +305,15 @@ bool sysvid_init()
     {
         /* allocate xRick generic frame buffer into memory */
         sysvid_fb = sysmem_push(sizeof(U8) * SYSVID_WIDTH * SYSVID_HEIGHT);
-        if (!sysvid_fb) 
+        if (!sysvid_fb)
         {
             sys_error("(video) unable to allocate frame buffer");
             break;
         }
 
-#ifndef HAVE_LCD_COLOR  
+#ifndef HAVE_LCD_COLOR
         gbuf = sysmem_push(GREYBUFSIZE);
-        if (!gbuf) 
+        if (!gbuf)
         {
             sys_error("(video) unable to allocate buffer for greyscale functions");
             break;
@@ -338,9 +338,9 @@ bool sysvid_init()
         return false;
     }
 
-#if (LCD_HEIGHT < SYSVID_HEIGHT) 
+#if (LCD_HEIGHT < SYSVID_HEIGHT)
     calculateRowsToSkip();
-#endif 
+#endif
 #if (LCD_WIDTH < SYSVID_WIDTH)
     calculateColumnsToSkip();
 #endif
@@ -351,11 +351,11 @@ bool sysvid_init()
     /* Turn off backlight timeout */
     backlight_ignore_timeout();
 
-    rb->lcd_set_foreground(LCD_WHITE);   
-    rb->lcd_set_background(LCD_BLACK); 
+    rb->lcd_set_foreground(LCD_WHITE);
+    rb->lcd_set_background(LCD_BLACK);
     rb->lcd_clear_display();
 
-#ifdef HAVE_LCD_COLOR  
+#ifdef HAVE_LCD_COLOR
     rb->lcd_update();
 #else
     /* switch on greyscale overlay */

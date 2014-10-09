@@ -66,7 +66,7 @@ void sysvid_setPalette(img_color_t *pal, U16 n)
 {
     U16 i;
 
-    for (i = 0; i < n; i++) 
+    for (i = 0; i < n; i++)
     {
         palette[i].r = pal[i].r;
         palette[i].g = pal[i].g;
@@ -111,21 +111,21 @@ static bool sysvid_chkvm(void)
     for (i = 0; modes[i]; i++) {
       IFDEBUG_VIDEO(sys_printf("  %dx%d\n", modes[i]->w, modes[i]->h););
       if (modes[i]->w <= modes[mode]->w && modes[i]->w >= SYSVID_WIDTH &&
-	  modes[i]->h * SYSVID_WIDTH >= modes[i]->w * SYSVID_HEIGHT) {
-	mode = i;
-	fszoom = modes[mode]->w / SYSVID_WIDTH;
+      modes[i]->h * SYSVID_WIDTH >= modes[i]->w * SYSVID_HEIGHT) {
+    mode = i;
+    fszoom = modes[mode]->w / SYSVID_WIDTH;
       }
     }
     if (fszoom != 0) {
       IFDEBUG_VIDEO(
         sys_printf("xrick/video: fullscreen at %dx%d w/zoom=%d\n",
-		   modes[mode]->w, modes[mode]->h, fszoom);
-	);
+           modes[mode]->w, modes[mode]->h, fszoom);
+    );
     }
     else {
       IFDEBUG_VIDEO(
         sys_printf("xrick/video: can not compute fullscreen zoom, use 1\n");
-	);
+    );
       fszoom = 1;
     }
   }
@@ -173,7 +173,7 @@ sysvid_init(void)
     transpBlue = IMG_ICON->colors[transpIndex].r;
     IFDEBUG_VIDEO(
         sys_printf("xrick/video: icon is %dx%d\n", IMG_ICON->width, IMG_ICON->height);
-        sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n", 
+        sys_printf("xrick/video: icon transp. color is #%d (%d,%d,%d)\n",
         transpIndex, transpRed, transpGreen, transpBlue);
     );
     /*
@@ -210,7 +210,7 @@ sysvid_init(void)
     {
         zoom = sysarg_args_zoom;
     }
-    if (sysarg_args_fullscreen) 
+    if (sysarg_args_fullscreen)
     {
         videoFlags |= SDL_FULLSCREEN;
         szoom = zoom;
@@ -244,7 +244,7 @@ sysvid_shutdown(void)
     {
         return;
     }
- 
+
     free(sysvid_fb);
     SDL_Quit();
     isVideoInitialised = false;
@@ -280,16 +280,16 @@ sysvid_update(const rect_t *rects)
 
     for (y = rects->y; y < rects->y + rects->height; y++) {
       for (yz = 0; yz < zoom; yz++) {
-	p = p0;
-	q = q0;
-	for (x = rects->x; x < rects->x + rects->width; x++) {
-	  for (xz = 0; xz < zoom; xz++) {
-	    *q = *p;
-	    q++;
-	  }
-	  p++;
-	}
-	q0 += SYSVID_WIDTH * zoom;
+    p = p0;
+    q = q0;
+    for (x = rects->x; x < rects->x + rects->width; x++) {
+      for (xz = 0; xz < zoom; xz++) {
+        *q = *p;
+        q++;
+      }
+      p++;
+    }
+    q0 += SYSVID_WIDTH * zoom;
       }
       p0 += SYSVID_WIDTH;
     }
@@ -297,16 +297,16 @@ sysvid_update(const rect_t *rects)
     IFDEBUG_VIDEO2(
     for (y = rects->y; y < rects->y + rects->height; y++)
       for (yz = 0; yz < zoom; yz++) {
-	p = (U8 *)screen->pixels + rects->x * zoom + (y * zoom + yz) * SYSVID_WIDTH * zoom;
-	*p = 0x01;
-	*(p + rects->width * zoom - 1) = 0x01;
+    p = (U8 *)screen->pixels + rects->x * zoom + (y * zoom + yz) * SYSVID_WIDTH * zoom;
+    *p = 0x01;
+    *(p + rects->width * zoom - 1) = 0x01;
       }
 
     for (x = rects->x; x < rects->x + rects->width; x++)
       for (xz = 0; xz < zoom; xz++) {
-	p = (U8 *)screen->pixels + x * zoom + xz + rects->y * zoom * SYSVID_WIDTH * zoom;
-	*p = 0x01;
-	*(p + ((rects->height * zoom - 1) * zoom) * SYSVID_WIDTH) = 0x01;
+    p = (U8 *)screen->pixels + x * zoom + xz + rects->y * zoom * SYSVID_WIDTH * zoom;
+    *p = 0x01;
+    *(p + ((rects->height * zoom - 1) * zoom) * SYSVID_WIDTH) = 0x01;
       }
     );
 
@@ -345,8 +345,8 @@ sysvid_zoom(S8 z)
        (z > 0 && zoom < SYSVID_MAXZOOM))) {
     zoom += z;
     screen = initScreen(SYSVID_WIDTH * zoom,
-			SYSVID_HEIGHT * zoom,
-			screen->format->BitsPerPixel, videoFlags);
+            SYSVID_HEIGHT * zoom,
+            screen->format->BitsPerPixel, videoFlags);
     sysvid_restorePalette();
     sysvid_update(&draw_SCREENRECT);
   }
@@ -368,8 +368,8 @@ sysvid_toggleFullscreen(void)
     zoom = szoom;
   }
   screen = initScreen(SYSVID_WIDTH * zoom,
-		      SYSVID_HEIGHT * zoom,
-		      screen->format->BitsPerPixel, videoFlags);
+              SYSVID_HEIGHT * zoom,
+              screen->format->BitsPerPixel, videoFlags);
   sysvid_restorePalette();
   sysvid_update(&draw_SCREENRECT);
 }

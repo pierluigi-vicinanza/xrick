@@ -51,7 +51,7 @@ screen_introMain(void)
 #endif
     }
 
-    switch (seq) 
+    switch (seq)
     {
         case 1:  /* display Rick Dangerous title and Core Design copyright */
         {
@@ -122,7 +122,7 @@ screen_introMain(void)
                 sys_snprintf((char *)s, sizeof(s), "%06d@@@====@@@%s",
                     screen_highScores[i].score, screen_highScores[i].name);
                 s[26] = (U8)'\377';
-                s[27] = (U8)'\377'; 
+                s[27] = (U8)'\377';
                 s[28] = (U8)'\376';
                 draw_tllst = s;
                 draw_tilesList();

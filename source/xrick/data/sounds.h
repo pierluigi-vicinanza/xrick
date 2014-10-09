@@ -56,7 +56,7 @@ typedef struct {
 } wave_header_t;
 
 /* apparently there are 10 entity sounds in original game (ref. "e_them.c" notes)? However we only have 9 so far... */
-enum { SOUNDS_NBR_ENTITIES = 10 }; 
+enum { SOUNDS_NBR_ENTITIES = 10 };
 
 extern sound_t *soundBombshht;
 extern sound_t *soundBonus;

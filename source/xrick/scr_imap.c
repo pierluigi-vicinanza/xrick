@@ -95,10 +95,10 @@ screen_introMap(void)
     game_rects = &draw_SCREENRECT;
 
 #ifdef ENABLE_SOUND
-	game_setmusic(map_maps[game_map].tune, 1);
+    game_setmusic(map_maps[game_map].tune, 1);
 #endif
 
-	seq = 1;
+    seq = 1;
     break;
   case 1:  /* top and bottom borders */
     drawtb();
@@ -134,7 +134,7 @@ screen_introMap(void)
   if (seq == 5) {  /* end as soon as key pressed */
     sysvid_clear();
     seq = 0;
-	return SCREEN_DONE;
+    return SCREEN_DONE;
   }
   else
     return SCREEN_RUNNING;

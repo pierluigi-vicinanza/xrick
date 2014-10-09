@@ -21,7 +21,7 @@
  * KIND, either express or implied.
  *
  ****************************************************************************/
- 
+
 #include "xrick/system/system.h"
 #include "xrick/game.h"
 
@@ -32,11 +32,11 @@ enum plugin_status plugin_start(const void* parameter)
 {
     char *filename = (char*)parameter;
     bool success = sys_init(1, &filename);
-	if (success)
+    if (success)
     {
         game_run();
     }
-	sys_shutdown();
+    sys_shutdown();
     return (success? PLUGIN_OK : PLUGIN_ERROR);
 }
 

@@ -32,10 +32,10 @@ enum
 };
 
 typedef struct {
-	sound_t *snd;
-	U8 *buf;
-	U32 len;
-	S8 loop;
+    sound_t *snd;
+    U8 *buf;
+    U32 len;
+    S8 loop;
 } channel_t;
 
 extern void syssnd_load(sound_t *);

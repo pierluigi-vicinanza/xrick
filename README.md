@@ -1,7 +1,7 @@
 xrick
 =====
 
-xrick is a clone of [Rick Dangerous](http://en.wikipedia.org/wiki/Rick_Dangerous), 
+xrick is a clone of [Rick Dangerous](http://en.wikipedia.org/wiki/Rick_Dangerous),
 known to run on Linux, Windows, BeOs, Amiga, QNX, all sorts of gaming consoles...
 
 License agreement & legal bable
@@ -23,7 +23,7 @@ released "in the spirit" of the GNU GPL. Whatever that means.
 
 This program is distributed in the hope that it will be useful, but
 WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-or FITNESS FOR A PARTICULAR PURPOSE.  
+or FITNESS FOR A PARTICULAR PURPOSE.
 
 Building
 --------
@@ -35,23 +35,23 @@ Building
 * [zlib](http://www.zlib.net/)
 
 1. *Create a build directory*
-  
+
   ```
   $ cd xrick-x.x.x
   $ mkdir build
   $ cd build
   ```
-  
+
 2. *Generate your Makefile*
-  
+
   `$ cmake ../source/xrick/projects/cmake`
 
 3. *Build*
-  
+
   `$ make`
-  
+
 4. *Install (optional)*
-  
+
   `$ make install`
 
 Platform specific notes can be found in README.platforms.

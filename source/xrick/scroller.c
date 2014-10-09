@@ -61,10 +61,10 @@ scroll_up(void)
       ent_ents[i].trig_y -= 8;
       ent_ents[i].y -= 8;
       if (ent_ents[i].y & 0x8000) {  /* map coord. from 0x0000 to 0x0140 */
-	IFDEBUG_SCROLLER(
-	  sys_printf("xrick/scroller: entity %#04X is gone\n", i);
-	  );
-	ent_ents[i].n = 0;
+    IFDEBUG_SCROLLER(
+      sys_printf("xrick/scroller: entity %#04X is gone\n", i);
+      );
+    ent_ents[i].n = 0;
       }
     }
   }
@@ -129,10 +129,10 @@ scroll_down(void)
       ent_ents[i].trig_y += 8;
       ent_ents[i].y += 8;
       if (ent_ents[i].y > 0x0140) {  /* map coord. from 0x0000 to 0x0140 */
-	IFDEBUG_SCROLLER(
-	  sys_printf("xrick/scroller: entity %#04X is gone\n", i);
-	  );
-	ent_ents[i].n = 0;
+    IFDEBUG_SCROLLER(
+      sys_printf("xrick/scroller: entity %#04X is gone\n", i);
+      );
+    ent_ents[i].n = 0;
       }
     }
   }
