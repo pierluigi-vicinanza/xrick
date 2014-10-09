@@ -77,7 +77,7 @@ void sysevt_poll(void)
         }
         else if (game_waitevt)
         {
-            rb->sleep(HZ / 100); /* sleep 10 ms */
+            rb->yield();
         }
         else /* (currentKey == previousKey) && !game_waitevt */
         {
@@ -114,7 +114,15 @@ void sysevt_poll(void)
  */
 void sysevt_wait(void)
 {
+#ifdef HAVE_ADJUSTABLE_CPU_FREQ
+    rb->cpu_boost(false);
+#endif
+
     sysevt_poll(); /* sysevt_poll deals with blocking case as well */
+
+#ifdef HAVE_ADJUSTABLE_CPU_FREQ
+    rb->cpu_boost(true);
+#endif
 }
 
 /* eof */
