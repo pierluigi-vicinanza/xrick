@@ -27,5 +27,5 @@ $(XRICKBUILDDIR)/xrick.rock: $(XRICK_OBJ)
 
 # new rule needed to use extra compile flags
 $(XRICKBUILDDIR)/%.o: $(XRICKSRCDIR)/%.c
-    $(SILENT)mkdir -p $(dir $@)
-    $(call PRINTS,CC $(subst $(ROOTDIR)/,,$<))$(CC) $(XRICKCFLAGS) -c $< -o $@
+	$(SILENT)mkdir -p $(dir $@)
+	$(call PRINTS,CC $(subst $(ROOTDIR)/,,$<))$(CC) $(XRICKCFLAGS) -c $< -o $@
