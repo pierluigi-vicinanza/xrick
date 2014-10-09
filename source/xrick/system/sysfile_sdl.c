@@ -41,7 +41,7 @@ const char *sysfile_defaultPath = ".";
 /*
  * Private typedefs
  */
-typedef struct 
+typedef struct
 {
     char *name;
 #ifdef ENABLE_ZIP
@@ -52,9 +52,9 @@ typedef struct
 /*
  * Static variables
  */
-static path_t rootPath = 
+static path_t rootPath =
 {
-    NULL, 
+    NULL,
 #ifdef ENABLE_ZIP
     NULL
 #endif
@@ -82,20 +82,20 @@ sysfile_setRootPath(const char *name)
 
     rootPath.name = str_toNativeSeparators(path);
 #ifdef ENABLE_ZIP
-    if (str_hasZipExtension(rootPath.name)) 
+    if (str_hasZipExtension(rootPath.name))
     {
         rootPath.zip = unzOpen(rootPath.name);
-        if (!rootPath.zip) 
+        if (!rootPath.zip)
         {
             sys_error("(sysfile) can not open zip file \"%s\"",rootPath.name);
             return false;
-        } 
-    } 
+        }
+    }
     else /* dealing with a directory */
     {
         /* FIXME check that it is a valid directory */
         rootPath.zip = NULL;
-	}
+    }
 #endif  /* ENABLE_ZIP */
     return true;
 }
@@ -107,7 +107,7 @@ void
 sysfile_clearRootPath()
 {
 #ifdef ENABLE_ZIP
-    if (rootPath.zip) 
+    if (rootPath.zip)
     {
         unzClose(rootPath.zip);
         rootPath.zip = NULL;
@@ -124,11 +124,11 @@ file_t
 sysfile_open(const char *name)
 {
 #ifdef ENABLE_ZIP
-    if (rootPath.zip) 
+    if (rootPath.zip)
     {
         unzFile zh = rootPath.zip;
         if (unzLocateFile(zh, name, 0) != UNZ_OK ||
-            unzOpenCurrentFile(zh) != UNZ_OK) 
+            unzOpenCurrentFile(zh) != UNZ_OK)
         {
                 return NULL;
         }
@@ -152,17 +152,17 @@ sysfile_open(const char *name)
 }
 
 /*
- * 
+ *
  */
 off_t
 sysfile_size(file_t file)
 {
-	off_t size = -1;
+    off_t size = -1;
 #ifdef ENABLE_ZIP
     if (rootPath.zip)
     {
         /* not implemented */
-    } 
+    }
     else
 #endif /* ENABLE_ZIP */
     {
@@ -174,7 +174,7 @@ sysfile_size(file_t file)
             size = fileStat.st_size;
         }
     }
-	return size;
+    return size;
 }
 
 /*
@@ -184,16 +184,16 @@ int
 sysfile_seek(file_t file, long offset, int origin)
 {
 #ifdef ENABLE_ZIP
-	if (rootPath.zip) 
+    if (rootPath.zip)
     {
-		/* not implemented */
-		return -1;
-	} 
+        /* not implemented */
+        return -1;
+    }
     else
 #endif /* ENABLE_ZIP */
     {
-		return fseek((FILE *)file, offset, origin);
-	}
+        return fseek((FILE *)file, offset, origin);
+    }
 }
 
 /*
@@ -203,11 +203,11 @@ int
 sysfile_tell(file_t file)
 {
 #ifdef ENABLE_ZIP
-    if (rootPath.zip) 
+    if (rootPath.zip)
     {
         /* not implemented */
         return -1;
-    } 
+    }
     else
 #endif /* ENABLE_ZIP */
     {
@@ -222,10 +222,10 @@ int
 sysfile_read(file_t file, void *buf, size_t size, size_t count)
 {
 #ifdef ENABLE_ZIP
-    if (rootPath.zip) 
+    if (rootPath.zip)
     {
         return unzReadCurrentFile((unzFile)file, buf, size * count) / size;
-    } 
+    }
     else
 #endif /* ENABLE_ZIP */
     {
@@ -240,7 +240,7 @@ void
 sysfile_close(file_t file)
 {
 #ifdef ENABLE_ZIP
-    if (rootPath.zip) 
+    if (rootPath.zip)
     {
         unzCloseCurrentFile((unzFile)file);
     }

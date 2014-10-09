@@ -38,17 +38,17 @@ U16 e_sbonus_bonus = 0;
 void
 e_sbonus_start(U8 e)
 {
-	ent_ents[e].sprite = 0; /* invisible */
-	if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
-		/* rick is within trigger box */
-		ent_ents[e].n = 0;
-		e_sbonus_counting = true;  /* 6DD5 */
-		e_sbonus_counter = 0x1e;  /* 6DDB */
-		e_sbonus_bonus = 2000;    /* 291A-291D */
+    ent_ents[e].sprite = 0; /* invisible */
+    if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
+        /* rick is within trigger box */
+        ent_ents[e].n = 0;
+        e_sbonus_counting = true;  /* 6DD5 */
+        e_sbonus_counter = 0x1e;  /* 6DDB */
+        e_sbonus_bonus = 2000;    /* 291A-291D */
 #ifdef ENABLE_SOUND
-		syssnd_play(soundSbonus1, 1);
+        syssnd_play(soundSbonus1, 1);
 #endif
-	}
+    }
 }
 
 
@@ -60,29 +60,29 @@ e_sbonus_start(U8 e)
 void
 e_sbonus_stop(U8 e)
 {
-	ent_ents[e].sprite = 0; /* invisible */
+    ent_ents[e].sprite = 0; /* invisible */
 
-	if (!e_sbonus_counting)
-		return;
+    if (!e_sbonus_counting)
+        return;
 
-	if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
-		/* rick is within trigger box */
-		e_sbonus_counting = false;  /* stop counting */
-		ent_ents[e].n = 0;  /* deactivate entity */
-		game_score += e_sbonus_bonus;  /* add bonus to score */
+    if (u_trigbox(e, ENT_XRICK.x + 0x0C, ENT_XRICK.y + 0x0A)) {
+        /* rick is within trigger box */
+        e_sbonus_counting = false;  /* stop counting */
+        ent_ents[e].n = 0;  /* deactivate entity */
+        game_score += e_sbonus_bonus;  /* add bonus to score */
 #ifdef ENABLE_SOUND
-		syssnd_play(soundSbonus2, 1);
+        syssnd_play(soundSbonus2, 1);
 #endif
-		/* make sure the entity won't be activated again */
-		map_marks[ent_ents[e].mark].ent |= MAP_MARK_NACT;
-	}
-	else {
-		/* keep counting */
-		if (--e_sbonus_counter == 0) {
-			e_sbonus_counter = 0x1e;
-			if (e_sbonus_bonus) e_sbonus_bonus--;
-		}
-	}
+        /* make sure the entity won't be activated again */
+        map_marks[ent_ents[e].mark].ent |= MAP_MARK_NACT;
+    }
+    else {
+        /* keep counting */
+        if (--e_sbonus_counter == 0) {
+            e_sbonus_counter = 0x1e;
+            if (e_sbonus_bonus) e_sbonus_bonus--;
+        }
+    }
 }
 
 /* eof */

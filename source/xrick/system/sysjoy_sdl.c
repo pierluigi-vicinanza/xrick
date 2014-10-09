@@ -37,7 +37,7 @@ sysjoy_init(void)
 
     IFDEBUG_JOYSTICK(sys_printf("xrick/joystick: start\n"););
 
-    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0) 
+    if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
     {
         IFDEBUG_JOYSTICK(
             sys_printf("xrick/joystick: can not initialize joystick subsystem\n");
@@ -50,7 +50,7 @@ sysjoy_init(void)
     {
         /* use the first joystick that we can open */
         int deviceIndex;
-        for (deviceIndex = 0; deviceIndex < deviceCount; deviceIndex++) 
+        for (deviceIndex = 0; deviceIndex < deviceCount; deviceIndex++)
         {
             joystick = SDL_JoystickOpen(deviceIndex);
             if (joystick)

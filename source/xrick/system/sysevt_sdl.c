@@ -38,9 +38,9 @@ static SDL_Event event;
 static void
 processEvent()
 {
-	U16 key;
+    U16 key;
 #ifdef ENABLE_FOCUS
-	SDL_ActiveEvent *aevent;
+    SDL_ActiveEvent *aevent;
 #endif
 
   switch (event.type) {
@@ -151,30 +151,30 @@ processEvent()
     IFDEBUG_EVENTS(sys_printf("xrick/events: joystick\n"););
     if (event.jaxis.axis == 0) {  /* left-right */
       if (event.jaxis.value < -SYSJOY_RANGE) {  /* left */
-	control_set(Control_LEFT);
-	control_clear(Control_RIGHT);
+    control_set(Control_LEFT);
+    control_clear(Control_RIGHT);
       }
       else if (event.jaxis.value > SYSJOY_RANGE) {  /* right */
-	control_set(Control_RIGHT);
-	control_clear(Control_LEFT);
+    control_set(Control_RIGHT);
+    control_clear(Control_LEFT);
       }
       else {  /* center */
-	control_clear(Control_RIGHT);
-	control_clear(Control_LEFT);
+    control_clear(Control_RIGHT);
+    control_clear(Control_LEFT);
       }
     }
     if (event.jaxis.axis == 1) {  /* up-down */
       if (event.jaxis.value < -SYSJOY_RANGE) {  /* up */
-	control_set(Control_UP);
-	control_clear(Control_DOWN);
+    control_set(Control_UP);
+    control_clear(Control_DOWN);
       }
       else if (event.jaxis.value > SYSJOY_RANGE) {  /* down */
-	control_set(Control_DOWN);
-	control_clear(Control_UP);
+    control_set(Control_DOWN);
+    control_clear(Control_UP);
       }
       else {  /* center */
-	control_clear(Control_DOWN);
-	control_clear(Control_UP);
+    control_clear(Control_DOWN);
+    control_clear(Control_UP);
       }
     }
     break;

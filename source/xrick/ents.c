@@ -144,83 +144,83 @@ ent_creat2(U8 *e, U16 m)
 void
 ent_actvis(U8 frow, U8 lrow)
 {
-	U16 m;
-	U8 e;
-	U16 y;
+    U16 m;
+    U8 e;
+    U16 y;
 
-	/*
-	* go through the list and find the first mark that
-	* is visible, i.e. which has a row greater than the
-	* first row (marks being ordered by row number).
-	*/
-	for (m = map_submaps[game_submap].mark;
-		map_marks[m].row != 0xff && map_marks[m].row < frow;
-		m++);
+    /*
+    * go through the list and find the first mark that
+    * is visible, i.e. which has a row greater than the
+    * first row (marks being ordered by row number).
+    */
+    for (m = map_submaps[game_submap].mark;
+        map_marks[m].row != 0xff && map_marks[m].row < frow;
+        m++);
 
-	if (map_marks[m].row == 0xff)  /* none found */
-		return;
+    if (map_marks[m].row == 0xff)  /* none found */
+        return;
 
-	/*
-	* go through the list and process all marks that are
-	* visible, i.e. which have a row lower than the last
-	* row (marks still being ordered by row number).
-	*/
-	for (;
-		map_marks[m].row != 0xff && map_marks[m].row < lrow;
-		m++) {
+    /*
+    * go through the list and process all marks that are
+    * visible, i.e. which have a row lower than the last
+    * row (marks still being ordered by row number).
+    */
+    for (;
+        map_marks[m].row != 0xff && map_marks[m].row < lrow;
+        m++) {
 
-		/* ignore marks that are not active */
-		if (map_marks[m].ent & MAP_MARK_NACT)
-			continue;
+        /* ignore marks that are not active */
+        if (map_marks[m].ent & MAP_MARK_NACT)
+            continue;
 
-		/*
-		 * allocate a slot to the new entity
-		 *
-		 * slot type
-		 *  0   available for e_them (lethal to other e_them, and stops entities
-		 *      i.e. entities can't move over them. E.g. moving blocks. But they
-		 *      can move over entities and kill them!).
-		 *  1   xrick
-		 *  2   bullet
-		 *  3   bomb
-		 * 4-8  available for e_them, e_box, e_bonus or e_sbonus (lethal to
-		 *      other e_them, identified by their number being >= 0x10)
-		 * 9-C  available for e_them, e_box, e_bonus or e_sbonus (not lethal to
-		 *      other e_them, identified by their number being < 0x10)
-		 *
-		 * the type of an entity is determined by its .n as detailed below.
-		 *
-		 * 1               xrick
-		 * 2               bullet
-		 * 3               bomb
-		 * 4, 7, a, d      e_them, type 1a
-		 * 5, 8, b, e      e_them, type 1b
-		 * 6, 9, c, f      e_them, type 2
-		 * 10, 11          box
-		 * 12, 13, 14, 15  bonus
-		 * 16, 17          speed bonus
-		 * >17             e_them, type 3
-		 * 47              zombie
-		 */
+        /*
+         * allocate a slot to the new entity
+         *
+         * slot type
+         *  0   available for e_them (lethal to other e_them, and stops entities
+         *      i.e. entities can't move over them. E.g. moving blocks. But they
+         *      can move over entities and kill them!).
+         *  1   xrick
+         *  2   bullet
+         *  3   bomb
+         * 4-8  available for e_them, e_box, e_bonus or e_sbonus (lethal to
+         *      other e_them, identified by their number being >= 0x10)
+         * 9-C  available for e_them, e_box, e_bonus or e_sbonus (not lethal to
+         *      other e_them, identified by their number being < 0x10)
+         *
+         * the type of an entity is determined by its .n as detailed below.
+         *
+         * 1               xrick
+         * 2               bullet
+         * 3               bomb
+         * 4, 7, a, d      e_them, type 1a
+         * 5, 8, b, e      e_them, type 1b
+         * 6, 9, c, f      e_them, type 2
+         * 10, 11          box
+         * 12, 13, 14, 15  bonus
+         * 16, 17          speed bonus
+         * >17             e_them, type 3
+         * 47              zombie
+         */
 
-		if (!(map_marks[m].flags & ENT_FLG_STOPRICK)) {
-			if (map_marks[m].ent >= 0x10) {
-				/* boxes, bonuses and type 3 e_them go to slot 4-8 */
-				/* (c1 set to 0 -> all type 3 e_them are sleeping) */
-				if (!ent_creat1(&e)) continue;
-			}
-			else {
-				/* type 1 and 2 e_them go to slot 9-c */
-				/* (c1 set to 2) */
-				if (!ent_creat2(&e, m)) continue;
-			}
-		}
-		else {
-			/* entities stopping rick (e.g. blocks) go to slot 0 */
-			if (ent_ents[0].n) continue;
-			e = 0;
-			ent_ents[0].c1 = 0;
-		}
+        if (!(map_marks[m].flags & ENT_FLG_STOPRICK)) {
+            if (map_marks[m].ent >= 0x10) {
+                /* boxes, bonuses and type 3 e_them go to slot 4-8 */
+                /* (c1 set to 0 -> all type 3 e_them are sleeping) */
+                if (!ent_creat1(&e)) continue;
+            }
+            else {
+                /* type 1 and 2 e_them go to slot 9-c */
+                /* (c1 set to 2) */
+                if (!ent_creat2(&e, m)) continue;
+            }
+        }
+        else {
+            /* entities stopping rick (e.g. blocks) go to slot 0 */
+            if (ent_ents[0].n) continue;
+            e = 0;
+            ent_ents[0].c1 = 0;
+        }
 
     /*
      * initialize the entity
@@ -271,7 +271,7 @@ ent_actvis(U8 frow, U8 lrow)
 #define ENT_FLG_TRIGGERS \
 (ENT_FLG_TRIGBOMB|ENT_FLG_TRIGBULLET|ENT_FLG_TRIGSTOP|ENT_FLG_TRIGRICK)
     if ((ent_ents[e].flags & ENT_FLG_TRIGGERS) == ENT_FLG_TRIGGERS
-	&& e >= 0x09)
+    && e >= 0x09)
       ent_ents[e].sprbase = (U8)(ent_entdata[map_marks[m].ent].sni & 0x00ff);
 #undef ENT_FLG_TRIGGERS
 
@@ -280,7 +280,7 @@ ent_actvis(U8 frow, U8 lrow)
     ent_ents[e].latency = (map_marks[m].lt & 0x07) << 5;  /* <<5 eq *32 */
 
     ent_ents[e].trig_y = 3 + 8 * ((map_marks[m].row & 0xf8) - map_frow +
-				  (map_marks[m].lt & 0x07));
+                  (map_marks[m].lt & 0x07));
 
     ent_ents[e].c2 = 0;
     ent_ents[e].offsy = 0;
@@ -302,7 +302,7 @@ ent_addrect(S16 x, S16 y, U16 width, U16 height)
 {
     S16 x0, y0;
     U16 w0, h0;
-    rect_t *r; 
+    rect_t *r;
 
     /*sys_printf("rect %#04x,%#04x %#04x %#04x ", x, y, width, height);*/
 
@@ -394,8 +394,8 @@ ent_draw(void)
 #endif
       /* If entitiy is active, draw the sprite. */
       draw_sprite2(ent_ents[i].sprite,
-		   ent_ents[i].x, ent_ents[i].y,
-		   ent_ents[i].front);
+           ent_ents[i].x, ent_ents[i].y,
+           ent_ents[i].front);
   }
 
   /*
@@ -414,28 +414,28 @@ ent_draw(void)
 #else
       if (ent_ents[i].n && ent_ents[i].sprite) {
 #endif
-	/* (1.1) ... and is still active now and still needs to be drawn, */
-	/*       then check if rectangles intersect */
-	dx = abs(ent_ents[i].x - ent_ents[i].prev_x);
-	dy = abs(ent_ents[i].y - ent_ents[i].prev_y);
-	if (dx < 0x20 && dy < 0x16) {
-	  /* (1.1.1) if they do, then create one rectangle */
-	  ent_addrect((ent_ents[i].prev_x < ent_ents[i].x)
-		      ? ent_ents[i].prev_x : ent_ents[i].x,
-		      (ent_ents[i].prev_y < ent_ents[i].y)
-		      ? ent_ents[i].prev_y : ent_ents[i].y,
-		      dx + 0x20, dy + 0x15);
-	}
-	else {
-	  /* (1.1.2) else, create two rectangles */
-	  ent_addrect(ent_ents[i].x, ent_ents[i].y, 0x20, 0x15);
-	  ent_addrect(ent_ents[i].prev_x, ent_ents[i].prev_y, 0x20, 0x15);
-	}
+    /* (1.1) ... and is still active now and still needs to be drawn, */
+    /*       then check if rectangles intersect */
+    dx = abs(ent_ents[i].x - ent_ents[i].prev_x);
+    dy = abs(ent_ents[i].y - ent_ents[i].prev_y);
+    if (dx < 0x20 && dy < 0x16) {
+      /* (1.1.1) if they do, then create one rectangle */
+      ent_addrect((ent_ents[i].prev_x < ent_ents[i].x)
+              ? ent_ents[i].prev_x : ent_ents[i].x,
+              (ent_ents[i].prev_y < ent_ents[i].y)
+              ? ent_ents[i].prev_y : ent_ents[i].y,
+              dx + 0x20, dy + 0x15);
+    }
+    else {
+      /* (1.1.2) else, create two rectangles */
+      ent_addrect(ent_ents[i].x, ent_ents[i].y, 0x20, 0x15);
+      ent_addrect(ent_ents[i].prev_x, ent_ents[i].prev_y, 0x20, 0x15);
+    }
       }
       else
-	/* (1.2) ... and is not active anymore or does not need to be drawn */
-	/*       then create one single rectangle */
-	ent_addrect(ent_ents[i].prev_x, ent_ents[i].prev_y, 0x20, 0x15);
+    /* (1.2) ... and is not active anymore or does not need to be drawn */
+    /*       then create one single rectangle */
+    ent_addrect(ent_ents[i].prev_x, ent_ents[i].prev_y, 0x20, 0x15);
     }
 #ifdef ENABLE_CHEATS
     else if (ent_ents[i].n && (game_cheat3 || ent_ents[i].sprite)) {
@@ -517,9 +517,9 @@ ent_action(void)
     sys_printf("xrick/ents: --------- action ----------------\n");
     for (i = 0; ent_ents[i].n != 0xff; i++)
       if (ent_ents[i].n) {
-	sys_printf("xrick/ents: slot %#04x, entity %#04x", i, ent_ents[i].n);
-	sys_printf(" (%#06x, %#06x), sprite %#04x.\n",
-		   ent_ents[i].x, ent_ents[i].y, ent_ents[i].sprite);
+    sys_printf("xrick/ents: slot %#04x, entity %#04x", i, ent_ents[i].n);
+    sys_printf(" (%#06x, %#06x), sprite %#04x.\n",
+           ent_ents[i].x, ent_ents[i].y, ent_ents[i].sprite);
       }
     );
 
@@ -527,11 +527,11 @@ ent_action(void)
     if (ent_ents[i].n) {
       k = ent_ents[i].n & 0x7f;
       if (k == 0x47)
-	e_them_z_action(i);
+    e_them_z_action(i);
       else if (k >= 0x18)
         e_them_t3_action(i);
       else
-	ent_actf[k](i);
+    ent_actf[k](i);
     }
   }
 }

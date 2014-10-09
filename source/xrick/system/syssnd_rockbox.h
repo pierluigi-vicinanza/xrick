@@ -32,10 +32,10 @@
 #include "xrick/system/system.h"
 
 typedef struct {
-	sound_t *sound;
-	U8 *buf;
-	U32 len;
-	S8 loop;
+    sound_t *sound;
+    U8 *buf;
+    U32 len;
+    S8 loop;
 } channel_t;
 
 extern void syssnd_load(sound_t *);

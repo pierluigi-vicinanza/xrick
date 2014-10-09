@@ -21,24 +21,24 @@
  * KIND, either express or implied.
  *
  ****************************************************************************/
- 
+
 #ifndef _ROCKBOXCODES_H
 #define _ROCKBOXCODES_H
 
-/* keypad mappings */ 
+/* keypad mappings */
 #include "plugin.h"
 
 #if (CONFIG_KEYPAD == IRIVER_H100_PAD) || \
     (CONFIG_KEYPAD == IRIVER_H300_PAD)
 #define XRICK_BTN_UP       BUTTON_UP | BUTTON_REC
 #define XRICK_BTN_DOWN     BUTTON_DOWN | BUTTON_MODE
-#define XRICK_BTN_LEFT     BUTTON_LEFT 
-#define XRICK_BTN_RIGHT    BUTTON_RIGHT 
-#define XRICK_BTN_FIRE     BUTTON_ON 
-#define XRICK_BTN_PAUSE    BUTTON_SELECT  
+#define XRICK_BTN_LEFT     BUTTON_LEFT
+#define XRICK_BTN_RIGHT    BUTTON_RIGHT
+#define XRICK_BTN_FIRE     BUTTON_ON
+#define XRICK_BTN_PAUSE    BUTTON_SELECT
 #define XRICK_BTN_MENU     BUTTON_OFF
 
-#elif ( CONFIG_KEYPAD == IRIVER_H10_PAD )
+#elif (CONFIG_KEYPAD == IRIVER_H10_PAD)
 #define XRICK_BTN_MENU      BUTTON_POWER
 #define XRICK_BTN_FIRE      BUTTON_PLAY
 #define XRICK_BTN_PAUSE     BUTTON_REW
@@ -65,8 +65,8 @@
 
 #else
 #error Unsupported keypad
-#endif 
- 
+#endif
+
 #endif /* ndef _ROCKBOXCODES_H */
 
 /* eof */

@@ -107,9 +107,9 @@ game_toggleCheat(cheat_t cheat)
 #ifdef ENABLE_DEVTOOLS
         game_state != DEVTOOLS &&
 #endif
-        game_state != XRICK && game_state != EXIT) 
+        game_state != XRICK && game_state != EXIT)
     {
-        switch (cheat) 
+        switch (cheat)
         {
             case Cheat_UNLIMITED_ALL:
             {
@@ -150,9 +150,9 @@ game_setmusic(sound_t * newMusic, S8 loop)
         return;
     }
 
-	if (currentMusic)
+    if (currentMusic)
     {
-		game_stopmusic();
+        game_stopmusic();
     }
 
     syssnd_play(newMusic, loop);
@@ -163,8 +163,8 @@ game_setmusic(sound_t * newMusic, S8 loop)
 void
 game_stopmusic(void)
 {
-	syssnd_stop(currentMusic);
-	currentMusic = NULL;
+    syssnd_stop(currentMusic);
+    currentMusic = NULL;
 }
 #endif /*ENABLE_SOUND */
 
@@ -185,7 +185,7 @@ game_run(void)
         resources_unload();
         return;
     }
-    
+
     if (!sys_cacheData())
     {
         sys_uncacheData();
@@ -196,11 +196,11 @@ game_run(void)
     game_state = XRICK;
 
     /* main loop */
-    while (game_state != EXIT) 
+    while (game_state != EXIT)
     {
         currentTime = sys_gettime();
 
-        if (currentTime - lastFrameTime >= game_period) 
+        if (currentTime - lastFrameTime >= game_period)
         {
             /* frame */
             frame();
@@ -224,7 +224,7 @@ game_run(void)
                 sysevt_poll();  /* process events (non-blocking) */
             }
 
-            lastFrameTime = currentTime; 
+            lastFrameTime = currentTime;
         }
 
 #ifdef ENABLE_SOUND
@@ -233,7 +233,7 @@ game_run(void)
             /* sound */
             syssnd_update();
 
-            lastSoundTime = currentTime; 
+            lastSoundTime = currentTime;
         }
 #endif /* ENABLE_SOUND */
 
@@ -259,177 +259,177 @@ game_run(void)
 static void
 frame(void)
 {
-	while (1) {
+    while (1) {
 
-		switch (game_state) {
+        switch (game_state) {
 
 
 
 #ifdef ENABLE_DEVTOOLS
-		case DEVTOOLS:
-			switch (devtools_run()) {
-			case SCREEN_RUNNING:
-				return;
-			case SCREEN_DONE:
-				game_state = INIT_GAME;
-				break;
-			case SCREEN_EXIT:
-				game_state = EXIT;
-				return;
-			}
-		break;
+        case DEVTOOLS:
+            switch (devtools_run()) {
+            case SCREEN_RUNNING:
+                return;
+            case SCREEN_DONE:
+                game_state = INIT_GAME;
+                break;
+            case SCREEN_EXIT:
+                game_state = EXIT;
+                return;
+            }
+        break;
 #endif
 
 
 
-		case XRICK:
-			switch(screen_xrick()) {
-			case SCREEN_RUNNING:
-				return;
-			case SCREEN_DONE:
+        case XRICK:
+            switch(screen_xrick()) {
+            case SCREEN_RUNNING:
+                return;
+            case SCREEN_DONE:
 #ifdef ENABLE_DEVTOOLS
-				game_state = DEVTOOLS;
+                game_state = DEVTOOLS;
 #else
-				game_state = INIT_GAME;
+                game_state = INIT_GAME;
 #endif
-				break;
-			case SCREEN_EXIT:
-				game_state = EXIT;
-				return;
-			}
-		break;
+                break;
+            case SCREEN_EXIT:
+                game_state = EXIT;
+                return;
+            }
+        break;
 
 
 
-		case INIT_GAME:
-			init();
-			game_state = INTRO_MAIN;
-			break;
+        case INIT_GAME:
+            init();
+            game_state = INTRO_MAIN;
+            break;
 
 
 
-		case INTRO_MAIN:
-			switch (screen_introMain()) {
-			case SCREEN_RUNNING:
-				return;
-			case SCREEN_DONE:
-				game_state = INTRO_MAP;
-				break;
-			case SCREEN_EXIT:
-				game_state = EXIT;
-				return;
-			}
-		break;
+        case INTRO_MAIN:
+            switch (screen_introMain()) {
+            case SCREEN_RUNNING:
+                return;
+            case SCREEN_DONE:
+                game_state = INTRO_MAP;
+                break;
+            case SCREEN_EXIT:
+                game_state = EXIT;
+                return;
+            }
+        break;
 
 
 
-		case INTRO_MAP:
-			switch (screen_introMap()) {
-			case SCREEN_RUNNING:
-				return;
-			case SCREEN_DONE:
-				game_waitevt = false;
-				game_state = INIT_BUFFER;
-				break;
-			case SCREEN_EXIT:
-				game_state = EXIT;
-				return;
-			}
-		break;
+        case INTRO_MAP:
+            switch (screen_introMap()) {
+            case SCREEN_RUNNING:
+                return;
+            case SCREEN_DONE:
+                game_waitevt = false;
+                game_state = INIT_BUFFER;
+                break;
+            case SCREEN_EXIT:
+                game_state = EXIT;
+                return;
+            }
+        break;
 
 
 
-		case INIT_BUFFER:
-			sysvid_clear();                 /* clear buffer */
-			draw_map();                     /* draw the map onto the buffer */
-			draw_drawStatus();              /* draw the status bar onto the buffer */
+        case INIT_BUFFER:
+            sysvid_clear();                 /* clear buffer */
+            draw_map();                     /* draw the map onto the buffer */
+            draw_drawStatus();              /* draw the status bar onto the buffer */
 #ifdef ENABLE_CHEATS
-			draw_infos();                   /* draw the info bar onto the buffer */
+            draw_infos();                   /* draw the info bar onto the buffer */
 #endif
-			game_rects = &draw_SCREENRECT;  /* request full buffer refresh */
-			game_state = PLAY0;
-			return;
+            game_rects = &draw_SCREENRECT;  /* request full buffer refresh */
+            game_state = PLAY0;
+            return;
 
 
 
-		case PAUSE_PRESSED1:
-			screen_pause(true);
-			game_state = PAUSE_PRESSED1B;
-			break;
+        case PAUSE_PRESSED1:
+            screen_pause(true);
+            game_state = PAUSE_PRESSED1B;
+            break;
 
 
 
-		case PAUSE_PRESSED1B:
-			if (control_test(Control_PAUSE))
-				return;
-			game_state = PAUSED;
-			break;
+        case PAUSE_PRESSED1B:
+            if (control_test(Control_PAUSE))
+                return;
+            game_state = PAUSED;
+            break;
 
 
 
-		case PAUSED:
-			if (control_test(Control_PAUSE))
-				game_state = PAUSE_PRESSED2;
-			if (control_test(Control_EXIT))
-				game_state = EXIT;
-			return;
+        case PAUSED:
+            if (control_test(Control_PAUSE))
+                game_state = PAUSE_PRESSED2;
+            if (control_test(Control_EXIT))
+                game_state = EXIT;
+            return;
 
 
 
-		case PAUSE_PRESSED2:
-			if (!(control_test(Control_PAUSE))) {
-				game_waitevt = false;
-				screen_pause(false);
+        case PAUSE_PRESSED2:
+            if (!(control_test(Control_PAUSE))) {
+                game_waitevt = false;
+                screen_pause(false);
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(false);
+                syssnd_pauseAll(false);
 #endif
-				game_state = PLAY2;
-			}
-		return;
+                game_state = PLAY2;
+            }
+        return;
 
 
 
-		case PLAY0:
-			play0();
-			break;
+        case PLAY0:
+            play0();
+            break;
 
 
 
-		case PLAY1:
-			if (control_test(Control_PAUSE)) {
+        case PLAY1:
+            if (control_test(Control_PAUSE)) {
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(true);
+                syssnd_pauseAll(true);
 #endif
-				game_waitevt = true;
-				game_state = PAUSE_PRESSED1;
-			}
-			else if (!control_active) {
+                game_waitevt = true;
+                game_state = PAUSE_PRESSED1;
+            }
+            else if (!control_active) {
 #ifdef ENABLE_SOUND
-				syssnd_pauseAll(true);
+                syssnd_pauseAll(true);
 #endif
-				game_waitevt = true;
-				screen_pause(true);
-				game_state = PAUSED;
-			}
-			else
-				game_state = PLAY2;
-			break;
+                game_waitevt = true;
+                screen_pause(true);
+                game_state = PAUSED;
+            }
+            else
+                game_state = PLAY2;
+            break;
 
 
 
-		case PLAY2:
-			if (e_rick_state_test(E_RICK_STDEAD)) {  /* rick is dead */
-				if (game_cheat1 || --game_lives) {
-					game_state = RESTART;
-				} else {
-					game_state = GAMEOVER;
-				}
-			}
-			else if (game_chsm)  /* request to chain to next submap */
-				game_state = CHAIN_SUBMAP;
-			else
-				game_state = PLAY3;
-			break;
+        case PLAY2:
+            if (e_rick_state_test(E_RICK_STDEAD)) {  /* rick is dead */
+                if (game_cheat1 || --game_lives) {
+                    game_state = RESTART;
+                } else {
+                    game_state = GAMEOVER;
+                }
+            }
+            else if (game_chsm)  /* request to chain to next submap */
+                game_state = CHAIN_SUBMAP;
+            else
+                game_state = PLAY3;
+            break;
 
 
 
@@ -441,18 +441,18 @@ frame(void)
 
     case CHAIN_SUBMAP:
       if (map_chain())
-	game_state = CHAIN_END;
+    game_state = CHAIN_END;
       else {
-	game_bullets = 0x06;
-	game_bombs = 0x06;
-	game_map++;
+    game_bullets = 0x06;
+    game_bombs = 0x06;
+    game_map++;
 
-	if (game_map == map_nbr_maps - 1) {
-	  /* reached end of game */
-	  /* FIXME @292?*/
-	}
+    if (game_map == map_nbr_maps - 1) {
+      /* reached end of game */
+      /* FIXME @292?*/
+    }
 
-	game_state = CHAIN_MAP;
+    game_state = CHAIN_MAP;
       }
       break;
 
@@ -461,24 +461,24 @@ frame(void)
     case CHAIN_MAP:                             /* CHAIN MAP */
       switch (screen_introMap()) {
       case SCREEN_RUNNING:
-	return;
+    return;
       case SCREEN_DONE:
-	if (game_map >= map_nbr_maps - 1) {  /* reached end of game */
-	  sysarg_args_map = 0;
-	  sysarg_args_submap = 0;
-	  game_state = GAMEOVER;
-	}
-	else {  /* initialize game */
-	  ent_ents[1].x = map_maps[game_map].x;
-	  ent_ents[1].y = map_maps[game_map].y;
-	  map_frow = (U8)map_maps[game_map].row;
-	  game_submap = map_maps[game_map].submap;
-	  game_state = CHAIN_END;
-	}
-	break;
+    if (game_map >= map_nbr_maps - 1) {  /* reached end of game */
+      sysarg_args_map = 0;
+      sysarg_args_submap = 0;
+      game_state = GAMEOVER;
+    }
+    else {  /* initialize game */
+      ent_ents[1].x = map_maps[game_map].x;
+      ent_ents[1].y = map_maps[game_map].y;
+      map_frow = (U8)map_maps[game_map].row;
+      game_submap = map_maps[game_map].submap;
+      game_state = CHAIN_END;
+    }
+    break;
       case SCREEN_EXIT:
-	game_state = EXIT;
-	return;
+    game_state = EXIT;
+    return;
       }
       break;
 
@@ -499,10 +499,10 @@ frame(void)
     case SCROLL_UP:
       switch (scroll_up()) {
       case SCROLL_RUNNING:
-	return;
+    return;
       case SCROLL_DONE:
-	game_state = PLAY0;
-	break;
+    game_state = PLAY0;
+    break;
       }
       break;
 
@@ -511,10 +511,10 @@ frame(void)
     case SCROLL_DOWN:
       switch (scroll_down()) {
       case SCROLL_RUNNING:
-	return;
+    return;
       case SCROLL_DONE:
-	game_state = PLAY0;
-	break;
+    game_state = PLAY0;
+    break;
       }
       break;
 
@@ -530,13 +530,13 @@ frame(void)
     case GAMEOVER:
       switch (screen_gameover()) {
       case SCREEN_RUNNING:
-	return;
+    return;
       case SCREEN_DONE:
-	game_state = GETNAME;
-	break;
+    game_state = GETNAME;
+    break;
       case SCREEN_EXIT:
-	game_state = EXIT;
-	break;
+    game_state = EXIT;
+    break;
       }
       break;
 
@@ -545,13 +545,13 @@ frame(void)
     case GETNAME:
       switch (screen_getname()) {
       case SCREEN_RUNNING:
-	return;
+    return;
       case SCREEN_DONE:
-	game_state = INIT_GAME;
-	return;
+    game_state = INIT_GAME;
+    return;
       case SCREEN_EXIT:
-	game_state = EXIT;
-	break;
+    game_state = EXIT;
+    break;
       }
       break;
 
@@ -582,12 +582,12 @@ init(void)
 
   game_map = sysarg_args_map;
 
-  if (sysarg_args_submap == 0) 
+  if (sysarg_args_submap == 0)
   {
       game_submap = map_maps[game_map].submap;
       map_frow = (U8)map_maps[game_map].row;
   }
-  else 
+  else
   {
       /* dirty hack to determine frow */
       game_submap = sysarg_args_submap;

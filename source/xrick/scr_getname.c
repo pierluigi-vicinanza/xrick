@@ -56,7 +56,7 @@ screen_getname(void)
     static U32 tm = 0;
     U8 i, j;
 
-    if (seq == 0) 
+    if (seq == 0)
     {
         /* figure out if this is a high score */
         if (game_score < screen_highScores[screen_nbr_hiscores - 1].score)
@@ -76,7 +76,7 @@ screen_getname(void)
         seq = 1;
     }
 
-    switch (seq) 
+    switch (seq)
     {
         case 1:  /* prepare screen */
         {
@@ -99,7 +99,7 @@ screen_getname(void)
 #endif
             for (i = 0; i < 6; i++)
             {
-                for (j = 0; j < 4; j++) 
+                for (j = 0; j < 4; j++)
                 {
                     draw_setfb(TOPLEFT_X + i * 8 * 2, TOPLEFT_Y + j * 8 * 2);
                     draw_tile('A' + i + j * 6);
@@ -161,14 +161,14 @@ screen_getname(void)
         }
         case 3:  /* wait for FIRE released */
         {
-            if (!(control_test(Control_FIRE))) 
+            if (!(control_test(Control_FIRE)))
             {
-                if (x == 5 && y == 4) 
+                if (x == 5 && y == 4)
                 {  /* end */
                     i = 0;
                     while (game_score < screen_highScores[i].score) i++;
                     j = 7;
-                    while (j > i) 
+                    while (j > i)
                     {
                         screen_highScores[j].score = screen_highScores[j - 1].score;
                         for (x = 0; x < HISCORE_NAME_SIZE; x++)
@@ -184,7 +184,7 @@ screen_getname(void)
                     }
                     seq = 99;
                 }
-                else 
+                else
                 {
                     name_update();
                     name_draw();

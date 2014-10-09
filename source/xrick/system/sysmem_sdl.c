@@ -17,8 +17,8 @@
 /*
  * local vars
  */
-enum 
-{ 
+enum
+{
     STACK_MAX_SIZE = 256*1024,
     ALIGNMENT = sizeof(void*)  /* this is more of an educated guess; might want to adjust for your specific architecture */
 };
@@ -82,7 +82,7 @@ void *sysmem_push(size_t size)
     }
 
     alignedPtr = (((uintptr_t)stackTop) + sizeof(size_t) + ALIGNMENT) & ~((uintptr_t)(ALIGNMENT - 1));
-    
+
     allocatedSizePtr = (size_t *)(alignedPtr);
     allocatedSizePtr[-1] = neededSize;
 
@@ -104,7 +104,7 @@ void sysmem_pop(void * alignedPtr)
 {
     size_t allocatedSize;
 
-    if (!alignedPtr) 
+    if (!alignedPtr)
     {
         return;
     }

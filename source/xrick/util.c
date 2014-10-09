@@ -112,49 +112,49 @@ u_envtest(S16 x, S16 y, bool crawl, U8 *rc0, U8 *rc1)
   if (xx & 0x07) {  /* tiles columns alignment */
     if (crawl) {
       *rc0 |= (map_eflg[map_map[y][x]] &
-	   (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
+       (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
       *rc0 |= (map_eflg[map_map[y][x + 1]] &
-	   (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
+       (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
       *rc0 |= (map_eflg[map_map[y][x + 2]] &
-	   (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
+       (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
       y++;
     }
     do {
       *rc1 |= (map_eflg[map_map[y][x]] &
-	       (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
-		MAP_EFLG_LETHAL|MAP_EFLG_01));
+           (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
+        MAP_EFLG_LETHAL|MAP_EFLG_01));
       *rc1 |= (map_eflg[map_map[y][x + 1]] &
-	       (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
-		MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
+           (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
+        MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
       *rc1 |= (map_eflg[map_map[y][x + 2]] &
-	       (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
-		MAP_EFLG_LETHAL|MAP_EFLG_01));
+           (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
+        MAP_EFLG_LETHAL|MAP_EFLG_01));
       y++;
     } while (--i > 0);
 
     *rc1 |= (map_eflg[map_map[y][x]] &
-	     (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP|MAP_EFLG_FGND|
-	      MAP_EFLG_LETHAL|MAP_EFLG_01));
+         (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP|MAP_EFLG_FGND|
+          MAP_EFLG_LETHAL|MAP_EFLG_01));
     *rc1 |= (map_eflg[map_map[y][x + 1]]);
     *rc1 |= (map_eflg[map_map[y][x + 2]] &
-	     (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP|MAP_EFLG_FGND|
-	      MAP_EFLG_LETHAL|MAP_EFLG_01));
+         (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP|MAP_EFLG_FGND|
+          MAP_EFLG_LETHAL|MAP_EFLG_01));
   }
   else {
     if (crawl) {
       *rc0 |= (map_eflg[map_map[y][x]] &
-	   (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
+       (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
       *rc0 |= (map_eflg[map_map[y][x + 1]] &
-	   (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
+       (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP));
       y++;
     }
     do {
       *rc1 |= (map_eflg[map_map[y][x]] &
-	       (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
-		MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
+           (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
+        MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
       *rc1 |= (map_eflg[map_map[y][x + 1]] &
-	       (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
-		MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
+           (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_FGND|
+        MAP_EFLG_LETHAL|MAP_EFLG_CLIMB|MAP_EFLG_01));
       y++;
     } while (--i > 0);
 
@@ -213,17 +213,17 @@ u_trigbox(U8 e, S16 x, S16 y)
 char *
 u_strdup(const char *sourceStr)
 {
-	char *destStr;
-	size_t length;
+    char *destStr;
+    size_t length;
 
-	length = sys_strlen(sourceStr) + 1;
-	destStr = sysmem_push(length);
+    length = sys_strlen(sourceStr) + 1;
+    destStr = sysmem_push(length);
     if (!destStr)
     {
         return NULL;
     }
-	memcpy(destStr, sourceStr, length);
-	return destStr;
+    memcpy(destStr, sourceStr, length);
+    return destStr;
 }
 
 

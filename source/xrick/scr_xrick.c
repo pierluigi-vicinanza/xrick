@@ -57,45 +57,45 @@ U8 *screen_pausedtxt = NULL;
 U8
 screen_xrick(void)
 {
-	static U8 seq = 0;
-	static U8 wait = 0;
+    static U8 seq = 0;
+    static U8 wait = 0;
 
-	if (seq == 0) {
-		sysvid_clear();
-		draw_img(img_splash);
-		game_rects = &draw_SCREENRECT;
-		seq = 1;
-	}
+    if (seq == 0) {
+        sysvid_clear();
+        draw_img(img_splash);
+        game_rects = &draw_SCREENRECT;
+        seq = 1;
+    }
 
-	switch (seq) {
-	case 1:  /* wait */
-		if (wait++ > 0x2) {
+    switch (seq) {
+    case 1:  /* wait */
+        if (wait++ > 0x2) {
 #ifdef ENABLE_SOUND
-			game_setmusic(soundBullet, 1);
+            game_setmusic(soundBullet, 1);
 #endif
-			seq = 2;
-			wait = 0;
-		}
-		break;
+            seq = 2;
+            wait = 0;
+        }
+        break;
 
-	case 2:  /* wait */
-		if (wait++ > 0x20) {
-			seq = 99;
-			wait = 0;
-		}
-	}
+    case 2:  /* wait */
+        if (wait++ > 0x20) {
+            seq = 99;
+            wait = 0;
+        }
+    }
 
-	if (control_test(Control_EXIT))  /* check for exit request */
-		return SCREEN_EXIT;
+    if (control_test(Control_EXIT))  /* check for exit request */
+        return SCREEN_EXIT;
 
-	if (seq == 99) {  /* we're done */
-		sysvid_clear();
-		sysvid_setGamePalette();
-		seq = 0;
-		return SCREEN_DONE;
-	}
+    if (seq == 99) {  /* we're done */
+        sysvid_clear();
+        sysvid_setGamePalette();
+        seq = 0;
+        return SCREEN_DONE;
+    }
 
-	return SCREEN_RUNNING;
+    return SCREEN_RUNNING;
 }
 
 /* eof */

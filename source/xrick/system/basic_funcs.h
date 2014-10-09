@@ -31,7 +31,7 @@
 #  define __ORDER_BIG_ENDIAN__ 4321
 #  ifdef ROCKBOX_BIG_ENDIAN
 #    define __BYTE_ORDER__  __ORDER_BIG_ENDIAN__
-#  else 
+#  else
 #    define __BYTE_ORDER__  __ORDER_LITTLE_ENDIAN__
 #  endif
 

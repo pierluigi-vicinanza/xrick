@@ -227,7 +227,7 @@ e_them_t1_action(U8 e, U8 type)
   /* bullet kills them */
   if (E_BULLET_ENT.n &&
       u_fboxtest(e, E_BULLET_ENT.x + (e_bullet_offsx < 0 ? 0 : 0x18),
-		 E_BULLET_ENT.y)) {
+         E_BULLET_ENT.y)) {
     E_BULLET_ENT.n = 0;
     e_them_gozombie(e);
     return;
@@ -393,9 +393,9 @@ e_them_t2_action2(U8 e)
     u_envtest(ent_ents[e].x, y, false, &env0, &env1);
     if (env1 & (MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP)) {
       if (yd < 0)
-	goto xmove;  /* can't go up */
+    goto xmove;  /* can't go up */
       else
-	goto climbing_not;  /* can't go down */
+    goto climbing_not;  /* can't go down */
     }
     /* can move */
     ent_ents[e].y = y;
@@ -417,26 +417,26 @@ e_them_t2_action2(U8 e)
       /*sys_printf("e_them_t2 y move OK\n");*/
       /* can go there */
       if (env1 & MAP_EFLG_LETHAL) {
-	e_them_gozombie(e);
-	return;
+    e_them_gozombie(e);
+    return;
       }
       if (y > 0x0140) {  /* deactivate if outside */
-	ent_ents[e].n = 0;
-	return;
+    ent_ents[e].n = 0;
+    return;
       }
       if (!(env1 & MAP_EFLG_VERT)) {
-	/* save */
-	ent_ents[e].y = y;
-	ent_ents[e].ylow = i;
-	ent_ents[e].offsy += 0x0080;
-	if (ent_ents[e].offsy > 0x0800)
-	  ent_ents[e].offsy = 0x0800;
-	return;
+    /* save */
+    ent_ents[e].y = y;
+    ent_ents[e].ylow = i;
+    ent_ents[e].offsy += 0x0080;
+    if (ent_ents[e].offsy > 0x0800)
+      ent_ents[e].offsy = 0x0800;
+    return;
       }
       if (((ent_ents[e].x & 0x07) == 0x04) && (y < E_RICK_ENT.y)) {
-	/*sys_printf("e_them_t2 climbing00\n");*/
-	ent_ents[e].flgclmb = true;  /* climbing */
-	return;
+    /*sys_printf("e_them_t2 climbing00\n");*/
+    ent_ents[e].flgclmb = true;  /* climbing */
+    return;
       }
     }
 
@@ -448,8 +448,8 @@ e_them_t2_action2(U8 e)
       return;
 
     if ((env1 & MAP_EFLG_CLIMB) &&
-	((ent_ents[e].x & 0x0e) == 0x04) &&
-	(ent_ents[e].y > E_RICK_ENT.y)) {
+    ((ent_ents[e].x & 0x0e) == 0x04) &&
+    (ent_ents[e].y > E_RICK_ENT.y)) {
       /*sys_printf("e_them_t2 climbing01\n");*/
       ent_ents[e].flgclmb = true;  /* climbing */
       return;
@@ -458,7 +458,7 @@ e_them_t2_action2(U8 e)
     /* calc new sprite */
     ent_ents[e].sprite = ent_ents[e].sprbase +
       ent_sprseq[(ent_ents[e].offsx < 0 ? 4 : 0) +
-		((ent_ents[e].x & 0x0e) >> 3)];
+        ((ent_ents[e].x & 0x0e) >> 3)];
     /*sys_printf("e_them_t2 sprite %02x\n", ent_ents[e].sprite);*/
 
 
@@ -470,29 +470,29 @@ e_them_t2_action2(U8 e)
     if (x < 0xe8) {
       u_envtest(x, ent_ents[e].y, false, &env0, &env1);
       if (!(env1 & (MAP_EFLG_VERT|MAP_EFLG_SOLID|MAP_EFLG_SPAD|MAP_EFLG_WAYUP))) {
-	ent_ents[e].x = x;
-	if ((x & 0x1e) != 0x08)
-	  return;
+    ent_ents[e].x = x;
+    if ((x & 0x1e) != 0x08)
+      return;
 
-	/*
-	 * Black Magic (tm)
-	 *
-	 * this is obviously some sort of randomizer to define a direction
-	 * for the entity. it is an exact copy of what the assembler code
-	 * does but I can't explain.
-	 */
-	bx = e_them_rndnbr + *sh + *sl + 0x0d;
-	cx = *sh;
-	*bl ^= *ch;
-	*bl ^= *cl;
-	*bl ^= *bh;
-	e_them_rndnbr = bx;
+    /*
+     * Black Magic (tm)
+     *
+     * this is obviously some sort of randomizer to define a direction
+     * for the entity. it is an exact copy of what the assembler code
+     * does but I can't explain.
+     */
+    bx = e_them_rndnbr + *sh + *sl + 0x0d;
+    cx = *sh;
+    *bl ^= *ch;
+    *bl ^= *cl;
+    *bl ^= *bh;
+    e_them_rndnbr = bx;
 
-	ent_ents[e].offsx = (*bl & 0x01) ? -0x02 : 0x02;
+    ent_ents[e].offsx = (*bl & 0x01) ? -0x02 : 0x02;
 
-	/* back to normal */
+    /* back to normal */
 
-	return;
+    return;
 
       }
     }
@@ -529,7 +529,7 @@ e_them_t2_action(U8 e)
   /* bullet kills them */
   if (E_BULLET_ENT.n &&
       u_fboxtest(e, E_BULLET_ENT.x + (e_bullet_offsx < 0 ? 00 : 0x18),
-		 E_BULLET_ENT.y)) {
+         E_BULLET_ENT.y)) {
     E_BULLET_ENT.n = 0;
     e_them_gozombie(e);
     return;
@@ -582,35 +582,35 @@ e_them_t3_action2(U8 e)
 
       /* rotate sprseq */
       if (ent_sprseq[ent_ents[e].sprbase + ent_ents[e].sproffs] != 0xff)
-	ent_ents[e].sproffs++;
+    ent_ents[e].sproffs++;
       if (ent_sprseq[ent_ents[e].sprbase + ent_ents[e].sproffs] == 0xff)
-	ent_ents[e].sproffs = 1;
+    ent_ents[e].sproffs = 1;
 
       if (ent_ents[e].step_count < ent_mvstep[ent_ents[e].step_no].count) {
-	/*
-	 * still running this step: try to increment x and y while
-	 * checking that they remain within boudaries. if so, return.
-	 * else switch to next step.
-	 */
-	ent_ents[e].step_count++;
-	x = ent_ents[e].x + ent_mvstep[ent_ents[e].step_no].dx;
+    /*
+     * still running this step: try to increment x and y while
+     * checking that they remain within boudaries. if so, return.
+     * else switch to next step.
+     */
+    ent_ents[e].step_count++;
+    x = ent_ents[e].x + ent_mvstep[ent_ents[e].step_no].dx;
 
-	/* check'n save */
-	if (x > 0 && x < 0xe8) {
-	  ent_ents[e].x = x;
-	  /*FIXME*/
-	  /*
-	  y = ent_mvstep[ent_ents[e].step_no].dy;
-	  if (y < 0)
-	    y += 0xff00;
-	  y += ent_ents[e].y;
-	  */
-	  y = ent_ents[e].y + ent_mvstep[ent_ents[e].step_no].dy;
-	  if (y > 0 && y < 0x0140) {
-	    ent_ents[e].y = y;
-	    return;
-	  }
-	}
+    /* check'n save */
+    if (x > 0 && x < 0xe8) {
+      ent_ents[e].x = x;
+      /*FIXME*/
+      /*
+      y = ent_mvstep[ent_ents[e].step_no].dy;
+      if (y < 0)
+        y += 0xff00;
+      y += ent_ents[e].y;
+      */
+      y = ent_ents[e].y + ent_mvstep[ent_ents[e].step_no].dy;
+      if (y > 0 && y < 0x0140) {
+        ent_ents[e].y = y;
+        return;
+      }
+    }
       }
 
       /*
@@ -619,30 +619,30 @@ e_them_t3_action2(U8 e)
        */
       ent_ents[e].step_no++;
       if (ent_mvstep[ent_ents[e].step_no].count != 0xff) {
-	/* there is a next step: init and loop */
-	ent_ents[e].step_count = 0;
+    /* there is a next step: init and loop */
+    ent_ents[e].step_count = 0;
       }
       else {
-	/* there is no next step: restart or deactivate */
-	if (!e_rick_state_test(E_RICK_STZOMBIE) &&
-	    !(ent_ents[e].flags & ENT_FLG_ONCE)) {
-	  /* loop this entity */
-	  ent_ents[e].sproffs = 0;
-	  ent_ents[e].n &= ~ENT_LETHAL;
-	  if (ent_ents[e].flags & ENT_FLG_LETHALR)
-	    ent_ents[e].n |= ENT_LETHAL;
-	  ent_ents[e].x = ent_ents[e].xsave;
-	  ent_ents[e].y = ent_ents[e].ysave;
-	  if (ent_ents[e].y < 0 || ent_ents[e].y > 0x140) {
-	    ent_ents[e].n = 0;
-	    return;
-	  }
-	}
-	else {
-	  /* deactivate this entity */
-	  ent_ents[e].n = 0;
-	  return;
-	}
+    /* there is no next step: restart or deactivate */
+    if (!e_rick_state_test(E_RICK_STZOMBIE) &&
+        !(ent_ents[e].flags & ENT_FLG_ONCE)) {
+      /* loop this entity */
+      ent_ents[e].sproffs = 0;
+      ent_ents[e].n &= ~ENT_LETHAL;
+      if (ent_ents[e].flags & ENT_FLG_LETHALR)
+        ent_ents[e].n |= ENT_LETHAL;
+      ent_ents[e].x = ent_ents[e].xsave;
+      ent_ents[e].y = ent_ents[e].ysave;
+      if (ent_ents[e].y < 0 || ent_ents[e].y > 0x140) {
+        ent_ents[e].n = 0;
+        return;
+      }
+    }
+    else {
+      /* deactivate this entity */
+      ent_ents[e].n = 0;
+      return;
+    }
       }
     }
     else {  /* ent_ents[e].sprseq1 == 0 -- waiting */
@@ -687,15 +687,15 @@ e_them_t3_action2(U8 e)
             return;
         }
 #ifdef ENABLE_SOUND
-		/*
-		* FIXME the sound should come from a table, there are 10 of them
-		* but I dont have the table yet. must rip the data off the game...
-		* FIXME is it 8 of them, not 10?
-		* FIXME testing below...
-		*/
+        /*
+        * FIXME the sound should come from a table, there are 10 of them
+        * but I dont have the table yet. must rip the data off the game...
+        * FIXME is it 8 of them, not 10?
+        * FIXME testing below...
+        */
 
-        /* FIXME this is defensive, need to figure out whether there 
-                 is simply missing sound (and possibly rip it) 
+        /* FIXME this is defensive, need to figure out whether there
+                 is simply missing sound (and possibly rip it)
                  or wrong data in sumbmap 47 (when making the switch explode)
                  and submap 13 (when touching jewel) */
         wav_index = (ent_ents[e].trigsnd & 0x1F) - 0x14;
@@ -703,11 +703,11 @@ e_them_t3_action2(U8 e)
         {
             syssnd_play(soundEntity[wav_index], 1);
         }
-		/*syssnd_play(WAV_ENTITY[0], 1);*/
+        /*syssnd_play(WAV_ENTITY[0], 1);*/
 #endif /* ENABLE_SOUND */
       ent_ents[e].n &= ~ENT_LETHAL;
       if (ent_ents[e].flags & ENT_FLG_LETHALI)
-	ent_ents[e].n |= ENT_LETHAL;
+    ent_ents[e].n |= ENT_LETHAL;
       ent_ents[e].sproffs = 1;
       ent_ents[e].step_count = 0;
       ent_ents[e].step_no = ent_ents[e].step_no_i;

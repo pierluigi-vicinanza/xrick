@@ -376,8 +376,8 @@ draw_sprite2(U8 number, U16 x, U16 y, bool front)
     d = sprites_data[number][g + N]; \
     for (c = C0; c >= C1; c--, i--, d >>= 4, im--) { \
       if (im == 0) { \
-	flg = map_eflg[map_map[(y + r) >> 3][(x + c) >> 3]]; \
-	im = 8; \
+    flg = map_eflg[map_map[(y + r) >> 3][(x + c) >> 3]]; \
+    im = 8; \
       } \
       if (c >= w || x + c < x0) continue; \
       if (!front && !game_cheat3 && (flg & MAP_EFLG_FGND)) continue; \
@@ -389,8 +389,8 @@ draw_sprite2(U8 number, U16 x, U16 y, bool front)
     d = sprites_data[number][g + N]; \
     for (c = C0; c >= C1; c--, i--, d >>= 4, im--) { \
       if (im == 0) { \
-	flg = map_eflg[map_map[(y + r) >> 3][(x + c) >> 3]]; \
-	im = 8; \
+    flg = map_eflg[map_map[(y + r) >> 3][(x + c) >> 3]]; \
+    im = 8; \
       } \
       if (!front && (flg & MAP_EFLG_FGND)) continue; \
       if (c >= w || x + c < x0) continue; \
@@ -450,34 +450,34 @@ draw_sprite2(U8 number, U16 x, U16 y, bool front)
       /* check that tile is not hidden behind foreground */
 #ifdef ENABLE_CHEATS
       if (front || game_cheat3 ||
-	  !(map_eflg[map_map[(ymap + r) >> 3][xmap + c]] & MAP_EFLG_FGND)) {
+      !(map_eflg[map_map[(ymap + r) >> 3][xmap + c]] & MAP_EFLG_FGND)) {
 #else
       if (front ||
-	  !(map_eflg[map_map[(ymap + r) >> 3][xmap + c]] & MAP_EFLG_FGND)) {
+      !(map_eflg[map_map[(ymap + r) >> 3][xmap + c]] & MAP_EFLG_FGND)) {
 #endif
-	xp = xm = 0;
-	if (c > 0) {
-	  xm |= sprites_data[number][c - 1][r].mask << (16 - dx);
-	  xp |= sprites_data[number][c - 1][r].pict << (16 - dx);
-	}
-	else
-	  xm |= 0xFFFF << (16 - dx);
-	if (c < cmax) {
-	  xm |= sprites_data[number][c][r].mask >> dx;
-	  xp |= sprites_data[number][c][r].pict >> dx;
-	}
-	else
-	  xm |= 0xFFFF >> dx;
-	/*
-	 * sprites / perform the transformation from CGA 2 bits
-	 * per pixel to frame buffer 8 bits per pixels
-	 */
-	for (k = 8; k--; xm >>= 2, xp >>= 2) {
-	  f[k] = ((f[k] & (xm & 3)) | (xp & 3));
+    xp = xm = 0;
+    if (c > 0) {
+      xm |= sprites_data[number][c - 1][r].mask << (16 - dx);
+      xp |= sprites_data[number][c - 1][r].pict << (16 - dx);
+    }
+    else
+      xm |= 0xFFFF << (16 - dx);
+    if (c < cmax) {
+      xm |= sprites_data[number][c][r].mask >> dx;
+      xp |= sprites_data[number][c][r].pict >> dx;
+    }
+    else
+      xm |= 0xFFFF >> dx;
+    /*
+     * sprites / perform the transformation from CGA 2 bits
+     * per pixel to frame buffer 8 bits per pixels
+     */
+    for (k = 8; k--; xm >>= 2, xp >>= 2) {
+      f[k] = ((f[k] & (xm & 3)) | (xp & 3));
 #ifdef ENABLE_CHEATS
-	  if (game_cheat3) f[k] |= 4;
+      if (game_cheat3) f[k] |= 4;
 #endif
-	}
+    }
       }
       f += SYSVID_WIDTH;
     }
@@ -545,7 +545,7 @@ draw_map(void)
     draw_tilesBank = map_tilesBank;
 
     for (i = 0; i < 0x18; i++) /* 0x18 rows */
-    {  
+    {
 #ifdef GFXPC
         draw_setfb(-DRAW_XYMAP_SCRLEFT, (i * 8));
 #endif
@@ -681,7 +681,7 @@ draw_img(img_t *image)
 {
     U8 *f;
     U16 i, j, pp;
-   
+
     sysvid_setPalette(image->colors, image->ncolors);
 
     draw_setfb(image->xPos, image->yPos);

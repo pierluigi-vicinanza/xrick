@@ -98,11 +98,11 @@ map_expand(void)
   for (i = 0; i < 0x0b; i++) {  /* 0x0b rows of blocks */
     for (j = 0; j < 0x08; j++) {  /* 0x08 blocks per row */
       for (k = 0, l = 0; k < 0x04; k++) {  /* expand one block */
-	map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
-	map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
-	map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
-	map_map[row][col]   = map_blocks[map_bnums[pbnum]][l++];
-	row += 1; col -= 3;
+    map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
+    map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
+    map_map[row][col++] = map_blocks[map_bnums[pbnum]][l++];
+    map_map[row][col]   = map_blocks[map_bnums[pbnum]][l++];
+    row += 1; col -= 3;
       }
       row -= 4; col += 4;
       pbnum++;
@@ -182,7 +182,7 @@ map_chain(void)
     * look for the first connector with compatible row number. if none
     * found, then panic
     */
-    for (c = map_submaps[game_submap].connect ; ; c++) 
+    for (c = map_submaps[game_submap].connect ; ; c++)
     {
         if (map_connect[c].dir == 0xff)
         {
@@ -195,7 +195,7 @@ map_chain(void)
             continue;
         }
         t = (ent_ents[1].y >> 3) + map_frow - map_connect[c].rowout;
-        if (t < 3) 
+        if (t < 3)
         {
             break;
         }
@@ -209,7 +209,7 @@ map_chain(void)
         c, map_connect[c].rowout);
     );
 
-    if (map_connect[c].submap == 0xff) 
+    if (map_connect[c].submap == 0xff)
     {
         /* no next submap - request next map */
         IFDEBUG_MAPS(
@@ -217,7 +217,7 @@ map_chain(void)
         );
         return false;
     }
-    else  
+    else
     {
         /* next submap */
         IFDEBUG_MAPS(

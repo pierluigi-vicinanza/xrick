@@ -229,4 +229,4 @@
 {"POWER" , SDLK_POWER},
 {"EURO" , SDLK_EURO},
 {"NULL", 0}
- 
+

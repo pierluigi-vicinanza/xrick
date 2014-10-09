@@ -25,11 +25,11 @@ int
 main(int argc, char *argv[])
 {
     bool success = sys_init(argc, argv);
-	if (success)
+    if (success)
     {
         game_run();
     }
-	sys_shutdown();
+    sys_shutdown();
     return (success? 0 : 1);
 }
 
