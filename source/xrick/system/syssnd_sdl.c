@@ -61,9 +61,11 @@ static void endChannel(size_t);
  * may be more efficient to mix samples every frame, or maybe everytime a
  * new sound is sent to be played. I don't know.
  */
-static void sdl_callback(UNUSED(void *userdata), U8 *stream, int len)
+static void sdl_callback(void *userdata/*unused*/, U8 *stream, int len)
 {
     int i;
+    (void)userdata;
+
     for (i = 0; i < len; i++)
     {
         size_t c;
@@ -465,6 +467,10 @@ static int
 sdlRWops_write(SDL_RWops *context, const void *ptr, int size, int num)
 {
     /* not implemented */
+    (void)context;
+    (void)ptr;
+    (void)size;
+    (void)num;
     return -1;
 }
 

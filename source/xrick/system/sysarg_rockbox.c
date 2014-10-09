@@ -36,8 +36,10 @@ const char *sysarg_args_data = NULL;
 /*
  * Read and process arguments
  */
-bool sysarg_init(UNUSED(int argc), char **argv)
+bool sysarg_init(int argc/*unused*/, char **argv)
 {
+    (void)argc;
+
     /* note: "*argv" is truly a "const *" */
     sysarg_args_data = *argv;
 

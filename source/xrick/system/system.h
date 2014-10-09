@@ -17,21 +17,15 @@
 #define _SYSTEM_H
 
 /*
- * If compiling w/gcc, then we can use attributes. UNUSED(x) flags a
- * parameter or a variable as potentially being unused, so that gcc doesn't
- * complain about it.
- *
- * Note: from OpenAL code: Darwin OS cc is based on gcc and has __GNUC__
- * defined, yet does not support attributes. So in theory we should exclude
- * Darwin target here.
+ * Detect GCC
  */
 #ifdef __GNUC__
-#  define UNUSED(x) x __attribute((unused))
+/*
+ * make POSIX functions available
+ */
 #  ifndef _POSIX_SOURCE
 #    define _POSIX_SOURCE
 #  endif
-#else
-#  define UNUSED(x) x
 #endif
 
 /*

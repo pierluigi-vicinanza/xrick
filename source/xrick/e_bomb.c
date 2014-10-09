@@ -83,8 +83,10 @@ void e_bomb_init(U16 x, U16 y)
  * ASM 18CA
  */
 void
-e_bomb_action(UNUSED(U8 e))
+e_bomb_action(U8 e/*unused*/)
 {
+    (void)e;
+
     /* tick */
     e_bomb_ticker--;
 

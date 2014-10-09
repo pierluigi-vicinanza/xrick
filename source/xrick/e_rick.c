@@ -466,9 +466,11 @@ e_rick_action2(void)
  *
  * ASM 12CA
  */
-void e_rick_action(UNUSED(U8 e))
+void e_rick_action(U8 e/*unused*/)
 {
     static U8 stopped = false; /* is this the most elegant way? */
+
+    (void)e;
 
     e_rick_action2();
 
@@ -540,12 +542,16 @@ void e_rick_action(UNUSED(U8 e))
         seq = 0x04;
     }
 #ifdef ENABLE_SOUND
-  else
-  if (seq == 0x0C)
-    syssnd_play(soundWalk, 1);
+    else
+    {
+        if (seq == 0x0C)
+        {
+            syssnd_play(soundWalk, 1);
+        }
+    }
 #endif
 
-  E_RICK_ENT.sprite = (seq >> 2) + 1 + (game_dir ? 0x0c : 0x00);
+    E_RICK_ENT.sprite = (seq >> 2) + 1 + (game_dir ? 0x0c : 0x00);
 }
 
 
