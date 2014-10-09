@@ -21,7 +21,7 @@ XRICK_OBJ := $(call c2obj, $(XRICK_SRC))
 # add source files to OTHER_SRC to get automatic dependencies
 OTHER_SRC += $(XRICK_SRC)
 
-XRICKCFLAGS = $(PLUGINFLAGS) -std=gnu99
+XRICKCFLAGS = $(PLUGINFLAGS) -std=gnu99 -O2
 
 $(XRICKBUILDDIR)/xrick.rock: $(XRICK_OBJ)
 
