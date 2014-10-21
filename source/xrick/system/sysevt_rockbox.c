@@ -106,6 +106,34 @@ void sysevt_poll(void)
 
     checkKey(currentKey, XRICK_BTN_FIRE, Control_FIRE);
 
+#ifdef XRICK_BTN_UPLEFT
+    if (!control_test(Control_UP | Control_LEFT))
+    {
+        checkKey(currentKey, XRICK_BTN_UPLEFT, Control_UP | Control_LEFT);
+    }
+#endif /* XRICK_BTN_UPLEFT */
+
+#ifdef XRICK_BTN_UPRIGHT
+    if (!control_test(Control_UP | Control_RIGHT))
+    {
+        checkKey(currentKey, XRICK_BTN_UPRIGHT, Control_UP | Control_RIGHT);
+    }
+#endif /* XRICK_BTN_UPRIGHT */
+
+#ifdef XRICK_BTN_DOWNLEFT
+    if (!control_test(Control_DOWN | Control_LEFT))
+    {
+        checkKey(currentKey, XRICK_BTN_DOWNLEFT, Control_DOWN | Control_LEFT);
+    }
+#endif /* XRICK_BTN_DOWNLEFT */
+
+#ifdef XRICK_BTN_DOWNRIGHT
+    if (!control_test(Control_DOWN | Control_RIGHT))
+    {
+        checkKey(currentKey, XRICK_BTN_DOWNRIGHT, Control_DOWN | Control_RIGHT);
+    }
+#endif /* XRICK_BTN_DOWNRIGHT */
+
     previousKey = currentKey;
 }
 
