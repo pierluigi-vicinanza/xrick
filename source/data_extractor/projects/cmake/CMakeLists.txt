@@ -53,10 +53,15 @@ set(SOURCES
     ${PROJECT_ROOT_DIR}/source/data_extractor/dat_tilesST.c
     ${PROJECT_ROOT_DIR}/source/data_extractor/main.c
     ${PROJECT_ROOT_DIR}/source/xrick/config.h
+    ${PROJECT_ROOT_DIR}/source/xrick/ents.h
+    ${PROJECT_ROOT_DIR}/source/xrick/maps.h
     ${PROJECT_ROOT_DIR}/source/xrick/res_magic.c
     ${PROJECT_ROOT_DIR}/source/xrick/resources.h
+    ${PROJECT_ROOT_DIR}/source/xrick/screens.h
     ${PROJECT_ROOT_DIR}/source/xrick/data/pics.h
     ${PROJECT_ROOT_DIR}/source/xrick/data/img.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/sprites.h
+    ${PROJECT_ROOT_DIR}/source/xrick/data/tiles.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.c
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_funcs.h
     ${PROJECT_ROOT_DIR}/source/xrick/system/basic_types.h
